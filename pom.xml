@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.boot</groupId>
 	<artifactId>boot-security</artifactId>
-	<version>1.0</version>
+	<version>1.0。。zazz</version>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
