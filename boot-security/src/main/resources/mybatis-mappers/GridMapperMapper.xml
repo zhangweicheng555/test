@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boot.security.server.dao.GridMapperDao">
+
+	<insert id="save" parameterType="GridMapper">
+        insert into GRIDMAPPER (ID,ENTITYHANd,GRIDX,GRIDY,NEWIDX,NEWIDY)
+                    values (#{id,jdbcType=VARCHAR}, 
+                            #{entityHand,jdbcType=VARCHAR},
+                            #{gridx,jdbcType=DOUBLE},
+                            #{gridy,jdbcType=DOUBLE},
+                            #{newidx,jdbcType=DOUBLE},
+                            #{newidy,jdbcType=DOUBLE})
+    </insert>
+	
+	
+	<insert id="changeData" >
+        update GRIDMAPPER 
+               set GRIDX=#{indexx,jdbcType=DOUBLE},GRIDY= #{indexy,jdbcType=DOUBLE}
+               where ID=#{id,jdbcType=VARCHAR}
+    </insert>
+	<select id="findIdList" resultType="java.lang.String">
+		select id from GRIDMAPPER 
+	</select>
+	<select id="find" resultType="GridMapper">
+		select * from GRIDMAPPER  order by ENTITYHANd asc
+	</select>
+</mapper>

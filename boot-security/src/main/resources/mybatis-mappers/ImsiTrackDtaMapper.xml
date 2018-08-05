@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boot.security.server.dao.ImsiTrackDataDao">
+
+	
+
+	<select id="queryDataByParam" resultType="java.util.Map">
+		select m.NEWIDX as x,m.NEWIDY as y,d.Region as region 
+		  from LTE_IMSI_TRACE_DATA d 
+		    inner join GRIDMAPPER m
+		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		        where d.IMSI=#{imsi} and to_date(d.Sdate,'yyyy-mm-dd hh24:mi:ss') >= to_date(#{beginDate},'yyyy-mm-dd hh24:mi:ss')  and to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss') >= to_date(d.Sdate,'yyyy-mm-dd hh24:mi:ss')
+	</select>
+	
+	<select id="userScatterPoint" resultType="java.util.Map">
+		select m.NEWIDX as "X",m.NEWIDY as "Y",d.Region as "REGION" 
+		  from LTE_IMSI_TRACE_DATA d 
+		    inner join GRIDMAPPER m
+		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		        where d.IMSI=#{user} and    to_char(to_date(d.Sdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi') = to_char(to_date(#{time},'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi') and d.Region=#{region}
+	</select>
+
+	<insert id="save" parameterType="ImsiTrackData">
+		insert into LTE_IMSI_TRACE_DATA
+		(SDATE,IMSI,CellId,REGIONTYPE,REGION,GRIDX,GRIDY,LONGITUDE,LATITUDE,Confidence,remark)
+		values (#{sdate,jdbcType=VARCHAR},
+		#{imsi,jdbcType=DOUBLE},
+		#{cellId,jdbcType=DOUBLE},
+		#{regionType,jdbcType=VARCHAR},
+		#{region,jdbcType=VARCHAR},
+		#{gridx,jdbcType=DOUBLE},
+		#{gridy,jdbcType=DOUBLE},
+		#{longitude,jdbcType=DOUBLE},
+		#{latitude,jdbcType=DOUBLE},
+		#{confidence,jdbcType=DOUBLE},
+		#{remark,jdbcType=VARCHAR})
+	</insert>
+</mapper>

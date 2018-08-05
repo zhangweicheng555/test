@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boot.security.server.dao.GridDataDao">
+
+	<insert id="save" parameterType="GridData">
+		insert into LTE_GRID_USER_NUM
+		(SDATE,REGIONTYPE,REGION,GRIDX,GRIDY,LONGITUDE,LATITUDE,IMSI_NUM,RATIO,TOTALUSERS,RATIO_MR)
+		values (#{sdate,jdbcType=VARCHAR},
+		#{regiontype,jdbcType=VARCHAR},
+		#{region,jdbcType=VARCHAR},
+		#{gridx,jdbcType=DOUBLE},
+		#{gridy,jdbcType=DOUBLE},
+		#{longitude,jdbcType=DOUBLE},
+		#{latitude,jdbcType=DOUBLE},
+		#{imsi_num,jdbcType=DOUBLE},
+		#{ratio,jdbcType=DOUBLE},
+		#{totalusers,jdbcType=DOUBLE},
+		#{ratio_mr,jdbcType=DOUBLE}
+		)
+	</insert>
+
+	<select id="queryGridDataByRegion" resultType="java.util.Map">
+		select m.NEWIDX as "x",m.NEWIDY as "y",d.TOTALUSERS as "userCount"  
+		   from LTE_GRID_USER_NUM d 
+		    inner join GRIDMAPPER m
+		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		        where d.REGION=#{region,jdbcType=VARCHAR} and d.REGIONTYPE='Indoor'   and  d.TOTALUSERS > 0
+	</select>
+	<!-- 
+	<select id="queryGridDataByRegion" resultType="java.util.Map">
+		select m.NEWIDX as "x",m.NEWIDY as "y",d.TOTALUSERS as "userCount",d.GRIDX as "gridx",d.GRIDY as "gridy"  
+		   from GRIDDATA d 
+		    inner join GRIDMAPPER m
+		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		        where d.REGION=#{region,jdbcType=VARCHAR} and d.REGIONTYPE='Indoor'
+	</select>
+	-->
+	 
+	<select id="querySingleGridData" resultType="java.util.Map">
+		select d.REGION as "region",sum(nvl(d.TOTALUSERS,0)) as "userCount" from LTE_GRID_USER_NUM d where d.REGIONTYPE='Indoor' group by d.REGION  
+	</select> 
+</mapper>

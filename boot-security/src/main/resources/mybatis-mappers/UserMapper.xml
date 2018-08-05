@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boot.security.server.dao.UserDao">
+
+	
+	<select id="findTest" resultType="SysUser">
+		
+		<!--
+		 所有日期范围 随便用这个判断大小 出入的日格式随意
+		
+		select * from T_USER d where   to_date(d.mydate,'yyyy-MM-dd HH24:mi:ss') > to_date(#{beginDate},'yyyy-MM-dd HH24:mi:ss')
+		select * from T_USER d where   to_char(d.mydate,0,16) = #{beginDate}
+		select * from T_USER d where   to_char(to_date(d.mydate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi') = to_char(to_date(#{beginDate},'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi')
+		-->
+		select * from T_USER d where   to_date(d.mydate,'yyyy-mm-dd hh24:mi:ss') >= to_date(#{beginDate},'yyyy-mm-dd hh24:mi:ss')  and to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss') >= to_date(d.mydate,'yyyy-mm-dd hh24:mi:ss') 
+	
+	</select>
+	
+</mapper>

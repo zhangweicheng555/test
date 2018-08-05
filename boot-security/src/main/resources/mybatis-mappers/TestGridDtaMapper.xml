@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boot.security.server.dao.TestGridDataDao">
+
+	<insert id="save" parameterType="TestGridData">
+		insert into TESTGRIDDATA
+		(ID,FID,LAYER,SUBCLS,EXTENDEDEN,LINETYPE,ENTITYHAND,TEXTSTR,ENTITYHANDONE,GRIDX,GRIDY)
+		values (#{id,jdbcType=VARCHAR},
+		#{fid,jdbcType=VARCHAR},
+		#{layer,jdbcType=VARCHAR},
+		#{subcls,jdbcType=VARCHAR},
+		#{extendeden,jdbcType=VARCHAR},
+		#{linetype,jdbcType=VARCHAR},
+		#{entityHand,jdbcType=VARCHAR},
+		#{textstr,jdbcType=VARCHAR},
+		#{entityHandOne,jdbcType=VARCHAR},
+		#{gridx,jdbcType=DOUBLE},
+		#{gridy,jdbcType=DOUBLE})
+	</insert>
+	
+	<select id="queryTestGridDataByRegion" resultType="java.util.Map">
+		select m.NEWIDX as "x",m.NEWIDY as "y",1 as "userCount"  
+		   from TESTGRIDDATA d 
+		    inner join GRIDMAPPER m
+		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+	</select>
+
+</mapper>
