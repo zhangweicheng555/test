@@ -27,6 +27,14 @@
 		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
 		        where d.REGION=#{region,jdbcType=VARCHAR} and d.REGIONTYPE='Indoor'   and  d.TOTALUSERS > 0
 	</select>
+	
+	<select id="queryGridDataByTimeRegion" resultType="java.util.Map">
+		select m.NEWIDX as "x",m.NEWIDY as "y",d.TOTALUSERS as "userCount"  
+		   from LTE_GRID_USER_NUM d 
+		    inner join GRIDMAPPER m
+		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		        where d.REGION=#{region} and d.REGIONTYPE='Indoor' and to_date(d.Sdate,'yyyy-mm-dd hh24:mi')=to_date(#{dateStr},'yyyy-mm-dd hh24:mi')  and  d.TOTALUSERS > 0
+	</select>
 	<!-- 
 	<select id="queryGridDataByRegion" resultType="java.util.Map">
 		select m.NEWIDX as "x",m.NEWIDY as "y",d.TOTALUSERS as "userCount",d.GRIDX as "gridx",d.GRIDY as "gridy"  

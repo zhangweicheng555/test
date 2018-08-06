@@ -19,4 +19,7 @@ public interface GridDataDao {
 	public List<Map<String, Object>> querySingleGridData();
 
 	public int queryPeopleNumByTimeRange(@Param("dateStr") String dateStr, @Param("region") String region);
+
+	public List<Map<String, Object>> queryGridDataByTimeRegion(@Param("dateStr") String dateStr,
+			@Param("region") String region);
 }

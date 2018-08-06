@@ -63,6 +63,41 @@ public class AppController {
 	private ImsiTrackDataService imsiTrackDataService;
 
 	/**
+	 * 五、接口5 根据指定时间范围和场馆编号获取指定场馆的栅格数据。
+	 */
+	@RequestMapping(value = "/queryGridDataByTimeRegion")
+	public Map<String, Object> queryGridDataByTimeRegion(
+			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
+			@RequestParam(value = "endDateStr", required = true) String endDateStr,
+			@RequestParam(value = "minute", required = true) int minute,
+			@RequestParam(value = "region", required = true) String region) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		map.put("gridHistoryParameterList", new ArrayList<>());
+		try {
+			List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
+			if (listDates.size() > 0) {
+				List<Map<String, Object>> listMaps=new ArrayList<>();
+				for (Date date : listDates) {
+					Map<String, Object> map2=gridDataService.queryGridDataByTimeRegion(date,region);
+					if (map2 != null) {
+						listMaps.add(map2);
+					}
+				}
+				map.put("gridHistoryParameterList", listMaps);
+			} else {
+				map.put("status", 1);
+				map.put("msg", "没有对应条件的数据！");
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyy-MM-dd HH:mm");
+		}
+		return map;
+	}
+
+	/**
 	 * 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
 	 */
 	@SuppressWarnings("unchecked")
@@ -122,7 +157,7 @@ public class AppController {
 	}
 
 	/**
-	 * 获取所有场馆的各自在馆人数和所有场馆总人数 对接接口
+	 * 接口1.获取所有场馆的各自在馆人数和所有场馆总人数 对接接口
 	 */
 	@RequestMapping(value = "/queryGridPeopleNumData")
 	public Map<String, Object> querySingleGridData() {
@@ -170,39 +205,7 @@ public class AppController {
 	}
 
 	/**
-	 * 用户散点图 接口 测试
-	 */
-	@RequestMapping(value = "/userScatterPointM")
-	public Map<String, Object> userScatterPointM() {
-		String data = "{\"region\":\"4.1\",\"tels\":[15000550024,15921170193,15921680193,15000070194,15214300190,13917069995,13816670801,13817389873,15800700193],\"times\":[\"2018-07-26 11:30\",\"2018-07-26 11:45\",\"2018-07-26 11:48\",\"2018-07-26 12:00\",\"2018-07-26 12:06\",\"2018-07-26 12:14\",\"2018-07-26 12:24\",\"2018-07-26 12:31\"]}";
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", 0);
-		map.put("msg", "操作成功！");
-		map.put("scatterParameter", new ArrayList<>());
-		try {
-			Gson gson = new Gson();
-			TraceModel traceModel = gson.fromJson(data, TraceModel.class);
-			if (traceModel == null || traceModel.getTels().size() <= 0 || traceModel.getTimes().size() <= 0) {
-				map.put("status", 1);
-				map.put("msg", "没有传入tels/times参数！");
-			} else {
-				List<Map<String, Object>> list = imsiTrackDataService.userScatterPoint(traceModel);
-				if (list.size() > 0) {
-					map.put("scatterParameter", list);
-				} else {
-					map.put("status", 1);
-					map.put("msg", "没有对应条件的数据！");
-				}
-			}
-		} catch (Exception e) {
-			map.put("status", 2);
-			map.put("msg", "系统异常:" + e.getLocalizedMessage());
-		}
-		return map;
-	}
-
-	/**
-	 * 用户散点图 接口
+	 * 用户散点图 接口 七、接口7 获取指定用户的散点图。（暂时不实现）
 	 */
 	@RequestMapping(value = "/userScatterPoint")
 	public Map<String, Object> userScatterPoint(@RequestParam("data") String data) {
@@ -233,7 +236,7 @@ public class AppController {
 	}
 
 	/**
-	 * 传入场馆编号，返回栅格集合 对接接口
+	 * 传入场馆编号，返回栅格集合 对接接口 接口4 获取指定场馆的栅格数据。
 	 */
 	@RequestMapping(value = "/queryGridDataByRegion")
 	public Map<String, Object> queryGridDataByRegion(@RequestParam("region") String region) {
@@ -262,31 +265,7 @@ public class AppController {
 	}
 
 	/**
-	 * 传入场馆编号，返回栅格集合 对接接口 测试栅格部分
-	 */
-	@RequestMapping(value = "/queryTestGridDataByRegion")
-	public Map<String, Object> queryTestGridDataByRegion() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", 0);
-		map.put("msg", "操作成功！");
-		map.put("gridParameterList", new ArrayList<>());
-		try {
-			List<Map<String, Object>> list = testGridDataService.queryTestGridDataByRegion();
-			if (list.size() > 0) {
-				map.put("gridParameterList", list);
-			} else {
-				map.put("status", 1);
-				map.put("msg", "没有对应条件的数据！");
-			}
-		} catch (Exception e) {
-			map.put("status", 2);
-			map.put("msg", "系统异常:" + e.getLocalizedMessage());
-		}
-		return map;
-	}
-
-	/**
-	 * 用户轨迹热力图 对接接口
+	 * 用户轨迹热力图 对接接口 接口3 获取指定用户的轨迹数据。
 	 */
 	@RequestMapping(value = "/queryImsiTrackDataByParam")
 	public Map<String, Object> queryImsiTrackDataByParam(@RequestParam("imsi") String imsi,
