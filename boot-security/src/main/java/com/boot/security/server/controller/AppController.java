@@ -63,6 +63,65 @@ public class AppController {
 	private ImsiTrackDataService imsiTrackDataService;
 
 	/**
+	 * 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/queryPeopleNumByTimeRange")
+	public Map<String, Object> queryPeopleNumByTimeRange(
+			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
+			@RequestParam(value = "endDateStr", required = true) String endDateStr,
+			@RequestParam(value = "minute", required = true) int minute) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		try {
+			List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
+			if (listDates.size() > 0) {
+				for (int j = 1; j < numList.size(); j++) {
+					String key = numList.get(j);// region
+					String itemName = "item" + (j + 1);
+					List<Integer> myList = new ArrayList<Integer>();
+					for (Date date : listDates) {
+						myList.add(gridDataService.queryPeopleNumByTimeRange(date, key));
+					}
+					map.put(itemName, myList);
+				}
+				// 组装all
+				List<Integer> all = new ArrayList<>();
+				List<Integer> item2 = (List<Integer>) map.get("item2");
+				List<Integer> item3 = (List<Integer>) map.get("item3");
+				List<Integer> item4 = (List<Integer>) map.get("item4");
+				List<Integer> item5 = (List<Integer>) map.get("item5");
+				List<Integer> item6 = (List<Integer>) map.get("item6");
+				List<Integer> item7 = (List<Integer>) map.get("item7");
+				List<Integer> item8 = (List<Integer>) map.get("item8");
+				List<Integer> item9 = (List<Integer>) map.get("item9");
+				List<Integer> item10 = (List<Integer>) map.get("item10");
+				List<Integer> item11 = (List<Integer>) map.get("item11");
+				List<Integer> item12 = (List<Integer>) map.get("item12");
+				List<Integer> item13 = (List<Integer>) map.get("item13");
+				List<Integer> item14 = (List<Integer>) map.get("item14");
+				List<Integer> item15 = (List<Integer>) map.get("item15");
+				List<Integer> item16 = (List<Integer>) map.get("item16");
+				List<Integer> item17 = (List<Integer>) map.get("item17");
+				for (int i = 0; i < listDates.size(); i++) {
+					all.add(item2.get(i) + item3.get(i) + item4.get(i) + item5.get(i) + item6.get(i) + item7.get(i)
+							+ item8.get(i) + item9.get(i) + item10.get(i) + item11.get(i) + item12.get(i)
+							+ item13.get(i) + item14.get(i) + item15.get(i) + item16.get(i) + item17.get(i));
+				}
+				map.put("item1", all);
+			} else {
+				map.put("status", 1);
+				map.put("msg", "没有对应条件的数据！");
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyy-MM-dd HH:mm");
+		}
+		return map;
+	}
+
+	/**
 	 * 获取所有场馆的各自在馆人数和所有场馆总人数 对接接口
 	 */
 	@RequestMapping(value = "/queryGridPeopleNumData")
@@ -111,7 +170,7 @@ public class AppController {
 	}
 
 	/**
-	 * 用户散点图 接口  测试
+	 * 用户散点图 接口 测试
 	 */
 	@RequestMapping(value = "/userScatterPointM")
 	public Map<String, Object> userScatterPointM() {
@@ -186,11 +245,6 @@ public class AppController {
 			if (StringUtils.isNoneBlank(region)) {
 				List<Map<String, Object>> list = gridDataService.queryGridDataByRegion(region);
 				if (list.size() > 0) {
-					/*
-					 * for (Map<String, Object> map2 : list) { 对接测试使用 map2.put("tag",
-					 * map2.get("gridx") + "_" + map2.get("gridy")); map2.remove("gridx");
-					 * map2.remove("gridy"); }
-					 */
 					map.put("gridParameterList", list);
 				} else {
 					map.put("status", 1);
@@ -336,8 +390,6 @@ public class AppController {
 			XSSFWorkbook wb = new XSSFWorkbook(in);
 			// 读取第一个sheet
 			Sheet sheet = wb.getSheetAt(0);
-			int indexX = 0;
-			int indexY = 0;
 			int dom = 0;
 			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 				// 获取第二行

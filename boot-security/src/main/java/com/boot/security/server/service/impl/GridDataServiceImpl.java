@@ -1,4 +1,6 @@
 package com.boot.security.server.service.impl;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,12 @@ public class GridDataServiceImpl implements GridDataService {
 	@Override
 	public  List<Map<String, Object>> querySingleGridData() {
 		return gridDataDao.querySingleGridData();
+	}
+
+	@Override
+	public int queryPeopleNumByTimeRange(Date dateStr, String region) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return gridDataDao.queryPeopleNumByTimeRange(sdf.format(dateStr), region);
 	}
 
 }
