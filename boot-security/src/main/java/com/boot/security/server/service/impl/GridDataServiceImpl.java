@@ -1,4 +1,7 @@
 package com.boot.security.server.service.impl;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,25 @@ public class GridDataServiceImpl implements GridDataService {
 	@Override
 	public  List<Map<String, Object>> querySingleGridData() {
 		return gridDataDao.querySingleGridData();
+	}
+
+	@Override
+	public int queryPeopleNumByTimeRange(Date dateStr, String region) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return gridDataDao.queryPeopleNumByTimeRange(sdf.format(dateStr), region);
+	}
+
+	@Override
+	public Map<String, Object> queryGridDataByTimeRegion(Date date,String region) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Map<String, Object> map=new HashMap<>();
+		List<Map<String, Object>> list=gridDataDao.queryGridDataByTimeRegion(sdf.format(date),region);
+		if (list.size() >0) {
+			map.put("date", sdf.format(date));
+			map.put("grids", list);
+			return map;
+		}
+		return null;
 	}
 
 }
