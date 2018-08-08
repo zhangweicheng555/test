@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -29,11 +32,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.boot.security.server.model.GridData;
 import com.boot.security.server.model.GridMapper;
+import com.boot.security.server.model.HiGridDataHour;
 import com.boot.security.server.model.ImsiTrackData;
 import com.boot.security.server.model.TestGridData;
 import com.boot.security.server.model.TraceModel;
 import com.boot.security.server.service.GridDataService;
 import com.boot.security.server.service.GridMapperService;
+import com.boot.security.server.service.HiGridDataHourService;
 import com.boot.security.server.service.ImsiTrackDataService;
 import com.boot.security.server.service.TestGridDataService;
 import com.boot.security.server.util.JsonMsgUtil;
@@ -55,6 +60,8 @@ public class AppController {
 
 	@Autowired
 	private GridDataService gridDataService;
+	@Autowired
+	private HiGridDataHourService hiGridDataHourService;
 	@Autowired
 	private GridMapperService gridMapperService;
 	@Autowired
@@ -78,9 +85,9 @@ public class AppController {
 		try {
 			List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
 			if (listDates.size() > 0) {
-				List<Map<String, Object>> listMaps=new ArrayList<>();
+				List<Map<String, Object>> listMaps = new ArrayList<>();
 				for (Date date : listDates) {
-					Map<String, Object> map2=gridDataService.queryGridDataByTimeRegion(date,region);
+					Map<String, Object> map2 = gridDataService.queryGridDataByTimeRegion(date, region);
 					if (map2 != null) {
 						listMaps.add(map2);
 					}
@@ -94,6 +101,113 @@ public class AppController {
 			map.put("status", 2);
 			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyy-MM-dd HH:mm");
 		}
+		return map;
+	}
+
+	/**
+	 * 接口6 获取所有场馆的的年龄段、来源地、男女比例接口。
+	 */
+	@RequestMapping(value = "/queryHiGridDataHourLatest")
+	public Map<String, Object> queryHiGridDataHourLatest(HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		try {
+			//先判断数量是不是存在最新的数据
+			long num=hiGridDataHourService.queryCount(session);
+			if (num >0) {
+				List<Map<String, Long>> listMaps = new ArrayList<Map<String, Long>>();
+				for (int j = 1; j < numList.size(); j++) {
+					String key = numList.get(j);// region
+					HiGridDataHour hiGridDataHour = hiGridDataHourService.queryHiGridDataHourLatest(key);
+					listMaps.add(hiGridDataHourToMap(hiGridDataHour));
+				}
+				listMaps.add(0, dealAllMap(listMaps));
+				map.put("miscParameter", listMaps);
+			}else {
+				map.put("status", 3);
+				map.put("msg", "数据未更新");
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyy-MM-dd HH:mm");
+		}
+		return map;
+	}
+
+	private Map<String, Long> dealAllMap(List<Map<String, Long>> listMaps) {
+		Long male = 0l;
+		Long female = 0l;
+		Long age1 = 0l;
+		Long age2 = 0l;
+		Long age3 = 0l;
+		Long age4 = 0l;
+		Long age5 = 0l;
+		Long age6 = 0l;
+		Long age7 = 0l;
+		Long age8 = 0l;
+		Long source1 = 0l;
+		Long source2 = 0l;
+
+		for (Map<String, Long> map : listMaps) {
+			male += map.get("male");
+			female += map.get("female");
+			age1 += map.get("age1");
+			age2 += map.get("age2");
+			age3 += map.get("age3");
+			age4 += map.get("age4");
+			age5 += map.get("age5");
+			age6 += map.get("age6");
+			age7 += map.get("age7");
+			age8 += map.get("age8");
+			source1 += map.get("source1");
+			source2 += map.get("source2");
+		}
+		Map<String, Long> map = new HashMap<>();
+		map.put("male", male);
+		map.put("female", female);
+		map.put("age1", age1);
+		map.put("age2", age2);
+		map.put("age3", age3);
+		map.put("age4", age4);
+		map.put("age5", age5);
+		map.put("age6", age6);
+		map.put("age7", age7);
+		map.put("age8", age8);
+		map.put("source1", source1);
+		map.put("source2", source2);
+		return map;
+	}
+
+	private Map<String, Long> hiGridDataHourToMap(HiGridDataHour hiGridDataHour) {
+		Map<String, Long> map = new HashMap<>();
+		if (hiGridDataHour != null) {
+			map.put("male", hiGridDataHour.getImsiMale());
+			map.put("female", hiGridDataHour.getImsiFeMale());
+			map.put("age1", hiGridDataHour.getImsiAge1());
+			map.put("age2", hiGridDataHour.getImsiAge2());
+			map.put("age3", hiGridDataHour.getImsiAge3());
+			map.put("age4", hiGridDataHour.getImsiAge4());
+			map.put("age5", hiGridDataHour.getImsiAge5());
+			map.put("age6", hiGridDataHour.getImsiAge6());
+			map.put("age7", hiGridDataHour.getImsiAge7());
+			map.put("age8", hiGridDataHour.getImsiAge8());
+			map.put("source1", hiGridDataHour.getImsiSource1());
+			map.put("source2", hiGridDataHour.getImsiSource2());
+			return map;
+		}
+		map.put("male", 0l);
+		map.put("female", 0l);
+		map.put("age1", 0l);
+		map.put("age2", 0l);
+		map.put("age3", 0l);
+		map.put("age4", 0l);
+		map.put("age5", 0l);
+		map.put("age6", 0l);
+		map.put("age7", 0l);
+		map.put("age8", 0l);
+		map.put("source1", 0l);
+		map.put("source2", 0l);
 		return map;
 	}
 
@@ -117,7 +231,7 @@ public class AppController {
 					String itemName = "item" + (j + 1);
 					List<Integer> myList = new ArrayList<Integer>();
 					for (Date date : listDates) {
-						myList.add(gridDataService.queryPeopleNumByTimeRange(date, key));
+						myList.add(hiGridDataHourService.queryPeopleNumByTimeRange(date, key));
 					}
 					map.put(itemName, myList);
 				}

@@ -31,11 +31,6 @@ public class GridDataServiceImpl implements GridDataService {
 		return gridDataDao.querySingleGridData();
 	}
 
-	@Override
-	public int queryPeopleNumByTimeRange(Date dateStr, String region) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		return gridDataDao.queryPeopleNumByTimeRange(sdf.format(dateStr), region);
-	}
 
 	@Override
 	public Map<String, Object> queryGridDataByTimeRegion(Date date,String region) {

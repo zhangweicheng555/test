@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boot.security.server.dao.HiGridDataHourDao">
+
+	
+	<select id="queryPeopleNumByTimeRange" resultType="java.lang.Integer">
+		select nvl(d.IMSI_CUM,0)  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE='Indoor' and to_date(d.Sdate,'yyyy-mm-dd hh24:mi')=to_date(#{dateStr},'yyyy-mm-dd hh24:mi') and d.REGION=#{region}
+	</select> 
+	<select id="queryCount" resultType="long">
+		select count(1)  from LTE_REGION_NUM_HOUR 
+	</select> 
+	<select id="queryHiGridDataHourLatest" resultType="HiGridDataHour">
+		select * from (
+		   select d.IMSI_MALE as male
+		          ,d.IMSI_FEMALE as female
+		          ,d.IMSI_AGE1 as age1
+		          ,d.IMSI_AGE2 as age2
+		          ,d.IMSI_AGE3 as age3
+		          ,d.IMSI_AGE4 as age4
+		          ,d.IMSI_AGE5 as age5
+		          ,d.IMSI_AGE6 as age6
+		          ,d.IMSI_AGE7 as age7
+		          ,d.IMSI_AGE8 as age8
+		          ,d.IMSI_SOURCE1 as source1
+		          ,d.IMSI_SOURCE2 as source2
+		          ,rownum as rn  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE='Indoor'  and d.REGION=#{region} order by  d.Sdate desc 
+		) 
+		where rn=1
+	</select> 
+</mapper>

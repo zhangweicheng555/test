@@ -48,7 +48,5 @@
 	<select id="querySingleGridData" resultType="java.util.Map">
 		select d.REGION as "region",nvl(sum(d.TOTALUSERS),0) as "userCount" from LTE_GRID_USER_NUM d where d.REGIONTYPE='Indoor' group by d.REGION  
 	</select> 
-	<select id="queryPeopleNumByTimeRange" resultType="java.lang.Integer">
-		select nvl(sum(d.TOTALUSERS),0)  from LTE_GRID_USER_NUM d where d.REGIONTYPE='Indoor' and to_date(d.Sdate,'yyyy-mm-dd hh24:mi')=to_date(#{dateStr},'yyyy-mm-dd hh24:mi') and d.REGION=#{region}
-	</select> 
+	 
 </mapper>
