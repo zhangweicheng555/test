@@ -36,9 +36,13 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 		if (session.getAttribute(BootConstant.LTE_Region_NUM_HOUR) != null) {
 			Long beforeNum=(Long) session.getAttribute(BootConstant.LTE_Region_NUM_HOUR);
 			if (countNum > beforeNum) {
+				session.removeAttribute(BootConstant.LTE_Region_NUM_HOUR);
+				session.setAttribute(BootConstant.LTE_Region_NUM_HOUR, countNum);
 				return 1l;
 			}
-		};
+		}else{
+			session.setAttribute(BootConstant.LTE_Region_NUM_HOUR, countNum);
+		}
 		return 0l;
 	}
 }
