@@ -16,4 +16,6 @@ public interface GridDataService {
 	public List<Map<String, Object>> querySingleGridData();
 	
 	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region);
+
+	public Integer queryGridPeopleNumDataNew(String region);
 }

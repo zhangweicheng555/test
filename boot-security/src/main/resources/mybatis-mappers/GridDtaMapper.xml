@@ -51,4 +51,13 @@
 		select d.REGION as "region",nvl(sum(d.TOTALUSERS),0) as "userCount" from LTE_GRID_USER_NUM d where d.REGIONTYPE='Indoor' group by d.REGION  
 	</select> 
 	 
+	<select id="queryGridPeopleNumDataNew" resultType="int">
+		select nvl(sum(d.TOTALUSERS),0)  
+		from LTE_GRID_USER_NUM d 
+		inner join (select max(SDATE) as maxDate from LTE_GRID_USER_NUM where REGION=#{region}) t
+		on d.SDATE=t.maxDate
+		where d.REGIONTYPE='Indoor' and d.REGION=#{region}  
+	</select> 
+	 
+	 
 </mapper>

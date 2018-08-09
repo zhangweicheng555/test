@@ -45,4 +45,9 @@ public class GridDataServiceImpl implements GridDataService {
 		return null;
 	}
 
+	@Override
+	public Integer queryGridPeopleNumDataNew(String region) {
+		return gridDataDao.queryGridPeopleNumDataNew(region);
+	}
+
 }

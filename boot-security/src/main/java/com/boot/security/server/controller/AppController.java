@@ -113,9 +113,9 @@ public class AppController {
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
 		try {
-			//先判断数量是不是存在最新的数据
-			long num=hiGridDataHourService.queryCount(session);
-			if (num >0) {
+			// 先判断数量是不是存在最新的数据
+			long num = hiGridDataHourService.queryCount(session);
+			if (num > 0) {
 				List<Map<String, Long>> listMaps = new ArrayList<Map<String, Long>>();
 				for (int j = 1; j < numList.size(); j++) {
 					String key = numList.get(j);// region
@@ -124,7 +124,7 @@ public class AppController {
 				}
 				listMaps.add(0, dealAllMap(listMaps));
 				map.put("miscParameter", listMaps);
-			}else {
+			} else {
 				map.put("status", 3);
 				map.put("msg", "数据未更新");
 			}
@@ -212,6 +212,34 @@ public class AppController {
 	}
 
 	/**
+	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
+	 */
+	@RequestMapping(value = "/queryGridPeopleNumData")
+	public Map<String, Object> queryGridPeopleNumData() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		try {
+			List<Integer> peopleParameterList = new ArrayList<Integer>();
+			for (int j = 1; j < numList.size(); j++) {
+				String key = numList.get(j);// region
+				peopleParameterList.add(gridDataService.queryGridPeopleNumDataNew(key));
+			}
+			int countAll = 0;
+			for (Integer num : peopleParameterList) {
+				countAll += num;
+			}
+			peopleParameterList.add(0, countAll);
+			map.put("peopleParameterList", peopleParameterList);
+
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常:" + e.getLocalizedMessage());
+		}
+		return map;
+	}
+
+	/**
 	 * 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
 	 */
 	@SuppressWarnings("unchecked")
@@ -271,10 +299,10 @@ public class AppController {
 	}
 
 	/**
-	 * 接口1.获取所有场馆的各自在馆人数和所有场馆总人数 对接接口
+	 * 接口1.获取所有场馆的各自在馆人数和所有场馆总人数 对接接口 这个废弃 这个是返回各管的所有数据 而不是最新管的数据
 	 */
-	@RequestMapping(value = "/queryGridPeopleNumData")
-	public Map<String, Object> querySingleGridData() {
+	@RequestMapping(value = "/queryGridPeopleNumDataOld")
+	public Map<String, Object> queryGridPeopleNumDataOld() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");

@@ -21,4 +21,6 @@ public interface GridDataDao {
 
 	public List<Map<String, Object>> queryGridDataByTimeRegion(@Param("dateStr") String dateStr,
 			@Param("region") String region);
+
+	public Integer queryGridPeopleNumDataNew(@Param("region") String region);
 }
