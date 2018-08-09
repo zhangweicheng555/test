@@ -25,6 +25,8 @@
 		   from LTE_GRID_USER_NUM d 
 		    inner join GRIDMAPPER m
 		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		    inner join (select max(t.sdate) as maxDate from LTE_GRID_USER_NUM t) n
+		      on d.sdate=n.maxDate
 		        where d.REGION=#{region,jdbcType=VARCHAR} and d.REGIONTYPE='Indoor'   and  d.TOTALUSERS > 0
 	</select>
 	
