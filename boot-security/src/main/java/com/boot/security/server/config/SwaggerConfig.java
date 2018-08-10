@@ -20,7 +20,7 @@ public class SwaggerConfig {
 	@Bean
 	public Docket docket() {
 		return new Docket(DocumentationType.SWAGGER_2).groupName("接口文档说明")
-				.apiInfo(new ApiInfoBuilder().title("swagger接口文档")
+				.apiInfo(new ApiInfoBuilder().title("接口文档")
 						.contact(new Contact("大数据可视化呈现技术接口", "", "19348243@qq.com")).version("1.0").build())
 				.select().paths(PathSelectors.any()).build();
 	}
