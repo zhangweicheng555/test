@@ -39,10 +39,12 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 				session.removeAttribute(BootConstant.LTE_Region_NUM_HOUR);
 				session.setAttribute(BootConstant.LTE_Region_NUM_HOUR, countNum);
 				return 1l;
+			}else {
+				return 0l;
 			}
 		}else{
 			session.setAttribute(BootConstant.LTE_Region_NUM_HOUR, countNum);
 		}
-		return 0l;
+		return 1l;
 	}
 }

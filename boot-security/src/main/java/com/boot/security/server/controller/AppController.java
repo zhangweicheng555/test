@@ -195,19 +195,20 @@ public class AppController {
 			map.put("source1", hiGridDataHour.getImsiSource1());
 			map.put("source2", hiGridDataHour.getImsiSource2());
 			return map;
+		}else {
+			map.put("male", 0l);
+			map.put("female", 0l);
+			map.put("age1", 0l);
+			map.put("age2", 0l);
+			map.put("age3", 0l);
+			map.put("age4", 0l);
+			map.put("age5", 0l);
+			map.put("age6", 0l);
+			map.put("age7", 0l);
+			map.put("age8", 0l);
+			map.put("source1", 0l);
+			map.put("source2", 0l);
 		}
-		map.put("male", 0l);
-		map.put("female", 0l);
-		map.put("age1", 0l);
-		map.put("age2", 0l);
-		map.put("age3", 0l);
-		map.put("age4", 0l);
-		map.put("age5", 0l);
-		map.put("age6", 0l);
-		map.put("age7", 0l);
-		map.put("age8", 0l);
-		map.put("source1", 0l);
-		map.put("source2", 0l);
 		return map;
 	}
 
