@@ -29,7 +29,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.model.GridData;
 import com.boot.security.server.model.GridMapper;
 import com.boot.security.server.model.HiGridDataHour;
@@ -100,6 +103,30 @@ public class AppController {
 		} catch (Exception e) {
 			map.put("status", 2);
 			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyy-MM-dd HH:mm");
+		}
+		return map;
+	}
+
+	/**
+	 * 接口8 获取当前所有场馆的告警信息。
+	 */
+	@RequestMapping(value = "/queryGridWarnData")
+	public Map<String, Object> queryGridWarnData(@RequestParam(value = "warnNum", required = true) int warnNum) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		map.put("warningParameter", new ArrayList<>());
+		try {
+			List<Map<String, Object>> listDatas = gridDataService.queryGridWarnData(warnNum);
+			if (listDatas.size() > 0) {
+				map.put("warningParameter", listDatas);
+			} else {
+				map.put("status", 1);
+				map.put("msg", "没有对应条件的数据！");
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因: " + e.getLocalizedMessage());
 		}
 		return map;
 	}
@@ -195,7 +222,7 @@ public class AppController {
 			map.put("source1", hiGridDataHour.getImsiSource1());
 			map.put("source2", hiGridDataHour.getImsiSource2());
 			return map;
-		}else {
+		} else {
 			map.put("male", 0l);
 			map.put("female", 0l);
 			map.put("age1", 0l);
@@ -348,7 +375,7 @@ public class AppController {
 	}
 
 	/**
-	 * 用户散点图 接口 七、接口7 获取指定用户的散点图。（暂时不实现）
+	 * 用户散点图 接口 七、接口7 获取指定用户的散点图。
 	 */
 	@RequestMapping(value = "/userScatterPoint")
 	public Map<String, Object> userScatterPoint(@RequestParam("data") String data) {
@@ -864,4 +891,23 @@ public class AppController {
 		return j;
 	}
 
+	/**
+	 * 接口9 强制设置后台所有接口数据变成更新状态。
+	 */
+	@ResponseBody
+	@RequestMapping("/refreshAllData")
+	public Map<String, Object> refreshAllData(HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			map.put("status", 0);
+			map.put("msg", "刷新成功！");
+			if (session.getAttribute(BootConstant.LTE_Region_NUM_HOUR) != null) {
+				session.removeAttribute(BootConstant.LTE_Region_NUM_HOUR);
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常！");
+		}
+		return map;
+	}
 }

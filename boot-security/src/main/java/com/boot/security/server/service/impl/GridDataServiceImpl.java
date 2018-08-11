@@ -50,4 +50,9 @@ public class GridDataServiceImpl implements GridDataService {
 		return gridDataDao.queryGridPeopleNumDataNew(region);
 	}
 
+	@Override
+	public List<Map<String, Object>> queryGridWarnData(int warnNum) {
+		return gridDataDao.queryGridWarnData(warnNum);
+	}
+
 }

@@ -18,4 +18,6 @@ public interface GridDataService {
 	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region);
 
 	public Integer queryGridPeopleNumDataNew(String region);
+
+	public List<Map<String, Object>> queryGridWarnData(int warnNum);
 }

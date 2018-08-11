@@ -23,4 +23,6 @@ public interface GridDataDao {
 			@Param("region") String region);
 
 	public Integer queryGridPeopleNumDataNew(@Param("region") String region);
+
+	public List<Map<String, Object>> queryGridWarnData(@Param("warnNum") int warnNum);
 }
