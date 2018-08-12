@@ -73,8 +73,7 @@ public class AppController {
 	private ImsiTrackDataService imsiTrackDataService;
 
 	/**
-	 * 五、接口5 根据指定时间范围和场馆编号获取指定场馆的栅格数据。
-	 * 这个就是返回  指定场馆  某个日期的所有数据  有日期范围 切割
+	 * 五、接口5 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割
 	 */
 	@RequestMapping(value = "/queryGridDataByTimeRegion")
 	public Map<String, Object> queryGridDataByTimeRegion(
@@ -109,8 +108,7 @@ public class AppController {
 	}
 
 	/**
-	 * 接口8 获取当前所有场馆的告警信息。
-	 * 根据传入的告警数量 获取所有的栅格数据
+	 * 接口8 获取当前所有场馆的告警信息。 根据传入的告警数量 获取所有的栅格数据
 	 */
 	@RequestMapping(value = "/queryGridWarnData")
 	public Map<String, Object> queryGridWarnData(@RequestParam(value = "warnNum", required = true) int warnNum) {
@@ -134,8 +132,7 @@ public class AppController {
 	}
 
 	/**
-	 * 接口6 获取所有场馆的的年龄段、来源地、男女比例接口。
-	 * 这个返回的是长高端的最新一条数据  和的放在第一位
+	 * 接口6 获取所有场馆的的年龄段、来源地、男女比例接口。 这个返回的是长高端的最新一条数据 和的放在第一位
 	 */
 	@RequestMapping(value = "/queryHiGridDataHourLatest")
 	public Map<String, Object> queryHiGridDataHourLatest(HttpSession session) {
@@ -243,8 +240,7 @@ public class AppController {
 	}
 
 	/**
-	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
-	 * 各个场馆最新的总人数  这里面有个问题 就是场馆的时间可能不一致
+	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
 	 */
 	@RequestMapping(value = "/queryGridPeopleNumData")
 	public Map<String, Object> queryGridPeopleNumData() {
@@ -273,14 +269,13 @@ public class AppController {
 	}
 
 	/**
-	 * 最新
-	 * 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
-	 * 查询历史表
-	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2019-7-26 11:55&endDateStr=2019-7-26 12:30&minute=5
-	 * 这个就是开始时间  结束结束范围 然后跟几分钟切割  计算每个场馆各个时刻的值
+	 * 废弃 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 查询历史表
+	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2019-7-26
+	 * 11:55&endDateStr=2019-7-26 12:30&minute=5 这个就是开始时间 结束结束范围 然后跟几分钟切割
+	 * 计算每个场馆各个时刻的值
 	 */
-	@RequestMapping(value = "/queryPeopleNumByTimeRange")
-	public Map<String, Object> queryPeopleNumByTimeRange(
+	@RequestMapping(value = "/queryPeopleNumByTimeRange2")
+	public Map<String, Object> queryPeopleNumByTimeRange2(
 			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
 			@RequestParam(value = "endDateStr", required = true) String endDateStr,
 			@RequestParam(value = "regionStr", required = true) String regionStr,
@@ -291,21 +286,21 @@ public class AppController {
 		map.put("item", new ArrayList<Map<String, Object>>());
 		try {
 			if (StringUtils.isNoneBlank(regionStr)) {
-				List<Map<String, Object>> list=new ArrayList<>();
-				String[] regionKeys=regionStr.trim().split(",");
+				List<Map<String, Object>> list = new ArrayList<>();
+				String[] regionKeys = regionStr.trim().split(",");
 				for (String key : regionKeys) {
-					Map<String, Object> map2=new HashMap<>();
+					Map<String, Object> map2 = new HashMap<>();
 					List<String> listDates = MyUtil.getDateListStr(beginDateStr, endDateStr, minute);
 					if (listDates != null && listDates.size() > 0) {
-						Map<String, Object>  mapData=new HashMap<String, Object>();
+						Map<String, Object> mapData = new HashMap<String, Object>();
 						map2.put("name", key);
-						List<Integer> lIntegers=hiGridDataHourService.queryPeopleNumByTimeRangeNew(listDates, key);
+						List<Integer> lIntegers = hiGridDataHourService.queryPeopleNumByTimeRangeNew(listDates, key);
 						map2.put("item", lIntegers);
-					} 
+					}
 					list.add(map2);
 				}
 				map.put("item", list);
-			}else {
+			} else {
 				map.put("status", 2);
 				map.put("msg", "为传入参数regionStr");
 			}
@@ -315,12 +310,12 @@ public class AppController {
 		}
 		return map;
 	}
+
 	/**
-	 * 废弃
-	 * 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
-	 * 查询历史表
-	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2019-7-26 11:55&endDateStr=2019-7-26 12:30&minute=5
-	 * 这个就是开始时间  结束结束范围 然后跟几分钟切割  计算每个场馆各个时刻的值
+	 * 废弃 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 查询历史表
+	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2019-7-26
+	 * 11:55&endDateStr=2019-7-26 12:30&minute=5 这个就是开始时间 结束结束范围 然后跟几分钟切割
+	 * 计算每个场馆各个时刻的值
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/queryPeopleNumByTimeRange1")
@@ -340,10 +335,10 @@ public class AppController {
 					String itemName = "item" + (j + 1);
 					List<Integer> myList = new ArrayList<Integer>();
 					for (Date date : listDates) {
-						Integer integerNum=hiGridDataHourService.queryPeopleNumByTimeRange(date, key);
-						if (integerNum != null && integerNum >0) {
+						Integer integerNum = hiGridDataHourService.queryPeopleNumByTimeRange(date, key);
+						if (integerNum != null && integerNum > 0) {
 							myList.add(integerNum);
-						}else {
+						} else {
 							myList.add(0);
 						}
 					}
@@ -369,10 +364,63 @@ public class AppController {
 				List<Integer> item17 = (List<Integer>) map.get("item17");
 				for (int i = 0; i < listDates.size(); i++) {
 					all.add(item2.get(i) + item3.get(i) + item4.get(i) + item5.get(i) + item6.get(i) + item7.get(i)
-					+ item8.get(i) + item9.get(i) + item10.get(i) + item11.get(i) + item12.get(i)
-					+ item13.get(i) + item14.get(i) + item15.get(i) + item16.get(i) + item17.get(i));
+							+ item8.get(i) + item9.get(i) + item10.get(i) + item11.get(i) + item12.get(i)
+							+ item13.get(i) + item14.get(i) + item15.get(i) + item16.get(i) + item17.get(i));
 				}
 				map.put("item1", all);
+			} else {
+				map.put("status", 1);
+				map.put("msg", "没有对应条件的数据！");
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyy-MM-dd HH:mm");
+		}
+		return map;
+	}
+
+	/**
+	 * 最新 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 查询历史表
+	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2019-7-26
+	 * 11:55&endDateStr=2019-7-26 12:30&minute=5 这个就是开始时间 结束结束范围 然后跟几分钟切割
+	 * 计算每个场馆各个时刻的值
+	 */
+	@RequestMapping(value = "/queryPeopleNumByTimeRange")
+	public Map<String, Object> queryPeopleNumByTimeRange(
+			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
+			@RequestParam(value = "endDateStr", required = true) String endDateStr,
+			@RequestParam(value = "regionStr", required = true) String regionStr,
+			@RequestParam(value = "minute", required = true) int minute) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		map.put("item", new ArrayList<>());
+		try {
+			List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
+			if (listDates.size() > 0) {
+				if (StringUtils.isNoneBlank(regionStr)) {
+					List<Map<String, Object>> myList = new ArrayList<Map<String, Object>>();
+					String[] keyStr = regionStr.trim().split(",");
+					for (String key : keyStr) {
+						Map<String, Object> map2=new HashMap<>();
+						map2.put("name", key);
+						List<Integer> lInteger=new ArrayList<>();
+						for (Date date : listDates) {
+							Integer integerNum = hiGridDataHourService.queryPeopleNumByTimeRange(date, key);
+							if (integerNum != null && integerNum > 0) {
+								lInteger.add(integerNum);
+							} else {
+								lInteger.add(0);
+							}
+						}
+						map2.put("item", lInteger);
+						myList.add(map2);
+					}
+					map.put("item", myList);
+				} else {
+					map.put("status", 2);
+					map.put("msg", "未传入参数regionStr！");
+				}
 			} else {
 				map.put("status", 1);
 				map.put("msg", "没有对应条件的数据！");
@@ -433,8 +481,7 @@ public class AppController {
 	}
 
 	/**
-	 * 用户散点图 接口 七、接口7 获取指定用户的散点图。
-	 * 返回各个用户在各个时间点的  数量  返回xy
+	 * 用户散点图 接口 七、接口7 获取指定用户的散点图。 返回各个用户在各个时间点的 数量 返回xy
 	 */
 	@RequestMapping(value = "/userScatterPoint")
 	public Map<String, Object> userScatterPoint(@RequestParam("data") String data) {
@@ -465,8 +512,7 @@ public class AppController {
 	}
 
 	/**
-	 * 传入场馆编号，返回栅格集合 对接接口 接口4 获取指定场馆的栅格数据。
-	 * 返回各个长场馆 最新的数据  x  y  并且 用户大于0
+	 * 传入场馆编号，返回栅格集合 对接接口 接口4 获取指定场馆的栅格数据。 返回各个长场馆 最新的数据 x y 并且 用户大于0
 	 */
 	@RequestMapping(value = "/queryGridDataByRegion")
 	public Map<String, Object> queryGridDataByRegion(@RequestParam("region") String region) {
@@ -495,8 +541,7 @@ public class AppController {
 	}
 
 	/**
-	 * 用户轨迹热力图 对接接口 接口3 获取指定用户的轨迹数据。
-	 * 返回用户指定范围的数据   格式是x  y类型的
+	 * 用户轨迹热力图 对接接口 接口3 获取指定用户的轨迹数据。 返回用户指定范围的数据 格式是x y类型的
 	 */
 	@RequestMapping(value = "/queryImsiTrackDataByParam")
 	public Map<String, Object> queryImsiTrackDataByParam(@RequestParam("imsi") String imsi,
