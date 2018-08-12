@@ -273,15 +273,61 @@ public class AppController {
 	}
 
 	/**
+	 * 最新
 	 * 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
-	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2018-7-26 11:55&endDateStr=2018-7-26 12:30&minute=5
+	 * 查询历史表
+	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2019-7-26 11:55&endDateStr=2019-7-26 12:30&minute=5
 	 * 这个就是开始时间  结束结束范围 然后跟几分钟切割  计算每个场馆各个时刻的值
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/queryPeopleNumByTimeRange")
 	public Map<String, Object> queryPeopleNumByTimeRange(
 			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
 			@RequestParam(value = "endDateStr", required = true) String endDateStr,
+			@RequestParam(value = "regionStr", required = true) String regionStr,
+			@RequestParam(value = "minute", required = true) int minute) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		map.put("item", new ArrayList<Map<String, Object>>());
+		try {
+			if (StringUtils.isNoneBlank(regionStr)) {
+				List<Map<String, Object>> list=new ArrayList<>();
+				String[] regionKeys=regionStr.trim().split(",");
+				for (String key : regionKeys) {
+					Map<String, Object> map2=new HashMap<>();
+					List<String> listDates = MyUtil.getDateListStr(beginDateStr, endDateStr, minute);
+					if (listDates != null && listDates.size() > 0) {
+						Map<String, Object>  mapData=new HashMap<String, Object>();
+						map2.put("name", key);
+						List<Integer> lIntegers=hiGridDataHourService.queryPeopleNumByTimeRangeNew(listDates, key);
+						map2.put("item", lIntegers);
+					} 
+					list.add(map2);
+				}
+				map.put("item", list);
+			}else {
+				map.put("status", 2);
+				map.put("msg", "为传入参数regionStr");
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyy-MM-dd HH:mm");
+		}
+		return map;
+	}
+	/**
+	 * 废弃
+	 * 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
+	 * 查询历史表
+	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2019-7-26 11:55&endDateStr=2019-7-26 12:30&minute=5
+	 * 这个就是开始时间  结束结束范围 然后跟几分钟切割  计算每个场馆各个时刻的值
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/queryPeopleNumByTimeRange1")
+	public Map<String, Object> queryPeopleNumByTimeRange1(
+			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
+			@RequestParam(value = "endDateStr", required = true) String endDateStr,
+			@RequestParam(value = "regionStr", required = true) String regionStr,
 			@RequestParam(value = "minute", required = true) int minute) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
@@ -323,8 +369,8 @@ public class AppController {
 				List<Integer> item17 = (List<Integer>) map.get("item17");
 				for (int i = 0; i < listDates.size(); i++) {
 					all.add(item2.get(i) + item3.get(i) + item4.get(i) + item5.get(i) + item6.get(i) + item7.get(i)
-							+ item8.get(i) + item9.get(i) + item10.get(i) + item11.get(i) + item12.get(i)
-							+ item13.get(i) + item14.get(i) + item15.get(i) + item16.get(i) + item17.get(i));
+					+ item8.get(i) + item9.get(i) + item10.get(i) + item11.get(i) + item12.get(i)
+					+ item13.get(i) + item14.get(i) + item15.get(i) + item16.get(i) + item17.get(i));
 				}
 				map.put("item1", all);
 			} else {

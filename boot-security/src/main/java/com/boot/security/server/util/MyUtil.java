@@ -462,12 +462,31 @@ public class MyUtil {
 		Date endDate = sdf.parse(endDateStr);
 
 		List<Date> list = new ArrayList<Date>();
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < 20000; i++) {
 			beginDate = new Date(beginDate.getTime() + 60 * minute * 1000);
 			if (beginDate.compareTo(endDate) > 0) {
 				break;
 			}
 			list.add(beginDate);
+		}
+		return list;
+	}
+	/**
+	 * 根据起始 终止时间 分割时间范围
+	 * 注意这个时间的格式是yyyy-MM-dd HH-mm
+	 */
+	public static List<String> getDateListStr(String beginDateStr, String endDateStr, int minute) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date beginDate = sdf.parse(beginDateStr);
+		Date endDate = sdf.parse(endDateStr);
+		
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < 20000; i++) {
+			beginDate = new Date(beginDate.getTime() + 60 * minute * 1000);
+			if (beginDate.compareTo(endDate) > 0) {
+				break;
+			}
+			list.add(sdf.format(beginDate));
 		}
 		return list;
 	}

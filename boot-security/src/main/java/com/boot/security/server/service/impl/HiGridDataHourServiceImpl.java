@@ -1,6 +1,7 @@
 package com.boot.security.server.service.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.mail.Session;
 import javax.servlet.http.HttpSession;
@@ -46,5 +47,10 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 			session.setAttribute(BootConstant.LTE_Region_NUM_HOUR, countNum);
 		}
 		return 1l;
+	}
+
+	@Override
+	public List<Integer> queryPeopleNumByTimeRangeNew(List<String> listDates, String key) {
+		return hiGridDataHourDao.queryPeopleNumByTimeRangeNew(listDates,key);
 	}
 }

@@ -4,6 +4,16 @@
 <mapper namespace="com.boot.security.server.dao.HiGridDataHourDao">
 
 	
+	<select id="queryPeopleNumByTimeRangeNew" resultType="java.lang.Integer">
+		select d.IMSI_CUM  from LTE_REGION_NUM_HOUR d 
+		where d.REGIONTYPE='Indoor' 
+		      and  d.REGION=#{region}
+		      and  to_date(d.Sdate,'yyyy-mm-dd hh24:mi') in
+		      <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+	            to_date(#{item},'yyyy-mm-dd hh24:mi')
+	        </foreach>
+	        order by to_date(d.Sdate,'yyyy-mm-dd hh24:mi') asc
+	</select> 
 	<select id="queryPeopleNumByTimeRange" resultType="java.lang.Integer">
 		select nvl(sum(d.IMSI_CUM),0)  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE='Indoor' and to_date(d.Sdate,'yyyy-mm-dd hh24:mi')=to_date(#{dateStr},'yyyy-mm-dd hh24:mi') and d.REGION=#{region}
 	</select> 

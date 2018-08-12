@@ -1,5 +1,7 @@
 package com.boot.security.server.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,4 +15,6 @@ public interface HiGridDataHourDao {
 	public HiGridDataHour queryHiGridDataHourLatest(@Param("region") String region);
 
 	public long queryCount();
+
+	public List<Integer> queryPeopleNumByTimeRangeNew(@Param("list") List<String> listDates,@Param("region")  String region);
 }
