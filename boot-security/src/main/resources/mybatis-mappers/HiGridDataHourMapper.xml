@@ -5,7 +5,7 @@
 
 	
 	<select id="queryPeopleNumByTimeRange" resultType="java.lang.Integer">
-		select nvl(d.IMSI_CUM,0)  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE='Indoor' and to_date(d.Sdate,'yyyy-mm-dd hh24:mi')=to_date(#{dateStr},'yyyy-mm-dd hh24:mi') and d.REGION=#{region}
+		select nvl(sum(d.IMSI_CUM),0)  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE='Indoor' and to_date(d.Sdate,'yyyy-mm-dd hh24:mi')=to_date(#{dateStr},'yyyy-mm-dd hh24:mi') and d.REGION=#{region}
 	</select> 
 	<select id="queryCount" resultType="long">
 		select count(1)  from LTE_REGION_NUM_HOUR 

@@ -74,6 +74,7 @@ public class AppController {
 
 	/**
 	 * 五、接口5 根据指定时间范围和场馆编号获取指定场馆的栅格数据。
+	 * 这个就是返回  指定场馆  某个日期的所有数据  有日期范围 切割
 	 */
 	@RequestMapping(value = "/queryGridDataByTimeRegion")
 	public Map<String, Object> queryGridDataByTimeRegion(
@@ -109,6 +110,7 @@ public class AppController {
 
 	/**
 	 * 接口8 获取当前所有场馆的告警信息。
+	 * 根据传入的告警数量 获取所有的栅格数据
 	 */
 	@RequestMapping(value = "/queryGridWarnData")
 	public Map<String, Object> queryGridWarnData(@RequestParam(value = "warnNum", required = true) int warnNum) {
@@ -133,6 +135,7 @@ public class AppController {
 
 	/**
 	 * 接口6 获取所有场馆的的年龄段、来源地、男女比例接口。
+	 * 这个返回的是长高端的最新一条数据  和的放在第一位
 	 */
 	@RequestMapping(value = "/queryHiGridDataHourLatest")
 	public Map<String, Object> queryHiGridDataHourLatest(HttpSession session) {
@@ -241,12 +244,14 @@ public class AppController {
 
 	/**
 	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
+	 * 各个场馆最新的总人数  这里面有个问题 就是场馆的时间可能不一致
 	 */
 	@RequestMapping(value = "/queryGridPeopleNumData")
 	public Map<String, Object> queryGridPeopleNumData() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
+		map.put("peopleParameterList", "");
 		try {
 			List<Integer> peopleParameterList = new ArrayList<Integer>();
 			for (int j = 1; j < numList.size(); j++) {
@@ -269,6 +274,8 @@ public class AppController {
 
 	/**
 	 * 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
+	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2018-7-26 11:55&endDateStr=2018-7-26 12:30&minute=5
+	 * 这个就是开始时间  结束结束范围 然后跟几分钟切割  计算每个场馆各个时刻的值
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/queryPeopleNumByTimeRange")
@@ -287,7 +294,12 @@ public class AppController {
 					String itemName = "item" + (j + 1);
 					List<Integer> myList = new ArrayList<Integer>();
 					for (Date date : listDates) {
-						myList.add(hiGridDataHourService.queryPeopleNumByTimeRange(date, key));
+						Integer integerNum=hiGridDataHourService.queryPeopleNumByTimeRange(date, key);
+						if (integerNum != null && integerNum >0) {
+							myList.add(integerNum);
+						}else {
+							myList.add(0);
+						}
 					}
 					map.put(itemName, myList);
 				}
@@ -376,6 +388,7 @@ public class AppController {
 
 	/**
 	 * 用户散点图 接口 七、接口7 获取指定用户的散点图。
+	 * 返回各个用户在各个时间点的  数量  返回xy
 	 */
 	@RequestMapping(value = "/userScatterPoint")
 	public Map<String, Object> userScatterPoint(@RequestParam("data") String data) {
@@ -407,6 +420,7 @@ public class AppController {
 
 	/**
 	 * 传入场馆编号，返回栅格集合 对接接口 接口4 获取指定场馆的栅格数据。
+	 * 返回各个长场馆 最新的数据  x  y  并且 用户大于0
 	 */
 	@RequestMapping(value = "/queryGridDataByRegion")
 	public Map<String, Object> queryGridDataByRegion(@RequestParam("region") String region) {
@@ -436,6 +450,7 @@ public class AppController {
 
 	/**
 	 * 用户轨迹热力图 对接接口 接口3 获取指定用户的轨迹数据。
+	 * 返回用户指定范围的数据   格式是x  y类型的
 	 */
 	@RequestMapping(value = "/queryImsiTrackDataByParam")
 	public Map<String, Object> queryImsiTrackDataByParam(@RequestParam("imsi") String imsi,
