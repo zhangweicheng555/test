@@ -2,11 +2,11 @@ package com.boot.security.server.service.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.boot.security.server.common.BootConstant;
@@ -20,6 +20,8 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 	@Autowired
 	private HiGridDataHourDao hiGridDataHourDao;
 	
+	
+	//@Cacheable(value="queryPeopleNumByTimeRange")
 	@Override
 	public Integer queryPeopleNumByTimeRange(Date dateStr, String region) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
