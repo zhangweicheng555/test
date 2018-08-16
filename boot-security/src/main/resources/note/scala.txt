@@ -143,6 +143,25 @@ res19: Array[Int] = Array(1, 2, 3, 4)
 scala> var dfg=for(i <-arr;if(i>3)) yield i*100
 dfg: Array[Int] = Array(400)
 
+scala> for(i <- cloo;if(i>3);if(i <= 6)) println(i)
+4
+5
+6
+
+
+scala> cloo
+res22: scala.collection.immutable.Range.Inclusive = Range(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+scala> cloo.filter(_>3).filter(_<=6)
+res23: scala.collection.immutable.IndexedSeq[Int] = Vector(4, 5, 6)
+
+scala> cloo.filter(_>3).filter(_<=6).map(_*10)
+res24: scala.collection.immutable.IndexedSeq[Int] = Vector(40, 50, 60)
+
+scala> cloo.filter(_>3 && _<=6)
+<console>:9: error: wrong number of parameters; expected = 1
+              cloo.filter(_>3 && _<=6)
+
 scala> arr
 res20: Array[Int] = Array(1, 2, 3, 4)
 
@@ -266,6 +285,22 @@ object HelloScala {
 
 
 
+scala> var fg:(Int,Int) => Int ={(x,y)=>x+y}
+fg: (Int, Int) => Int = <function2>
+
+scala> def mmg(fun:(Int,Int) => Int): Int={fun(7,8)}
+mmg: (fun: (Int, Int) => Int)Int
+
+scala> var w=mmg(fg)
+w: Int = 15
+
+scala> w
+res48: Int = 15
+
+scala>
+
+
+
 def method_0(x Int,y Int): Int =x+y
 val fun2(Int,Int) => Int={(x,y) => x+y}
 
@@ -351,8 +386,8 @@ arr2: Array[Int] = Array(1, 2, 3)
     ab ++= ArrayBuffer(8,9)
     //打印数组缓冲ab
 
-    //在数组某个位置插入元素用insert
-    ab.insert(0, -1, 0)
+    //在数组某个位置插入元素用insert  第0个位置插入一个或者多个
+    ab.insert(0, -1, 0)    
     //删除数组某个位置的元素用remove
     ab.remove(8, 2)
 
@@ -407,4 +442,105 @@ scala> arr1.
 apply          asInstanceOf   clone          isInstanceOf   length         toString       update
 
 scala> arr1.\
+
+
+
+
+
+
+
+
+
+
+
+Byte	8位有符号补码整数。数值区间为 -128 到 127
+Short	16位有符号补码整数。数值区间为 -32768 到 32767
+Int	32位有符号补码整数。数值区间为 -2147483648 到 2147483647
+Long	64位有符号补码整数。数值区间为 -9223372036854775808 到 9223372036854775807
+Float	32 位, IEEE 754标准的单精度浮点数
+Double	32 位 IEEE 754标准的单精度浮点数
+Char	16位无符号Unicode字符, 区间值为 U+0000 到 U+FFFF
+String	字符序列
+Boolean	true或false
+Unit	表示无值，和其他语言中void等同。用作不返回任何结果的方法的结果类型。Unit只有一个实例值，写成()。
+Null	null 或空引用
+Nothing	Nothing类型在Scala的类层级的最低端；它是任何其他类型的子类型。
+Any	Any是所有其他类的超类
+AnyRef	AnyRef类是Scala里所有引用类(reference class)的基类
+
+
+
+      
+scala> var a2=Array("zwp","sdw","sdf","gft","asd")
+a2: Array[String] = Array(zwp, sdw, sdf, gft, asd)
+
+scala> a2
+res124: Array[String] = Array(zwp, sdw, sdf, gft, asd)
+
+scala> a2.reverse
+res125: Array[String] = Array(asd, gft, sdf, sdw, zwp)
+
+scala> a2.sortBy(x => x)
+res126: Array[String] = Array(asd, gft, sdf, sdw, zwp)
+
+scala> a2
+res127: Array[String] = Array(zwp, sdw, sdf, gft, asd)
+
+scala> a2.sortWith((x,y) => x>y)
+res128: Array[String] = Array(zwp, sdw, sdf, gft, asd)
+
+scala> a2.sortWith((x,y) => x<y)
+res129: Array[String] = Array(asd, gft, sdf, sdw, zwp)
+
+scala> a2.sortWith(_>_)
+res130: Array[String] = Array(zwp, sdw, sdf, gft, asd)
+
+scala> a2.sortWith(_<_)
+res131: Array[String] = Array(asd, gft, sdf, sdw, zwp)
+
+
+
+
+构建一个不可变映射
+val scores = Map("Alice"->10,"Bob"->3,"Cindy"->8)
+
+
+构建一个可变映射
+val scores = scala.collection.mutable.Map("Alice"->10,"Bob"->3,"Cindy"->8)
+
+构建一个空映射
+val scores = new scala.collection.mutable.HashMap[String,Int]
+
+也可以用下面的方式创建映射
+val scores = Map(("Alice",10),("Bob",3),("Cindy",8))
+
+获取映射中的值
+val bobsScore = scores("Bob")
+
+如果映射不包含请求中使用的键则会抛出异常
+val bobsScore = if(scores.contains("Bob"))scores("Bob") else 0
+val bobsScore = scores.getOrElse("Bob",0)
+
+更新映射中的值
+可变映射可以更新某个映射的值，或者添加一个新的映射关系
+scores("Bob") = 10 //更新
+scores("Fred") = 7 //增加新的键值对
+scores += ("Bob"->10,"Fred"->7)//用+=操作来添加多个关系
+scores -= "Alice" //移除某个键和对应的值
+
+对于不可变映射，可以获取一个包含所需的变更的新映射：
+var newScores = scores + ("Bob"->10,"Fred"->7)
+newScores = newScores - "Bob"
+
+迭代映射
+for((k,v) <- 映射) 处理k和v
+for(k <- scores.keySet) print(k)
+for(v <= scores.values) print(v)
+for((k,v) <- scores) yield (v,k) //反转映射
+
+排序映射
+val scores = scala.collection.immutable.SortedMap("Alice"->10,"Bob"->3,"Cindy"->8)
+
+按插入的顺序访问所以的键
+val months = scala.collection.mutable.LinkedHashMap("January"->1,"February"->2)
 
