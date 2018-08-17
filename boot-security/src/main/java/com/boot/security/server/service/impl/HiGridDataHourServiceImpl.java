@@ -3,12 +3,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.dao.HiGridDataHourDao;
 import com.boot.security.server.model.HiGridDataHour;
@@ -20,7 +16,11 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 	@Autowired
 	private HiGridDataHourDao hiGridDataHourDao;
 	
-	
+	/**
+	 * Cacheable/CachePut/CacheEvit 都有value属性，制定的是要使用的缓存的名称，
+	 * 就是缓存xml里面的name  
+	 * key是要缓存的内容  在缓存中的键值
+	 */
 	//@Cacheable(value="queryPeopleNumByTimeRange")
 	@Override
 	public Integer queryPeopleNumByTimeRange(Date dateStr, String region) {

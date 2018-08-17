@@ -7,7 +7,7 @@ import org.springframework.cache.annotation.EnableCaching;
 /**
  * 启动类
  */
-//@EnableCaching
+@EnableCaching
 @SpringBootApplication
 public class SecurityApplication {
 

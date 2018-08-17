@@ -2,6 +2,7 @@ package com.boot.security.server.controller;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,5 +28,17 @@ public class UserController {
 			@RequestParam("endDate") String endDate) {
 		return sysUserService.findTest(beginDate, endDate);
 	}
-
+	
+	
+	@RequestMapping(value = "/testCache")
+	public void testCache(@Param("num1") Integer num1) {
+		sysUserService.testCache(num1);
+	}
+	@RequestMapping(value = "/clear")
+	@ResponseBody
+	public String clear() {
+		return sysUserService.clear();
+	}
+	
+	
 }
