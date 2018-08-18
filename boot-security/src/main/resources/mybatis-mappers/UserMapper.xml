@@ -17,4 +17,15 @@
 	
 	</select>
 	
+	
+	<select id="findNewGridDateByDate" resultType="GridData">
+		select * from LTE_GRID_TEST where sdate= #{mydate}
+	</select>
+	
+	<delete id="clearTestGridData" >
+		delete  from LTE_GRID_USER_NUM  d
+		where 
+		to_date(d.Sdate,'yyyy-mm-dd hh24:mi:ss') >= to_date(#{dealBDateScheduled},'yyyy-mm-dd hh24:mi:ss')  and to_date(#{dealEDateScheduled},'yyyy-mm-dd hh24:mi:ss') >= to_date(d.Sdate,'yyyy-mm-dd hh24:mi:ss')
+	</delete>
+	
 </mapper>
