@@ -29,17 +29,18 @@ public class ScheduledConfig {
 	/**
 	 * 下午2点到晚上8点 每5分钟执行一次
 	 */
-//	@Scheduled(cron = "0 0/5 14-20 * * ?")
-	@Scheduled(cron = "0 0/5 12-13 * * ?")
+	@Scheduled(cron = "0 0/5 17-20 * * ?")
 	public void scheduledByFiveMinute() throws ParseException {
 		SysUserService sysUserService = SpringUtil.getApplicationContext().getBean(SysUserService.class);
 		GridDataService gridDataService = SpringUtil.getApplicationContext().getBean(GridDataService.class);
+		int num=0;
 		/**查询临时表的数据*/
 		List<GridData> listGridDatas=sysUserService.findNewGridDateByDate(beginDateScheduled);
 		if (listGridDatas !=null && listGridDatas.size() >0) {
 			for (GridData gridData : listGridDatas) {
 				gridDataService.save(gridData);
 			}
+			num=listGridDatas.size();
 		}
 		/**临时表的数据入栅格表*/
 		
@@ -48,7 +49,7 @@ public class ScheduledConfig {
 		Date afterDate = new Date(sdf.parse(beginDateScheduled).getTime() + 300000);
 		beginDateScheduled=sdf.format(afterDate);
 		
-		System.out.println("开始每五分钟 导入一次：  " + beginDateScheduled);
+		System.out.println("开始每五分钟 导入一次：  " + beginDateScheduled  +"本次导入数据量:"+num);
 	}
 
 	/**
