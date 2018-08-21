@@ -891,4 +891,21 @@ public class AppController {
 		}
 		return map;
 	}
+	/**
+	 * 接口10   设置移动百分比
+	 */
+	@ResponseBody
+	@RequestMapping("/setUserPercent")
+	public Map<String, Object> setUserPercent(@RequestParam(value="UserPercent",required=true) Double userPercent) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			BootConstant.People_Num_Percent=userPercent;
+			map.put("status", 0);
+			map.put("msg", "设置移动百分比成功："+BootConstant.People_Num_Percent+"！");
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常！");
+		}
+		return map;
+	}
 }
