@@ -16,9 +16,6 @@ public class HiGridDataHour {
 	private long imsiAge3;
 	private long imsiAge4;
 	private long imsiAge5;
-	private long imsiAge6;
-	private long imsiAge7;
-	private long imsiAge8;
 	private long imsiSource1;// 当前移动用户 省内
 	private long imsiSource2;// 当前移动用户 省外
 
@@ -113,29 +110,6 @@ public class HiGridDataHour {
 		this.imsiAge5 = imsiAge5;
 	}
 
-	public long getImsiAge6() {
-		return imsiAge6;
-	}
-
-	public void setImsiAge6(long imsiAge6) {
-		this.imsiAge6 = imsiAge6;
-	}
-
-	public long getImsiAge7() {
-		return imsiAge7;
-	}
-
-	public void setImsiAge7(long imsiAge7) {
-		this.imsiAge7 = imsiAge7;
-	}
-
-	public long getImsiAge8() {
-		return imsiAge8;
-	}
-
-	public void setImsiAge8(long imsiAge8) {
-		this.imsiAge8 = imsiAge8;
-	}
 
 	public long getImsiSource1() {
 		return imsiSource1;
@@ -154,8 +128,9 @@ public class HiGridDataHour {
 	}
 
 	public HiGridDataHour(String sdate, String regionType, String region, long imsiCum, long imsiMale, long imsiFeMale,
-			long imsiAge1, long imsiAge2, long imsiAge3, long imsiAge4, long imsiAge5, long imsiAge6, long imsiAge7,
-			long imsiAge8, long imsiSource1, long imsiSource2) {
+			long imsiAge1, long imsiAge2, long imsiAge3, long imsiAge4, long imsiAge5, long imsiSource1,
+			long imsiSource2) {
+		super();
 		this.sdate = sdate;
 		this.regionType = regionType;
 		this.region = region;
@@ -167,9 +142,6 @@ public class HiGridDataHour {
 		this.imsiAge3 = imsiAge3;
 		this.imsiAge4 = imsiAge4;
 		this.imsiAge5 = imsiAge5;
-		this.imsiAge6 = imsiAge6;
-		this.imsiAge7 = imsiAge7;
-		this.imsiAge8 = imsiAge8;
 		this.imsiSource1 = imsiSource1;
 		this.imsiSource2 = imsiSource2;
 	}

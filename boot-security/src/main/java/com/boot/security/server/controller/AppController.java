@@ -109,6 +109,7 @@ public class AppController {
 
 	/**
 	 * 接口8 获取当前所有场馆的告警信息。 根据传入的告警数量 获取所有的栅格数据
+	 * 最大时间的
 	 */
 	@RequestMapping(value = "/queryGridWarnData")
 	public Map<String, Object> queryGridWarnData(@RequestParam(value = "warnNum", required = true) int warnNum) {
@@ -170,9 +171,6 @@ public class AppController {
 		Long age3 = 0l;
 		Long age4 = 0l;
 		Long age5 = 0l;
-		Long age6 = 0l;
-		Long age7 = 0l;
-		Long age8 = 0l;
 		Long source1 = 0l;
 		Long source2 = 0l;
 
@@ -184,9 +182,6 @@ public class AppController {
 			age3 += map.get("age3");
 			age4 += map.get("age4");
 			age5 += map.get("age5");
-			age6 += map.get("age6");
-			age7 += map.get("age7");
-			age8 += map.get("age8");
 			source1 += map.get("source1");
 			source2 += map.get("source2");
 		}
@@ -198,9 +193,6 @@ public class AppController {
 		map.put("age3", age3);
 		map.put("age4", age4);
 		map.put("age5", age5);
-		map.put("age6", age6);
-		map.put("age7", age7);
-		map.put("age8", age8);
 		map.put("source1", source1);
 		map.put("source2", source2);
 		return map;
@@ -216,9 +208,6 @@ public class AppController {
 			map.put("age3", hiGridDataHour.getImsiAge3());
 			map.put("age4", hiGridDataHour.getImsiAge4());
 			map.put("age5", hiGridDataHour.getImsiAge5());
-			map.put("age6", hiGridDataHour.getImsiAge6());
-			map.put("age7", hiGridDataHour.getImsiAge7());
-			map.put("age8", hiGridDataHour.getImsiAge8());
 			map.put("source1", hiGridDataHour.getImsiSource1());
 			map.put("source2", hiGridDataHour.getImsiSource2());
 			return map;
@@ -230,9 +219,6 @@ public class AppController {
 			map.put("age3", 0l);
 			map.put("age4", 0l);
 			map.put("age5", 0l);
-			map.put("age6", 0l);
-			map.put("age7", 0l);
-			map.put("age8", 0l);
 			map.put("source1", 0l);
 			map.put("source2", 0l);
 		}
@@ -264,117 +250,6 @@ public class AppController {
 		} catch (Exception e) {
 			map.put("status", 2);
 			map.put("msg", "系统异常:" + e.getLocalizedMessage());
-		}
-		return map;
-	}
-
-	/**
-	 * 废弃 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 查询历史表
-	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2019-7-26
-	 * 11:55&endDateStr=2019-7-26 12:30&minute=5 这个就是开始时间 结束结束范围 然后跟几分钟切割
-	 * 计算每个场馆各个时刻的值
-	 */
-	@RequestMapping(value = "/queryPeopleNumByTimeRange2")
-	public Map<String, Object> queryPeopleNumByTimeRange2(
-			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
-			@RequestParam(value = "endDateStr", required = true) String endDateStr,
-			@RequestParam(value = "regionStr", required = true) String regionStr,
-			@RequestParam(value = "minute", required = true) int minute) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", 0);
-		map.put("msg", "操作成功！");
-		map.put("item", new ArrayList<Map<String, Object>>());
-		try {
-			if (StringUtils.isNoneBlank(regionStr)) {
-				List<Map<String, Object>> list = new ArrayList<>();
-				String[] regionKeys = regionStr.trim().split(",");
-				for (String key : regionKeys) {
-					Map<String, Object> map2 = new HashMap<>();
-					List<String> listDates = MyUtil.getDateListStr(beginDateStr, endDateStr, minute);
-					if (listDates != null && listDates.size() > 0) {
-						Map<String, Object> mapData = new HashMap<String, Object>();
-						map2.put("name", key);
-						List<Integer> lIntegers = hiGridDataHourService.queryPeopleNumByTimeRangeNew(listDates, key);
-						map2.put("item", lIntegers);
-					}
-					list.add(map2);
-				}
-				map.put("item", list);
-			} else {
-				map.put("status", 2);
-				map.put("msg", "为传入参数regionStr");
-			}
-		} catch (Exception e) {
-			map.put("status", 2);
-			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyy-MM-dd HH:mm");
-		}
-		return map;
-	}
-
-	/**
-	 * 废弃 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 查询历史表
-	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2019-7-26
-	 * 11:55&endDateStr=2019-7-26 12:30&minute=5 这个就是开始时间 结束结束范围 然后跟几分钟切割
-	 * 计算每个场馆各个时刻的值
-	 */
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/queryPeopleNumByTimeRange1")
-	public Map<String, Object> queryPeopleNumByTimeRange1(
-			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
-			@RequestParam(value = "endDateStr", required = true) String endDateStr,
-			@RequestParam(value = "regionStr", required = true) String regionStr,
-			@RequestParam(value = "minute", required = true) int minute) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", 0);
-		map.put("msg", "操作成功！");
-		try {
-			List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
-			if (listDates.size() > 0) {
-				for (int j = 1; j < numList.size(); j++) {
-					String key = numList.get(j);// region
-					String itemName = "item" + (j + 1);
-					List<Integer> myList = new ArrayList<Integer>();
-					for (Date date : listDates) {
-						Integer integerNum = hiGridDataHourService.queryPeopleNumByTimeRange(date, key);
-						if (integerNum != null && integerNum > 0) {
-							myList.add(integerNum);
-						} else {
-							myList.add(0);
-						}
-					}
-					map.put(itemName, myList);
-				}
-				// 组装all
-				List<Integer> all = new ArrayList<>();
-				List<Integer> item2 = (List<Integer>) map.get("item2");
-				List<Integer> item3 = (List<Integer>) map.get("item3");
-				List<Integer> item4 = (List<Integer>) map.get("item4");
-				List<Integer> item5 = (List<Integer>) map.get("item5");
-				List<Integer> item6 = (List<Integer>) map.get("item6");
-				List<Integer> item7 = (List<Integer>) map.get("item7");
-				List<Integer> item8 = (List<Integer>) map.get("item8");
-				List<Integer> item9 = (List<Integer>) map.get("item9");
-				List<Integer> item10 = (List<Integer>) map.get("item10");
-				List<Integer> item11 = (List<Integer>) map.get("item11");
-				List<Integer> item12 = (List<Integer>) map.get("item12");
-				List<Integer> item13 = (List<Integer>) map.get("item13");
-				List<Integer> item14 = (List<Integer>) map.get("item14");
-				List<Integer> item15 = (List<Integer>) map.get("item15");
-				List<Integer> item16 = (List<Integer>) map.get("item16");
-				List<Integer> item17 = (List<Integer>) map.get("item17");
-				for (int i = 0; i < listDates.size(); i++) {
-					all.add(item2.get(i) + item3.get(i) + item4.get(i) + item5.get(i) + item6.get(i) + item7.get(i)
-							+ item8.get(i) + item9.get(i) + item10.get(i) + item11.get(i) + item12.get(i)
-							+ item13.get(i) + item14.get(i) + item15.get(i) + item16.get(i) + item17.get(i));
-				}
-				map.put("item1", all);
-			} else {
-				map.put("status", 1);
-				map.put("msg", "没有对应条件的数据！");
-			}
-		} catch (Exception e) {
-			map.put("status", 2);
-			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyy-MM-dd HH:mm");
 		}
 		return map;
 	}

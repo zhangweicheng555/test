@@ -25,7 +25,6 @@ public class SysUserServiceImpl implements SysUserService {
 		return userDao.findTest(beginDate, endDate);
 	}
 
-	// @Cacheable(value = "queryPeopleNumByTimeRange")
 	@Override
 	public String testCache(Integer num) {
 		if (num > 5) {

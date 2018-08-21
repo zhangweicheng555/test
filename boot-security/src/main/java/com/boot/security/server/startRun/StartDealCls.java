@@ -12,7 +12,7 @@ public class StartDealCls implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("++++++++++++++++++++++程序启动完毕开始处理程序++++++++++++++++++");
+		System.out.println("++++++++++++++++++++++程序启动完毕++++++++++++++++++");
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
 	}

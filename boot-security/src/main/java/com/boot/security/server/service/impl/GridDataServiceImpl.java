@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import com.boot.security.server.dao.GridDataDao;
 import com.boot.security.server.model.GridData;
@@ -51,7 +50,6 @@ public class GridDataServiceImpl implements GridDataService {
 		return gridDataDao.queryGridPeopleNumDataNew(region);
 	}
 
-	@CachePut(value = "queryPeopleNumByTimeRange")
 	@Override
 	public List<Map<String, Object>> queryGridWarnData(int warnNum) {
 		return gridDataDao.queryGridWarnData(warnNum);

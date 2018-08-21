@@ -9,9 +9,7 @@ public class TestTwo implements ApplicationRunner {
 	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		System.out.println("-------------------------------------");
-		System.out.println("---------------这是其次执行的方法--------------");
-		System.out.println("-------------------------------------");
+		//System.out.println("---------------这是其次执行的方法--------------");
 	}
 
 }

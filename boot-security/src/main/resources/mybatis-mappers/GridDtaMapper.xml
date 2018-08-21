@@ -43,7 +43,8 @@
 		    inner join GRIDMAPPER m
 		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
 		        where d.REGIONTYPE='Indoor' and  d.TOTALUSERS >= #{warnNum}
-		         order by d.REGION desc
+		          and d.sdate=(select max(sdate)  from LTE_GRID_USER_NUM) 
+		            order by d.REGION desc
 	</select>
 	<!-- 
 	<select id="queryGridDataByRegion" resultType="java.util.Map">

@@ -29,9 +29,6 @@
 		          ,d.IMSI_AGE3 as "imsiAge3"
 		          ,d.IMSI_AGE4 as "imsiAge4"
 		          ,d.IMSI_AGE5 as "imsiAge5"
-		          ,d.IMSI_AGE6 as "imsiAge6"
-		          ,d.IMSI_AGE7 as "imsiAge7"
-		          ,d.IMSI_AGE8 as "imsiAge8"
 		          ,d.IMSI_SOURCE1 as "imsiSource1"
 		          ,d.IMSI_SOURCE2 as "imsiSource2"
 		          ,rownum as rn  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE='Indoor'  and d.REGION=#{region} order by  d.Sdate desc 
