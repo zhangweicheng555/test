@@ -13,7 +13,7 @@ public class GridData {
 	private double longitude;// 经度
 	private double latitude;// 纬度
 	private double imsi_num;// 该栅格内终端IMEI号个数
-	private double ratio_mr;// 移动用户占比
+	private double ratio_mr;// 
 	private double ratio;// 移动用户占比
 	private double totalusers;// 总用户数
 

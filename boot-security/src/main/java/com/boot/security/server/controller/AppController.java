@@ -59,7 +59,7 @@ public class AppController {
 
 	// 初始化场馆编号
 	public final static List<String> numList = new ArrayList<String>(Arrays.asList("All", "1", "2", "3", "4.1", "4.2",
-			"5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2", "F1", "F2", "F3"));
+			"5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2", "NH", "EH", "WH"));
 
 	@Autowired
 	private GridDataService gridDataService;
