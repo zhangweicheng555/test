@@ -6,7 +6,7 @@ package com.boot.security.server.model;
 public class MobileUserCount {
 
 	private double ratio;// 移动用户占比
-	private double imsi_num;// 总用户数
+	private double imsi;// 总用户数
 
 	public double getRatio() {
 		return ratio;
@@ -16,17 +16,18 @@ public class MobileUserCount {
 		this.ratio = ratio;
 	}
 
-	public double getImsi_num() {
-		return imsi_num;
-	}
-
-	public void setImsi_num(double imsi_num) {
-		this.imsi_num = imsi_num;
-	}
-
-	public MobileUserCount(double ratio, double imsi_num) {
+	public MobileUserCount(double ratio, double imsi) {
+		super();
 		this.ratio = ratio;
-		this.imsi_num = imsi_num;
+		this.imsi = imsi;
+	}
+
+	public double getImsi() {
+		return imsi;
+	}
+
+	public void setImsi(double imsi) {
+		this.imsi = imsi;
 	}
 
 	public MobileUserCount() {

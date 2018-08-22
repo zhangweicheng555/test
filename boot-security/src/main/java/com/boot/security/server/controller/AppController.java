@@ -896,7 +896,7 @@ public class AppController {
 	 */
 	@ResponseBody
 	@RequestMapping("/setUserPercent")
-	public Map<String, Object> setUserPercent(@RequestParam(value="UserPercent",required=true) Double userPercent) {
+	public Map<String, Object> setUserPercent(@RequestParam(value="userPercent",required=true) Double userPercent) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			BootConstant.People_Num_Percent=userPercent;
