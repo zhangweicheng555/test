@@ -22,7 +22,9 @@
 	</select> 
 	<select id="queryHiGridDataHourLatest" resultType="HiGridDataHour">
 		select * from (
-		   select d.IMSI_MALE as "imsiMale"
+		   select 
+		   		  d.IMSI_MALE as "imsiMale"
+		   		  ,d.sdate as "sdate"
 		          ,d.IMSI_FEMALE as "imsiFeMale"
 		          ,d.IMSI_AGE1 as "imsiAge1"
 		          ,d.IMSI_AGE2 as "imsiAge2"

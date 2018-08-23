@@ -108,8 +108,7 @@ public class AppController {
 	}
 
 	/**
-	 * 接口8 获取当前所有场馆的告警信息。 根据传入的告警数量 获取所有的栅格数据
-	 * 最大时间的
+	 * 接口8 获取当前所有场馆的告警信息。 根据传入的告警数量 获取所有的栅格数据 最大时间的
 	 */
 	@RequestMapping(value = "/queryGridWarnData")
 	public Map<String, Object> queryGridWarnData(@RequestParam(value = "warnNum", required = true) int warnNum) {
@@ -118,7 +117,8 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		map.put("warningParameter", new ArrayList<>());
 		try {
-			List<Map<String, Object>> listDatas = gridDataService.queryGridWarnData(warnNum);
+			String maxDate = gridDataService.queryMaxDate();
+			List<Map<String, Object>> listDatas = gridDataService.queryGridWarnData(warnNum, maxDate);
 			if (listDatas.size() > 0) {
 				map.put("warningParameter", listDatas);
 			} else {
@@ -133,7 +133,7 @@ public class AppController {
 	}
 
 	/**
-	 * 接口6 获取所有场馆的的年龄段、来源地、男女比例接口。 这个返回的是长高端的最新一条数据 和的放在第一位
+	 * 接口6 获取所有场馆的的年龄段、来源地、男女比例接口。
 	 */
 	@RequestMapping(value = "/queryHiGridDataHourLatest")
 	public Map<String, Object> queryHiGridDataHourLatest(HttpSession session) {
@@ -144,7 +144,7 @@ public class AppController {
 			// 先判断数量是不是存在最新的数据
 			long num = hiGridDataHourService.queryCount(session);
 			if (num > 0) {
-				List<Map<String, Long>> listMaps = new ArrayList<Map<String, Long>>();
+				List<Map<String, Object>> listMaps = new ArrayList<Map<String, Object>>();
 				for (int j = 1; j < numList.size(); j++) {
 					String key = numList.get(j);// region
 					HiGridDataHour hiGridDataHour = hiGridDataHourService.queryHiGridDataHourLatest(key);
@@ -163,7 +163,7 @@ public class AppController {
 		return map;
 	}
 
-	private Map<String, Long> dealAllMap(List<Map<String, Long>> listMaps) {
+	private Map<String, Object> dealAllMap(List<Map<String, Object>> listMaps) {
 		Long male = 0l;
 		Long female = 0l;
 		Long age1 = 0l;
@@ -174,18 +174,18 @@ public class AppController {
 		Long source1 = 0l;
 		Long source2 = 0l;
 
-		for (Map<String, Long> map : listMaps) {
-			male += map.get("male");
-			female += map.get("female");
-			age1 += map.get("age1");
-			age2 += map.get("age2");
-			age3 += map.get("age3");
-			age4 += map.get("age4");
-			age5 += map.get("age5");
-			source1 += map.get("source1");
-			source2 += map.get("source2");
+		for (Map<String, Object> map : listMaps) {
+			male += (long) map.get("male");
+			female += (long) map.get("female");
+			age1 += (long) map.get("age1");
+			age2 += (long) map.get("age2");
+			age3 += (long) map.get("age3");
+			age4 += (long) map.get("age4");
+			age5 += (long) map.get("age5");
+			source1 += (long) map.get("source1");
+			source2 += (long) map.get("source2");
 		}
-		Map<String, Long> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("male", male);
 		map.put("female", female);
 		map.put("age1", age1);
@@ -198,9 +198,10 @@ public class AppController {
 		return map;
 	}
 
-	private Map<String, Long> hiGridDataHourToMap(HiGridDataHour hiGridDataHour) {
-		Map<String, Long> map = new HashMap<>();
+	private Map<String, Object> hiGridDataHourToMap(HiGridDataHour hiGridDataHour) {
+		Map<String, Object> map = new HashMap<>();
 		if (hiGridDataHour != null) {
+			map.put("time", hiGridDataHour.getSdate());
 			map.put("male", hiGridDataHour.getImsiMale());
 			map.put("female", hiGridDataHour.getImsiFeMale());
 			map.put("age1", hiGridDataHour.getImsiAge1());
@@ -212,6 +213,7 @@ public class AppController {
 			map.put("source2", hiGridDataHour.getImsiSource2());
 			return map;
 		} else {
+			map.put("time", null);
 			map.put("male", 0l);
 			map.put("female", 0l);
 			map.put("age1", 0l);
@@ -233,12 +235,14 @@ public class AppController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
+		map.put("time", "");
 		map.put("peopleParameterList", "");
 		try {
 			List<Integer> peopleParameterList = new ArrayList<Integer>();
+			String maxDate = gridDataService.queryMaxDate();
 			for (int j = 1; j < numList.size(); j++) {
 				String key = numList.get(j);// region
-				peopleParameterList.add(gridDataService.queryGridPeopleNumDataNew(key));
+				peopleParameterList.add(gridDataService.queryGridPeopleNumDataNew(key, maxDate));
 			}
 			int countAll = 0;
 			for (Integer num : peopleParameterList) {
@@ -246,7 +250,7 @@ public class AppController {
 			}
 			peopleParameterList.add(0, countAll);
 			map.put("peopleParameterList", peopleParameterList);
-
+			map.put("time", maxDate);
 		} catch (Exception e) {
 			map.put("status", 2);
 			map.put("msg", "系统异常:" + e.getLocalizedMessage());
@@ -260,42 +264,38 @@ public class AppController {
 	 * 11:55&endDateStr=2019-7-26 12:30&minute=5 这个就是开始时间 结束结束范围 然后跟几分钟切割
 	 * 计算每个场馆各个时刻的值
 	 */
+
 	@RequestMapping(value = "/queryPeopleNumByTimeRange")
 	public Map<String, Object> queryPeopleNumByTimeRange(
-			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
-			@RequestParam(value = "endDateStr", required = true) String endDateStr,
-			@RequestParam(value = "regionStr", required = true) String regionStr,
+			@RequestParam(value = "beginDate", required = true) String beginDate,
 			@RequestParam(value = "minute", required = true) int minute) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
+		map.put("time", "");
 		map.put("item", new ArrayList<>());
 		try {
-			List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
+			String maxDate = gridDataService.queryMaxDate();
+			List<Date> listDates = MyUtil.getDateListN(beginDate, maxDate, minute);
 			if (listDates.size() > 0) {
-				if (StringUtils.isNoneBlank(regionStr)) {
-					List<Map<String, Object>> myList = new ArrayList<Map<String, Object>>();
-					String[] keyStr = regionStr.trim().split(",");
-					for (String key : keyStr) {
-						Map<String, Object> map2=new HashMap<>();
-						map2.put("name", key);
-						List<Integer> lInteger=new ArrayList<>();
-						for (Date date : listDates) {
-							Integer integerNum = hiGridDataHourService.queryPeopleNumByTimeRange(date, key);
-							if (integerNum != null && integerNum > 0) {
-								lInteger.add(integerNum);
-							} else {
-								lInteger.add(0);
-							}
+				List<Map<String, Object>> myList = new ArrayList<Map<String, Object>>();
+				for (String key : numList) {
+					Map<String, Object> map2 = new HashMap<>();
+					map2.put("name", key);
+					List<Integer> lInteger = new ArrayList<>();
+					for (Date date : listDates) {
+						Integer integerNum = hiGridDataHourService.queryPeopleNumByTimeRange(date, key);
+						if (integerNum != null && integerNum > 0) {
+							lInteger.add(integerNum);
+						} else {
+							lInteger.add(0);
 						}
-						map2.put("item", lInteger);
-						myList.add(map2);
 					}
-					map.put("item", myList);
-				} else {
-					map.put("status", 2);
-					map.put("msg", "未传入参数regionStr！");
+					map2.put("item", lInteger);
+					myList.add(map2);
 				}
+				map.put("item", myList);
+				map.put("time", maxDate);
 			} else {
 				map.put("status", 1);
 				map.put("msg", "没有对应条件的数据！");
@@ -315,6 +315,7 @@ public class AppController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
+		map.put("time", "");
 		map.put("peopleParameterList", new ArrayList<>());
 		try {
 			List<Map<String, Object>> mapListData = gridDataService.querySingleGridData();
@@ -394,12 +395,15 @@ public class AppController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
+		map.put("time", "");
 		map.put("gridParameterList", new ArrayList<>());
 		try {
 			if (StringUtils.isNoneBlank(region)) {
-				List<Map<String, Object>> list = gridDataService.queryGridDataByRegion(region);
+				String maxDate = gridDataService.queryMaxDate();
+				List<Map<String, Object>> list = gridDataService.queryGridDataByRegion(region, maxDate);
 				if (list.size() > 0) {
 					map.put("gridParameterList", list);
+					map.put("time", maxDate);
 				} else {
 					map.put("status", 1);
 					map.put("msg", "没有对应条件的数据！");
@@ -891,21 +895,5 @@ public class AppController {
 		}
 		return map;
 	}
-	/**
-	 * 接口10   设置移动百分比
-	 */
-	@ResponseBody
-	@RequestMapping("/setUserPercent")
-	public Map<String, Object> setUserPercent(@RequestParam(value="userPercent",required=true) Double userPercent) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			BootConstant.People_Num_Percent=userPercent;
-			map.put("status", 0);
-			map.put("msg", "设置移动百分比成功："+BootConstant.People_Num_Percent+"！");
-		} catch (Exception e) {
-			map.put("status", 2);
-			map.put("msg", "系统异常！");
-		}
-		return map;
-	}
+
 }

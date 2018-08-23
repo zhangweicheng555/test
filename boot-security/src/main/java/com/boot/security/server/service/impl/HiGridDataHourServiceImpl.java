@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.dao.HiGridDataHourDao;
 import com.boot.security.server.model.HiGridDataHour;
+import com.boot.security.server.service.GridDataService;
 import com.boot.security.server.service.HiGridDataHourService;
 
 @Service
@@ -15,7 +16,8 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 
 	@Autowired
 	private HiGridDataHourDao hiGridDataHourDao;
-	
+	@Autowired
+	private GridDataService gridDataService;
 	/**
 	 * Cacheable/CachePut/CacheEvit 都有value属性，制定的是要使用的缓存的名称，
 	 * 就是缓存xml里面的name  
@@ -25,7 +27,7 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 	@Override
 	public Integer queryPeopleNumByTimeRange(Date dateStr, String region) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		return hiGridDataHourDao.queryPeopleNumByTimeRange(sdf.format(dateStr), region);
+		return gridDataService.queryGridPeopleNumDataNew(region,sdf.format(dateStr));
 	}
 
 	@Override
