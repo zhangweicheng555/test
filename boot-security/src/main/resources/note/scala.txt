@@ -1,6 +1,6 @@
 
 
-
+https://www.iteblog.com/archives/category/ebooks/
 
 C:\Users\dell>scala
 Welcome to Scala version 2.10.4 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_171).
@@ -330,10 +330,10 @@ fun2: (Int, Int) => (Int, Int) = <function2>
 
 
 
-ÉñÆæµÄÏÂ»®Ïß
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â»ï¿½ï¿½ï¿½
 
 
-½«·½·¨Ö±½Ó±ä³ÉÁËº¯Êı
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó±ï¿½ï¿½ï¿½Ëºï¿½ï¿½ï¿½
 scala> def mm(x: Int,y: Int): Int ={x+y}
 mm: (x: Int, y: Int)Int
 
@@ -372,59 +372,59 @@ arr2: Array[Int] = Array(1, 2, 3)
 
 
 
- //±ä³¤Êı×é£¨Êı×é»º³å£©  Ò»ÏÂ×¢Òâ
-    //Èç¹ûÏëÊ¹ÓÃÊı×é»º³å£¬ĞèÒªµ¼Èëimport scala.collection.mutable.ArrayBuffer°ü
+ //ï¿½ä³¤ï¿½ï¿½ï¿½é£¨ï¿½ï¿½ï¿½é»ºï¿½å£©  Ò»ï¿½ï¿½×¢ï¿½ï¿½
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½é»ºï¿½å£¬ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½import scala.collection.mutable.ArrayBufferï¿½ï¿½
     val ab = ArrayBuffer[Int]()
-    //ÏòÊı×é»º³åµÄÎ²²¿×·¼ÓÒ»¸öÔªËØ
-    //+=Î²²¿×·¼ÓÔªËØ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½é»ºï¿½ï¿½ï¿½Î²ï¿½ï¿½×·ï¿½ï¿½Ò»ï¿½ï¿½Ôªï¿½ï¿½
+    //+=Î²ï¿½ï¿½×·ï¿½ï¿½Ôªï¿½ï¿½
     ab += 1
-    //×·¼Ó¶à¸öÔªËØ
+    //×·ï¿½Ó¶ï¿½ï¿½Ôªï¿½ï¿½
     ab += (2, 3, 4, 5)
-    //×·¼ÓÒ»¸öÊı×é++=
+    //×·ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½++=
     ab ++= Array(6, 7)
-    //×·¼ÓÒ»¸öÊı×é»º³å
+    //×·ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½é»ºï¿½ï¿½
     ab ++= ArrayBuffer(8,9)
-    //´òÓ¡Êı×é»º³åab
+    //ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½é»ºï¿½ï¿½ab
 
-    //ÔÚÊı×éÄ³¸öÎ»ÖÃ²åÈëÔªËØÓÃinsert  µÚ0¸öÎ»ÖÃ²åÈëÒ»¸ö»òÕß¶à¸ö
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Î»ï¿½Ã²ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½insert  ï¿½ï¿½0ï¿½ï¿½Î»ï¿½Ã²ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ß¶ï¿½ï¿½
     ab.insert(0, -1, 0)    
-    //É¾³ıÊı×éÄ³¸öÎ»ÖÃµÄÔªËØÓÃremove
+    //É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Î»ï¿½Ãµï¿½Ôªï¿½ï¿½ï¿½ï¿½remove
     ab.remove(8, 2)
 
 
 
-1.ÔöÇ¿forÑ­»·
-2.ºÃÓÃµÄuntil»áÉú³É½Å±ê£¬0 until 10 °üº¬0²»°üº¬10
+1.ï¿½ï¿½Ç¿forÑ­ï¿½ï¿½
+2.ï¿½ï¿½ï¿½Ãµï¿½untilï¿½ï¿½ï¿½ï¿½ï¿½É½Å±ê£¬0 until 10 ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½10
 
 val arr = Array(1,2,3,4,5,6,7,8)
-    //ÔöÇ¿forÑ­»·
+    //ï¿½ï¿½Ç¿forÑ­ï¿½ï¿½
     for(i <- arr)
       println(i)
 
-    //ºÃÓÃµÄuntil»áÉú³ÉÒ»¸öRange
-    //reverseÊÇ½«Ç°ÃæÉú³ÉµÄRange·´×ª
+    //ï¿½ï¿½ï¿½Ãµï¿½untilï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Range
+    //reverseï¿½Ç½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½Rangeï¿½ï¿½×ª
     for(i <- (0 until arr.length).reverse)
       println(arr(i))
 
 
 
-yield¹Ø¼ü×Ö½«Ô­Ê¼µÄÊı×é½øĞĞ×ª»»»á²úÉúÒ»¸öĞÂµÄÊı×é£¬Ô­Ê¼µÄÊı×é²»±ä
+yieldï¿½Ø¼ï¿½ï¿½Ö½ï¿½Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½é£¬Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½é²»ï¿½ï¿½
 
-//¶¨ÒåÒ»¸öÊı×é
+//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     val arr = Array(1, 2, 3, 4, 5, 6, 7, 8, 9)
-    //½«Å¼ÊıÈ¡³ö³ËÒÔ10ºóÔÙÉú³ÉÒ»¸öĞÂµÄÊı×é
+    //ï¿½ï¿½Å¼ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½10ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½
     val res = for (e <- arr if e % 2 == 0) yield e * 10
     println(res.toBuffer)
 
-    //¸ü¸ß¼¶µÄĞ´·¨,ÓÃ×Å¸üË¬
-    //filterÊÇ¹ıÂË£¬½ÓÊÕÒ»¸ö·µ»ØÖµÎªbooleanµÄº¯Êı
-    //mapÏàµ±ÓÚ½«Êı×éÖĞµÄÃ¿Ò»¸öÔªËØÈ¡³öÀ´£¬Ó¦ÓÃ´«½øÈ¥µÄº¯Êı
+    //ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½,ï¿½ï¿½ï¿½Å¸ï¿½Ë¬
+    //filterï¿½Ç¹ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÎªbooleanï¿½Äºï¿½ï¿½ï¿½
+    //mapï¿½àµ±ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½Ã¿Ò»ï¿½ï¿½Ôªï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ã´ï¿½ï¿½ï¿½È¥ï¿½Äºï¿½ï¿½ï¿½
     val r = arr.filter(_ % 2 == 0).map(_ * 10)
     println(r.toBuffer)
 
 
 
-5.1.4.Êı×é³£ÓÃËã·¨
+5.1.4.ï¿½ï¿½ï¿½é³£ï¿½ï¿½ï¿½ã·¨
 
 scala> arr1
 res19: Array[Int] = Array(0, 1, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -453,20 +453,20 @@ scala> arr1.\
 
 
 
-Byte	8Î»ÓĞ·ûºÅ²¹ÂëÕûÊı¡£ÊıÖµÇø¼äÎª -128 µ½ 127
-Short	16Î»ÓĞ·ûºÅ²¹ÂëÕûÊı¡£ÊıÖµÇø¼äÎª -32768 µ½ 32767
-Int	32Î»ÓĞ·ûºÅ²¹ÂëÕûÊı¡£ÊıÖµÇø¼äÎª -2147483648 µ½ 2147483647
-Long	64Î»ÓĞ·ûºÅ²¹ÂëÕûÊı¡£ÊıÖµÇø¼äÎª -9223372036854775808 µ½ 9223372036854775807
-Float	32 Î», IEEE 754±ê×¼µÄµ¥¾«¶È¸¡µãÊı
-Double	32 Î» IEEE 754±ê×¼µÄµ¥¾«¶È¸¡µãÊı
-Char	16Î»ÎŞ·ûºÅUnicode×Ö·û, Çø¼äÖµÎª U+0000 µ½ U+FFFF
-String	×Ö·ûĞòÁĞ
-Boolean	true»òfalse
-Unit	±íÊ¾ÎŞÖµ£¬ºÍÆäËûÓïÑÔÖĞvoidµÈÍ¬¡£ÓÃ×÷²»·µ»ØÈÎºÎ½á¹ûµÄ·½·¨µÄ½á¹ûÀàĞÍ¡£UnitÖ»ÓĞÒ»¸öÊµÀıÖµ£¬Ğ´³É()¡£
-Null	null »ò¿ÕÒıÓÃ
-Nothing	NothingÀàĞÍÔÚScalaµÄÀà²ã¼¶µÄ×îµÍ¶Ë£»ËüÊÇÈÎºÎÆäËûÀàĞÍµÄ×ÓÀàĞÍ¡£
-Any	AnyÊÇËùÓĞÆäËûÀàµÄ³¬Àà
-AnyRef	AnyRefÀàÊÇScalaÀïËùÓĞÒıÓÃÀà(reference class)µÄ»ùÀà
+Byte	8Î»ï¿½Ğ·ï¿½ï¿½Å²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Îª -128 ï¿½ï¿½ 127
+Short	16Î»ï¿½Ğ·ï¿½ï¿½Å²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Îª -32768 ï¿½ï¿½ 32767
+Int	32Î»ï¿½Ğ·ï¿½ï¿½Å²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Îª -2147483648 ï¿½ï¿½ 2147483647
+Long	64Î»ï¿½Ğ·ï¿½ï¿½Å²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Îª -9223372036854775808 ï¿½ï¿½ 9223372036854775807
+Float	32 Î», IEEE 754ï¿½ï¿½×¼ï¿½Äµï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½ï¿½ï¿½ï¿½
+Double	32 Î» IEEE 754ï¿½ï¿½×¼ï¿½Äµï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½ï¿½ï¿½ï¿½
+Char	16Î»ï¿½Ş·ï¿½ï¿½ï¿½Unicodeï¿½Ö·ï¿½, ï¿½ï¿½ï¿½ï¿½ÖµÎª U+0000 ï¿½ï¿½ U+FFFF
+String	ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½
+Boolean	trueï¿½ï¿½false
+Unit	ï¿½ï¿½Ê¾ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½voidï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎºÎ½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½Í¡ï¿½UnitÖ»ï¿½ï¿½Ò»ï¿½ï¿½Êµï¿½ï¿½Öµï¿½ï¿½Ğ´ï¿½ï¿½()ï¿½ï¿½
+Null	null ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+Nothing	Nothingï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Scalaï¿½ï¿½ï¿½ï¿½ã¼¶ï¿½ï¿½ï¿½ï¿½Í¶Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¡ï¿½
+Any	Anyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
+AnyRef	AnyRefï¿½ï¿½ï¿½ï¿½Scalaï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(reference class)ï¿½Ä»ï¿½ï¿½ï¿½
 
 
 
@@ -501,46 +501,530 @@ res131: Array[String] = Array(asd, gft, sdf, sdw, zwp)
 
 
 
-¹¹½¨Ò»¸ö²»¿É±äÓ³Éä
+ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½É±ï¿½Ó³ï¿½ï¿½
 val scores = Map("Alice"->10,"Bob"->3,"Cindy"->8)
 
 
-¹¹½¨Ò»¸ö¿É±äÓ³Éä
+ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½É±ï¿½Ó³ï¿½ï¿½
 val scores = scala.collection.mutable.Map("Alice"->10,"Bob"->3,"Cindy"->8)
 
-¹¹½¨Ò»¸ö¿ÕÓ³Éä
+ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ï¿½
 val scores = new scala.collection.mutable.HashMap[String,Int]
 
-Ò²¿ÉÒÔÓÃÏÂÃæµÄ·½Ê½´´½¨Ó³Éä
+Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½Ê½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ï¿½
 val scores = Map(("Alice",10),("Bob",3),("Cindy",8))
 
-»ñÈ¡Ó³ÉäÖĞµÄÖµ
+ï¿½ï¿½È¡Ó³ï¿½ï¿½ï¿½Ğµï¿½Öµ
 val bobsScore = scores("Bob")
 
-Èç¹ûÓ³Éä²»°üº¬ÇëÇóÖĞÊ¹ÓÃµÄ¼üÔò»áÅ×³öÒì³£
+ï¿½ï¿½ï¿½Ó³ï¿½ä²»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ÃµÄ¼ï¿½ï¿½ï¿½ï¿½ï¿½×³ï¿½ï¿½ì³£
 val bobsScore = if(scores.contains("Bob"))scores("Bob") else 0
 val bobsScore = scores.getOrElse("Bob",0)
 
-¸üĞÂÓ³ÉäÖĞµÄÖµ
-¿É±äÓ³Éä¿ÉÒÔ¸üĞÂÄ³¸öÓ³ÉäµÄÖµ£¬»òÕßÌí¼ÓÒ»¸öĞÂµÄÓ³Éä¹ØÏµ
-scores("Bob") = 10 //¸üĞÂ
-scores("Fred") = 7 //Ôö¼ÓĞÂµÄ¼üÖµ¶Ô
-scores += ("Bob"->10,"Fred"->7)//ÓÃ+=²Ù×÷À´Ìí¼Ó¶à¸ö¹ØÏµ
-scores -= "Alice" //ÒÆ³ıÄ³¸ö¼üºÍ¶ÔÓ¦µÄÖµ
+ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ï¿½ï¿½Ğµï¿½Öµ
+ï¿½É±ï¿½Ó³ï¿½ï¿½ï¿½ï¿½Ô¸ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Ó³ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Âµï¿½Ó³ï¿½ï¿½ï¿½Ïµ
+scores("Bob") = 10 //ï¿½ï¿½ï¿½ï¿½
+scores("Fred") = 7 //ï¿½ï¿½ï¿½ï¿½ï¿½ÂµÄ¼ï¿½Öµï¿½ï¿½
+scores += ("Bob"->10,"Fred"->7)//ï¿½ï¿½+=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¶ï¿½ï¿½ï¿½ï¿½Ïµ
+scores -= "Alice" //ï¿½Æ³ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½Í¶ï¿½Ó¦ï¿½ï¿½Öµ
 
-¶ÔÓÚ²»¿É±äÓ³Éä£¬¿ÉÒÔ»ñÈ¡Ò»¸ö°üº¬ËùĞèµÄ±ä¸üµÄĞÂÓ³Éä£º
+ï¿½ï¿½ï¿½Ú²ï¿½ï¿½É±ï¿½Ó³ï¿½ä£¬ï¿½ï¿½ï¿½Ô»ï¿½È¡Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ä£º
 var newScores = scores + ("Bob"->10,"Fred"->7)
 newScores = newScores - "Bob"
 
-µü´úÓ³Éä
-for((k,v) <- Ó³Éä) ´¦ÀíkºÍv
+ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ï¿½
+for((k,v) <- Ó³ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½kï¿½ï¿½v
 for(k <- scores.keySet) print(k)
 for(v <= scores.values) print(v)
-for((k,v) <- scores) yield (v,k) //·´×ªÓ³Éä
+for((k,v) <- scores) yield (v,k) //ï¿½ï¿½×ªÓ³ï¿½ï¿½
 
-ÅÅĞòÓ³Éä
+ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ï¿½
 val scores = scala.collection.immutable.SortedMap("Alice"->10,"Bob"->3,"Cindy"->8)
 
-°´²åÈëµÄË³Ğò·ÃÎÊËùÒÔµÄ¼ü
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÔµÄ¼ï¿½
 val months = scala.collection.mutable.LinkedHashMap("January"->1,"February"->2)
+
+
+
+List
+
+scala> val list=List(1,2,3,4,5)
+list: List[Int] = List(1, 2, 3, 4, 5)
+
+scala> list
+res2: List[Int] = List(1, 2, 3, 4, 5)
+
+scala> list(0)
+res3: Int = 1
+
+scala> list(1)
+res4: Int = 2
+
+scala> list(1)=1
+<console>:9: error: value update is not a member of List[Int]
+              list(1)=1
+              ^
+
+scala> import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.ListBuffer
+
+scala> val lb=ListBuffer(1,2,3,4,5)
+lb: scala.collection.mutable.ListBuffer[Int] = ListBuffer(1, 2, 3, 4, 5)
+
+scala> lb
+res6: scala.collection.mutable.ListBuffer[Int] = ListBuffer(1, 2, 3, 4, 5)
+
+scala> lb(00)
+warning: there were 1 deprecation warning(s); re-run with -deprecation for details
+res7: Int = 1
+
+scala> lb(1)
+res8: Int = 2
+
+scala> lb(2)
+res9: Int = 3
+
+scala> lb(0)=4
+
+scala> lb
+res11: scala.collection.mutable.ListBuffer[Int] = ListBuffer(4, 2, 3, 4, 5)
+
+scala> lb.app
+append        appendAll     apply         applyOrElse
+
+scala> lb.append(7)
+
+scala> lb
+res15: scala.collection.mutable.ListBuffer[Int] = ListBuffer(4, 2, 3, 4, 5, 7)
+
+scala>
+
+
+
+list
+
+
+
+scala> list.+:(6)
+res26: List[Int] = List(6, 1, 2, 3, 4, 5)
+
+scala> list
+res27: List[Int] = List(1, 2, 3, 4, 5)
+
+scala> list.::(0)
+res32: List[Int] = List(0, 1, 2, 3, 4, 5)
+
+
+
+
+scala> list
+res21: List[Int] = List(1, 2, 3, 4, 5)
+
+scala> 9 :: list
+res22: List[Int] = List(9, 1, 2, 3, 4, 5)
+
+scala> list
+res23: List[Int] = List(1, 2, 3, 4, 5)
+
+scala> list.::(0)
+res24: List[Int] = List(0, 1, 2, 3, 4, 5)
+
+scala> list
+res25: List[Int] = List(1, 2, 3, 4, 5)
+
+scala> list. +: 6
+<console>:1: error: ';' expected but integer literal found.
+       list. +: 6
+                ^
+
+scala> list.+: 6
+<console>:1: error: ';' expected but integer literal found.
+       list.+: 6
+               ^
+
+scala> list.+:(6)
+res26: List[Int] = List(6, 1, 2, 3, 4, 5)
+
+scala> list
+res27: List[Int] = List(1, 2, 3, 4, 5)
+
+scala> list.:+(8)
+res28: List[Int] = List(1, 2, 3, 4, 5, 8)
+
+scala> list
+res29: List[Int] = List(1, 2, 3, 4, 5)
+
+scala> 0 +: list
+res30: List[Int] = List(0, 1, 2, 3, 4, 5)
+
+scala> list
+res31: List[Int] = List(1, 2, 3, 4, 5)
+
+scala> list.::(0)
+res32: List[Int] = List(0, 1, 2, 3, 4, 5)
+
+scala> list.::1
+<console>:1: error: ';' expected but integer literal found.
+       list.::1
+              ^
+
+scala> var list0=List(1,2,3)
+list0: List[Int] = List(1, 2, 3)
+
+scala> var list1=List(4,5,6)
+list1: List[Int] = List(4, 5, 6)
+
+scala> list1 ++ list0
+res33: List[Int] = List(4, 5, 6, 1, 2, 3)
+
+scala> list1 ++: list0
+res34: List[Int] = List(4, 5, 6, 1, 2, 3)
+
+scala> list1 :++ list0
+<console>:11: error: value :++ is not a member of List[Int]
+              list1 :++ list0
+                    ^
+
+scala> list0
+res36: List[Int] = List(1, 2, 3)
+
+scala> list1
+res37: List[Int] = List(4, 5, 6)
+
+scala> list1 ++ list0
+res38: List[Int] = List(4, 5, 6, 1, 2, 3)
+
+scala> list1 ++: list0
+res39: List[Int] = List(4, 5, 6, 1, 2, 3)
+
+scala> list1.:::list0
+<console>:10: error: missing arguments for method ::: in class List;
+follow this method with `_' if you want to treat it as a partially applied function
+              list1.:::list0
+                    ^
+
+scala> list1.:::(list0)
+res41: List[Int] = List(1, 2, 3, 4, 5, 6)
+
+scala>
+
+
+scala> var lz0=List(1,2,3,4)
+lz0: List[Int] = List(1, 2, 3, 4)
+
+scala> lz0(1)
+res42: Int = 2
+
+scala> lz0.apply
+apply         applyOrElse
+
+scala> lz0.apply
+<console>:10: error: missing arguments for method apply in trait LinearSeqOptimized;
+follow this method with `_' if you want to treat it as a partially applied function
+              lz0.apply
+                  ^
+
+scala> lz0
+res44: List[Int] = List(1, 2, 3, 4)
+
+scala> var  lz1=List(5,6,7)
+lz1: List[Int] = List(5, 6, 7)
+
+scala> var lz3=ListBuffer(1,2,34)
+lz3: scala.collection.mutable.ListBuffer[Int] = ListBuffer(1, 2, 34)
+
+scala> lz3
+res45: scala.collection.mutable.ListBuffer[Int] = ListBuffer(1, 2, 34)
+
+scala> lz3(1)
+res46: Int = 2
+
+scala> lz3.a
+addString      aggregate      andThen        append         appendAll
+apply          applyOrElse    asInstanceOf
+
+scala> lz3.app
+append        appendAll     apply         applyOrElse
+
+scala> lz3.append
+append      appendAll
+
+scala> lz3.append(7)
+
+scala> lz3
+res48: scala.collection.mutable.ListBuffer[Int] = ListBuffer(1, 2, 34, 7)
+
+scala> lz3.+:(8)
+res49: scala.collection.mutable.ListBuffer[Int] = ListBuffer(8, 1, 2, 34, 7)
+
+scala> lz3.:+(9)
+res50: scala.collection.mutable.ListBuffer[Int] = ListBuffer(1, 2, 34, 7, 9)
+
+scala> lz
+<console>:9: error: not found: value lz
+              lz
+              ^
+
+scala> lz0
+res52: List[Int] = List(1, 2, 3, 4)
+
+scala> lz1
+res53: List[Int] = List(5, 6, 7)
+
+scala> lz0.:::(lz1)           ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç²ï¿½ï¿½É±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÄ²ï¿½ï¿½ï¿½
+res54: List[Int] = List(5, 6, 7, 1, 2, 3, 4)
+
+scala> lz0 ++ lz1
+res55: List[Int] = List(1, 2, 3, 4, 5, 6, 7)
+
+scala> lz1 ++ lz0
+res56: List[Int] = List(5, 6, 7, 1, 2, 3, 4)
+
+
+
+
+
+scala> list0
+res66: scala.collection.mutable.ListBuffer[Int] = ListBuffer(1, 2, 3, 4, 5, 6)
+
+scala> list1
+res67: scala.collection.mutable.ListBuffer[Int] = ListBuffer(4, 5, 6)
+
+scala> list0.:::(list1)
+<console>:11: error: value ::: is not a member of scala.collection.mutable.ListBuffer[Int]
+              list0.:::(list1)
+                    ^
+
+scala> list0 ++ list1
+res69: scala.collection.mutable.ListBuffer[Int] = ListBuffer(1, 2, 3, 4, 5, 6, 4, 5, 6)
+
+scala> list1
+res70: scala.collection.mutable.ListBuffer[Int] = ListBuffer(4, 5, 6)
+
+scala> list0.:::(list1)
+<console>:11: error: value ::: is not a member of scala.collection.mutable.ListBuffer[Int]
+              list0.:::(list1)
+                    ^
+
+scala> list1
+res72: scala.collection.mutable.ListBuffer[Int] = ListBuffer(4, 5, 6)
+
+scala> list1 ++=list0
+res73: scala.collection.mutable.ListBuffer[Int] = ListBuffer(4, 5, 6, 1, 2, 3, 4, 5, 6)
+
+
+scala> lisy1
+<console>:9: error: not found: value lisy1
+              lisy1
+              ^
+
+scala>
+
+scala> list0
+res84: scala.collection.mutable.ListBuffer[Int] = ListBuffer(1, 2, 3, 4, 5, 6)
+
+scala> lisylz0
+<console>:9: error: not found: value lisylz0
+              lisylz0
+              ^
+
+scala> lz0
+res86: List[Int] = List(1, 2, 3, 4)
+
+scala> list0
+res87: scala.collection.mutable.ListBuffer[Int] = ListBuffer(1, 2, 3, 4, 5, 6)
+
+scala> list0.+:(9)
+res88: scala.collection.mutable.ListBuffer[Int] = ListBuffer(9, 1, 2, 3, 4, 5, 6)
+
+scala> list0.:+(9)
+res89: scala.collection.mutable.ListBuffer[Int] = ListBuffer(1, 2, 3, 4, 5, 6, 9)
+
+
+
+
+scala> var  list=List(0,1,2,3,4,56,7,8,9)
+list: List[Int] = List(0, 1, 2, 3, 4, 56, 7, 8, 9)       ^
+
+scala> var group=list.grouped(2)
+group: Iterator[List[Int]] = non-empty iterator
+
+
+scala> var lst=group.toList
+lst: List[List[Int]] = List(List(0, 1), List(2, 3), List(4, 56), List(7, 8), List(9))
+
+scala> lst.flatten
+res128: List[Int] = List(0, 1, 2, 3, 4, 56, 7, 8, 9)
+
+scala> var arr=Array("a b d","s d f","g r e")
+arr: Array[String] = Array(a b d, s d f, g r e)
+
+scala> arr.flatMap(_.split(" "))
+res129: Array[String] = Array(a, b, d, s, d, f, g, r, e)
+
+scala> arr.map(_.split(" "))
+res130: Array[Array[String]] = Array(Array(a, b, d), Array(s, d, f), Array(g, r, e))
+
+scala> arr.map(_.split(" ")).flatten
+res131: Array[String] = Array(a, b, d, s, d, f, g, r, e)
+
+scala> list.sortWith(_ < _)
+res136: List[Int] = List(0, 1, 2, 3, 4, 7, 8, 9, 56)
+
+scala> list.sortWith(_ > _)
+res137: List[Int] = List(56, 9, 8, 7, 4, 3, 2, 1, 0)
+
+scala> list.sortWith( _ > _)
+res138: List[Int] = List(56, 9, 8, 7, 4, 3, 2, 1, 0)
+
+scala> list.sortBy(x =>x)
+res139: List[Int] = List(0, 1, 2, 3, 4, 7, 8, 9, 56)
+
+
+scala> list.flatMap(_.split(" ")).map((_,1)).groupBy(t=>t._1).map(t=>(t._1,t._2.size)).toList.sortBy(_._2).reverse
+
+
+
+
+scala> var f2=(x :Int,y: Int) => x+y
+f2: (Int, Int) => Int = <function2>
+
+scala> f2(3,4)
+res2: Int = 7
+
+scala> var f3:(Int,Int)=>Int ={(x,y)=> x+y}
+f3: (Int, Int) => Int = <function2>
+
+scala> f3(4,5)
+res3: Int = 9
+
+scala> def m2(name: Int,address:Int):Int ={name+address}
+m2: (name: Int, address: Int)Int
+
+scala> m2(3,4)
+res4: Int = 7
+
+
+
+
+
+scala> var f1:(Int,Int)=>Int  ={(x,y) =>x+y}
+f1: (Int, Int) => Int = <function2>
+
+scala> def m1(fun:(Int,Int)=>Int,name: Int) ={println(name)}
+m1: (fun: (Int, Int) => Int, name: Int)Unit
+
+scala> m1(f1(3,4),1)
+<console>:10: error: type mismatch;
+ found   : Int
+ required: (Int, Int) => Int
+              m1(f1(3,4),1)
+                   ^
+
+scala> def m1(fun:(Int,Int)=>Int,name: Int) ={fun(name,1)}
+m1: (fun: (Int, Int) => Int, name: Int)Int
+
+scala> m1(f1,2)
+res6: Int = 3
+
+ Array(1,2,3,4,5).map((num: Int) => num*num)
+res17: Array[Int] = Array(1, 4, 9, 16, 25)  ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½Ü´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½
+
+
+
+
+
+
+ç¬¬ä¸€ç±»æ–¹å¼ä»å†…å­˜é‡Œæ„é€ RDDï¼Œä½¿ç”¨çš„æ–¹æ³•ï¼šmakeRDDå’Œparallelizeæ–¹æ³•
+
+
+val rdd01 = sc.makeRDD(List(1,2,3,4,5,6))
+val r01 = rdd01.map { x => x * x }
+println(r01.collect().mkString(","))  æ³¨æ„è¿™ä¸ªmkString
+
+val r02 = rdd02.filter { x => x < 5}
+
+å¤§å®¶çœ‹åˆ°äº†RDDæœ¬è´¨å°±æ˜¯ä¸€ä¸ªæ•°ç»„ï¼Œå› æ­¤æ„é€ æ•°æ®æ—¶å€™ä½¿ç”¨çš„æ˜¯Listï¼ˆé“¾è¡¨ï¼‰å’ŒArrayï¼ˆæ•°ç»„ï¼‰ç±»å‹ã€‚
+è¿™æ ·å¯¹äºåé¢æ­£ç¡®çš„ç†è§£ RDDæ˜¯å¾ˆæ–¹ä¾¿çš„ã€‚
+
+
+RDDçš„æ“ä½œåˆ†ä¸ºè½¬åŒ–æ“ä½œï¼ˆtransformationï¼‰å’Œè¡ŒåŠ¨æ“ä½œï¼ˆactionï¼‰
+
+
+
+è½¬æ¢
+
+map()  å‚æ•°æ˜¯å‡½æ•°ï¼Œå‡½æ•°åº”ç”¨äºRDDæ¯ä¸€ä¸ªå…ƒç´ ï¼Œè¿”å›å€¼æ˜¯æ–°çš„RDD
+
+flatMap()  å‚æ•°æ˜¯å‡½æ•°ï¼Œå‡½æ•°åº”ç”¨äºRDDæ¯ä¸€ä¸ªå…ƒç´ ï¼Œå°†å…ƒç´ æ•°æ®è¿›è¡Œæ‹†åˆ†ï¼Œå˜æˆè¿­ä»£å™¨ï¼Œè¿”å›å€¼æ˜¯æ–°çš„RDD
+
+filter()   å‚æ•°æ˜¯å‡½æ•°ï¼Œå‡½æ•°ä¼šè¿‡æ»¤æ‰ä¸ç¬¦åˆæ¡ä»¶çš„å…ƒç´ ï¼Œè¿”å›å€¼æ˜¯æ–°çš„RDD
+
+distinct()  æ²¡æœ‰å‚æ•°ï¼Œå°†RDDé‡Œçš„å…ƒç´ è¿›è¡Œå»é‡æ“ä½œ
+
+union()  å‚æ•°æ˜¯RDDï¼Œç”ŸæˆåŒ…å«ä¸¤ä¸ªRDDæ‰€æœ‰å…ƒç´ çš„æ–°RDD
+
+intersection()  å‚æ•°æ˜¯RDDï¼Œæ±‚å‡ºä¸¤ä¸ªRDDçš„å…±åŒå…ƒç´ 
+
+subtract()  å‚æ•°æ˜¯RDDï¼Œå°†åŸRDDé‡Œå’Œå‚æ•°RDDé‡Œç›¸åŒçš„å…ƒç´ å»æ‰
+
+cartesian()  å‚æ•°æ˜¯RDDï¼Œæ±‚ä¸¤ä¸ªRDDçš„ç¬›å¡å„¿ç§¯
+
+
+
+è¡ŒåŠ¨æ“ä½œ
+
+collect()  è¿”å›RDDæ‰€æœ‰å…ƒç´ 
+
+count()  RDDé‡Œå…ƒç´ ä¸ªæ•°
+
+countByValue()  å„å…ƒç´ åœ¨RDDä¸­å‡ºç°æ¬¡æ•°   è¿™ä¸ªæ³¨æ„äº†
+
+reduce()        å¹¶è¡Œæ•´åˆæ‰€æœ‰RDDæ•°æ®ï¼Œä¾‹å¦‚æ±‚å’Œæ“ä½œ  
+è½¬æ¢
+
+map()  å‚æ•°æ˜¯å‡½æ•°ï¼Œå‡½æ•°åº”ç”¨äºRDDæ¯ä¸€ä¸ªå…ƒç´ ï¼Œè¿”å›å€¼æ˜¯æ–°çš„RDD
+
+flatMap()  å‚æ•°æ˜¯å‡½æ•°ï¼Œå‡½æ•°åº”ç”¨äºRDDæ¯ä¸€ä¸ªå…ƒç´ ï¼Œå°†å…ƒç´ æ•°æ®è¿›è¡Œæ‹†åˆ†ï¼Œå˜æˆè¿­ä»£å™¨ï¼Œè¿”å›å€¼æ˜¯æ–°çš„RDD
+
+filter()   å‚æ•°æ˜¯å‡½æ•°ï¼Œå‡½æ•°ä¼šè¿‡æ»¤æ‰ä¸ç¬¦åˆæ¡ä»¶çš„å…ƒç´ ï¼Œè¿”å›å€¼æ˜¯æ–°çš„RDD
+
+distinct()  æ²¡æœ‰å‚æ•°ï¼Œå°†RDDé‡Œçš„å…ƒç´ è¿›è¡Œå»é‡æ“ä½œ
+
+union()  å‚æ•°æ˜¯RDDï¼Œç”ŸæˆåŒ…å«ä¸¤ä¸ªRDDæ‰€æœ‰å…ƒç´ çš„æ–°RDD
+
+intersection()  å‚æ•°æ˜¯RDDï¼Œæ±‚å‡ºä¸¤ä¸ªRDDçš„å…±åŒå…ƒç´ 
+
+subtract()  å‚æ•°æ˜¯RDDï¼Œå°†åŸRDDé‡Œå’Œå‚æ•°RDDé‡Œç›¸åŒçš„å…ƒç´ å»æ‰
+
+cartesian()  å‚æ•°æ˜¯RDDï¼Œæ±‚ä¸¤ä¸ªRDDçš„ç¬›å¡å„¿ç§¯
+
+
+
+è¡ŒåŠ¨æ“ä½œ
+
+collect()  è¿”å›RDDæ‰€æœ‰å…ƒç´ 
+
+count()  RDDé‡Œå…ƒç´ ä¸ªæ•°
+
+countByValue()  å„å…ƒç´ åœ¨RDDä¸­å‡ºç°æ¬¡æ•°   è¿™ä¸ªæ³¨æ„äº†
+
+reduce()        å¹¶è¡Œæ•´åˆæ‰€æœ‰RDDæ•°æ®ï¼Œä¾‹å¦‚æ±‚å’Œæ“ä½œ          (rddInt.reduce((x ,y) => x + y))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
