@@ -8,14 +8,14 @@
 		select d.IMSI_CUM  from LTE_REGION_NUM_HOUR d 
 		where d.REGIONTYPE='Indoor' 
 		      and  d.REGION=#{region}
-		      and  to_date(d.Sdate,'yyyy-mm-dd hh24:mi') in
+		      and  to_date(d.Sdate,'yyyymmddhh24miss') in
 		      <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
-	            to_date(#{item},'yyyy-mm-dd hh24:mi')
+	            to_date(#{item},'yyyy-mm-dd hh24:mi:ss')
 	        </foreach>
-	        order by to_date(d.Sdate,'yyyy-mm-dd hh24:mi') asc
+	        order by to_date(d.Sdate,'yyyymmddhh24miss') asc
 	</select> 
 	<select id="queryPeopleNumByTimeRange" resultType="java.lang.Integer">
-		select nvl(sum(d.IMSI_CUM),0)  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE='Indoor' and to_date(d.Sdate,'yyyy-mm-dd hh24:mi')=to_date(#{dateStr},'yyyy-mm-dd hh24:mi') and d.REGION=#{region}
+		select nvl(sum(d.IMSI_CUM),0)  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE='Indoor' and to_date(d.Sdate,'yyyymmddhh24miss')=to_date(#{dateStr},'yyyy-mm-dd hh24:mi:ss') and d.REGION=#{region}
 	</select> 
 	<select id="queryCount" resultType="long">
 		select count(1)  from LTE_REGION_NUM_HOUR 

@@ -10,7 +10,7 @@
 		  from LTE_IMSI_TRACE_DATA d 
 		    inner join GRIDMAPPER m
 		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		        where d.IMSI=#{imsi} and to_date(d.Sdate,'yyyy-mm-dd hh24:mi:ss') >= to_date(#{beginDate},'yyyy-mm-dd hh24:mi:ss')  and to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss') >= to_date(d.Sdate,'yyyy-mm-dd hh24:mi:ss')
+		        where d.IMSI=#{imsi} and to_date(d.Sdate,'yyyymmddhh24miss') >= to_date(#{beginDate},'yyyy-mm-dd hh24:mi:ss')  and to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss') >= to_date(d.Sdate,'yyyymmddhh24miss')
 	</select>
 	
 	<select id="userScatterPoint" resultType="java.util.Map">
@@ -18,7 +18,7 @@
 		  from LTE_IMSI_TRACE_DATA d 
 		    inner join GRIDMAPPER m
 		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		        where d.IMSI=#{user} and    to_char(to_date(d.Sdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi') = to_char(to_date(#{time},'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi') and d.Region=#{region}
+		        where d.IMSI=#{user} and    to_char(to_date(d.Sdate,'yyyyMMddHH24miss'),'yyyy-MM-dd HH24:mi:ss') = to_char(to_date(#{time},'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss') and d.Region=#{region}
 	</select>
 
 	<insert id="save" parameterType="ImsiTrackData">

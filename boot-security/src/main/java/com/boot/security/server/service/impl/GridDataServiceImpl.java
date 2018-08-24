@@ -37,7 +37,7 @@ public class GridDataServiceImpl implements GridDataService {
 
 	@Override
 	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Map<String, Object> map = new HashMap<>();
 		List<Map<String, Object>> list = gridDataDao.queryGridDataByTimeRegion(sdf.format(date), region);
 		if (list.size() > 0) {

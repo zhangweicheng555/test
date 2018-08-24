@@ -26,7 +26,7 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 	//@Cacheable(value="queryPeopleNumByTimeRange")
 	@Override
 	public Integer queryPeopleNumByTimeRange(Date dateStr, String region) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		return gridDataService.queryGridPeopleNumDataNew(region,sdf.format(dateStr));
 	}
 

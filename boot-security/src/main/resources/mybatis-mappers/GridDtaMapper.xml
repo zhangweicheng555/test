@@ -34,11 +34,11 @@
 		   from LTE_GRID_USER_NUM d 
 		    inner join GRIDMAPPER m
 		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		        where d.stadium_no=#{region} and d.area_type='Indoor' and to_date(d.statistics_time,'yyyy-mm-dd hh24:mi')=to_date(#{dateStr},'yyyy-mm-dd hh24:mi')  and  d.total_user_num > 0
+		        where d.stadium_no=#{region} and d.area_type='Indoor' and to_date(d.statistics_time,'yyyymmddhh24miss')=to_date(#{dateStr},'yyyy-mm-dd hh24:mi:ss')  and  d.total_user_num > 0
 	</select>
 	
 	<select id="queryGridWarnData" resultType="java.util.Map">
-		select m.NEWIDX as "x",m.NEWIDY as "y",d.total_user_num as "userCount",d.stadium_no as "region" ,to_char(to_date(d.statistics_time,'yyyy-mm-dd hh24:mi'),'yyyy-mm-dd hh24:mi') as "times" 
+		select m.NEWIDX as "x",m.NEWIDY as "y",d.total_user_num as "userCount",d.stadium_no as "region" ,to_char(to_date(d.statistics_time,'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi') as "times" 
 		   from LTE_GRID_USER_NUM d 
 		    inner join GRIDMAPPER m
 		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
@@ -69,7 +69,7 @@
 		from LTE_GRID_USER_NUM d 
 		where d.area_type='Indoor' 
 		   and d.stadium_no=#{region} 
-		   and to_date(d.statistics_time,'yyyy-mm-dd hh24:mi')=to_date(#{maxDate},'yyyy-mm-dd hh24:mi') 
+		   and to_date(d.statistics_time,'yyyymmddhh24miss')=to_date(#{maxDate},'yyyymmddhh24miss') 
 	</select> 
 	
 	<select id="queryMaxDate" resultType="string">
