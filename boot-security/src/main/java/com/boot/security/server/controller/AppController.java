@@ -263,6 +263,8 @@ public class AppController {
 	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2019-7-26
 	 * 11:55&endDateStr=2019-7-26 12:30&minute=5 这个就是开始时间 结束结束范围 然后跟几分钟切割
 	 * 计算每个场馆各个时刻的值
+	 * 
+	 * 这个返回本馆当天的
 	 */
 
 	@RequestMapping(value = "/queryPeopleNumByTimeRange")
