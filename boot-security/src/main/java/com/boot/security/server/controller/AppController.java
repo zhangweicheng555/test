@@ -237,9 +237,9 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		map.put("time", "");
 		map.put("peopleParameterList", "");
+		String maxDate = gridDataService.queryMaxDate();
 		try {
 			List<Integer> peopleParameterList = new ArrayList<Integer>();
-			String maxDate = gridDataService.queryMaxDate();
 			for (int j = 1; j < numList.size(); j++) {
 				String key = numList.get(j);// region
 				peopleParameterList.add(gridDataService.queryGridPeopleNumDataNew(key, maxDate));
@@ -250,11 +250,11 @@ public class AppController {
 			}
 			peopleParameterList.add(0, countAll);
 			map.put("peopleParameterList", peopleParameterList);
-			map.put("time", maxDate);
 		} catch (Exception e) {
 			map.put("status", 2);
 			map.put("msg", "系统异常:" + e.getLocalizedMessage());
 		}
+		map.put("time", maxDate);
 		return map;
 	}
 
@@ -397,13 +397,12 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		map.put("time", "");
 		map.put("gridParameterList", new ArrayList<>());
+		String maxDate = gridDataService.queryMaxDate();
 		try {
 			if (StringUtils.isNoneBlank(region)) {
-				String maxDate = gridDataService.queryMaxDate();
 				List<Map<String, Object>> list = gridDataService.queryGridDataByRegion(region, maxDate);
 				if (list.size() > 0) {
 					map.put("gridParameterList", list);
-					map.put("time", maxDate);
 				} else {
 					map.put("status", 1);
 					map.put("msg", "没有对应条件的数据！");
@@ -416,6 +415,7 @@ public class AppController {
 			map.put("status", 2);
 			map.put("msg", "系统异常:" + e.getLocalizedMessage());
 		}
+		map.put("time", maxDate);
 		return map;
 	}
 
