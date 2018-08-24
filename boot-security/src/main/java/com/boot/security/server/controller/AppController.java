@@ -231,31 +231,71 @@ public class AppController {
 	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
 	 */
 	@RequestMapping(value = "/queryGridPeopleNumData")
-	public Map<String, Object> queryGridPeopleNumData() {
+	public Map<String, Object> queryGridPeopleNumData(
+			@RequestParam(value = "reqDate", required = true) String reqDate) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
 		map.put("time", "");
 		map.put("peopleParameterList", "");
-		String maxDate = gridDataService.queryMaxDate();
+		String maxDate = null;
 		try {
-			List<Integer> peopleParameterList = new ArrayList<Integer>();
-			for (int j = 1; j < numList.size(); j++) {
-				String key = numList.get(j);// region
-				peopleParameterList.add(gridDataService.queryGridPeopleNumDataNew(key, maxDate));
+			if (StringUtils.isBlank(reqDate)) {
+				map.put("status", 2);
+				map.put("msg", "为传入请求的参数:reqDate:格式(20180824234600)");
+			} else {
+				maxDate = checkReqDate(reqDate);
+				if (StringUtils.isNoneBlank(maxDate)) {
+					List<Integer> peopleParameterList = new ArrayList<Integer>();
+					for (int j = 1; j < numList.size(); j++) {
+						String key = numList.get(j);// region
+						peopleParameterList.add(gridDataService.queryGridPeopleNumDataNew(key, maxDate));
+					}
+					int countAll = 0;
+					for (Integer num : peopleParameterList) {
+						countAll += num;
+					}
+					peopleParameterList.add(0, countAll);
+					map.put("peopleParameterList", peopleParameterList);
+				} else {// fasle
+					map.put("status", 2);
+					map.put("msg", "传入请求的参数:reqDate格式不正确(20180824234600)");
+				}
 			}
-			int countAll = 0;
-			for (Integer num : peopleParameterList) {
-				countAll += num;
-			}
-			peopleParameterList.add(0, countAll);
-			map.put("peopleParameterList", peopleParameterList);
 		} catch (Exception e) {
 			map.put("status", 2);
 			map.put("msg", "系统异常:" + e.getLocalizedMessage());
 		}
 		map.put("time", maxDate);
 		return map;
+	}
+
+	/**
+	 * 校验日期
+	 */
+	private String checkReqDate(String reqDate) {
+		String flag = null;
+		// 2018 0824 2346 00
+		if (StringUtils.isNoneBlank(flag)) {
+			try {
+				if (reqDate.trim().length() == 14) {
+					String begin = reqDate.substring(0, 11);// 20180824234
+					String middle = reqDate.substring(11, 12);// 6
+					int middleInt = Integer.valueOf(middle);
+					if (middleInt < 5) {
+						flag = begin + "0" + "00";
+					} else if (middleInt >= 5) {
+						flag = begin + "5" + "00";
+					} else {
+						flag = null;
+					}
+					return flag;
+				}
+			} catch (Exception e) {
+				flag = null;
+			}
+		}
+		return flag;
 	}
 
 	/**
