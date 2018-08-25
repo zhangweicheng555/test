@@ -1,12 +1,15 @@
 package com.boot.security.server.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Service;
 import com.boot.security.server.dao.UserDao;
 import com.boot.security.server.model.GridData;
 import com.boot.security.server.model.SysUser;
+import com.boot.security.server.model.TestH;
 import com.boot.security.server.service.SysUserService;
 import com.boot.security.server.util.CacheUtil;
 import com.boot.security.server.util.SpringUtil;
@@ -62,6 +65,16 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	public void clearTestGridData(String dealBDateScheduled, String dealEDateScheduled) {
 		userDao.clearTestGridData(dealBDateScheduled, dealEDateScheduled);
+	}
+
+	@Override
+	public List<TestH> find1() {
+		return userDao.find1();
+	}
+
+	@Override
+	public void find2(String x, String y) {
+		userDao.find2(x, y);
 	}
 
 }

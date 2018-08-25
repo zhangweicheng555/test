@@ -11,6 +11,7 @@ public class SecurityApplicationTest {
 
 	@Test
 	public void password() {
-
+		
 	}
+	
 }

@@ -28,4 +28,11 @@
 		to_date(d.Sdate,'yyyy-mm-dd hh24:mi:ss') >= to_date(#{dealBDateScheduled},'yyyy-mm-dd hh24:mi:ss')  and to_date(#{dealEDateScheduled},'yyyy-mm-dd hh24:mi:ss') >= to_date(d.Sdate,'yyyy-mm-dd hh24:mi:ss')
 	</delete>
 	
+	<select id="find1" resultType="TestH">
+		select  x as "x",y as "y" from TESTMODEL 
+	</select>
+	<insert id="find2" >
+		insert into TESTMODEL1(x,y)  values(#{x},#{y})
+	</insert>
+	
 </mapper>

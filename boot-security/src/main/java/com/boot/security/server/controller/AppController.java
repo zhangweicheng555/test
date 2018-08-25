@@ -242,7 +242,7 @@ public class AppController {
 		try {
 			if (StringUtils.isBlank(reqDate)) {
 				map.put("status", 2);
-				map.put("msg", "为传入请求的参数:reqDate:格式(20180824234600)");
+				map.put("msg", "未传入请求的参数:reqDate:格式(20180824234600)");
 			} else {
 				maxDate = checkReqDate(reqDate);
 				if (StringUtils.isNoneBlank(maxDate)) {
@@ -270,13 +270,13 @@ public class AppController {
 		return map;
 	}
 
+	
 	/**
 	 * 校验日期
 	 */
 	private String checkReqDate(String reqDate) {
 		String flag = null;
-		// 2018 0824 2346 00
-		if (StringUtils.isNoneBlank(flag)) {
+		if (StringUtils.isNoneBlank(reqDate)) {
 			try {
 				if (reqDate.trim().length() == 14) {
 					String begin = reqDate.substring(0, 11);// 20180824234
@@ -289,7 +289,6 @@ public class AppController {
 					} else {
 						flag = null;
 					}
-					return flag;
 				}
 			} catch (Exception e) {
 				flag = null;
