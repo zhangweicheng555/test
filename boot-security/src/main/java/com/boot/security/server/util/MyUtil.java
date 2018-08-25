@@ -457,7 +457,7 @@ public class MyUtil {
 	 * 注意这个时间的格式是yyyy-MM-dd HH-mm
 	 */
 	public static List<Date> getDateList(String beginDateStr, String endDateStr, int minute) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date beginDate = sdf.parse(beginDateStr);
 		Date endDate = sdf.parse(endDateStr);
 

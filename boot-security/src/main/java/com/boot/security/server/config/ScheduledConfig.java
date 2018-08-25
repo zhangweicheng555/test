@@ -4,18 +4,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-
 import com.boot.security.server.model.GridData;
 import com.boot.security.server.service.GridDataService;
 import com.boot.security.server.service.SysUserService;
 import com.boot.security.server.util.SpringUtil;
 
 @Configuration
-@EnableScheduling
+//@EnableScheduling
 public class ScheduledConfig {
 	/** 定时器使用 */
 	private static String beginDateScheduled = "2018/7/27 14:05";
@@ -29,7 +25,7 @@ public class ScheduledConfig {
 	/**
 	 * 下午2点到晚上8点 每5分钟执行一次
 	 */
-	@Scheduled(cron = "0 0/5 17-20 * * ?")
+	//@Scheduled(cron = "0 0/5 17-20 * * ?")
 	public void scheduledByFiveMinute() throws ParseException {
 		SysUserService sysUserService = SpringUtil.getApplicationContext().getBean(SysUserService.class);
 		GridDataService gridDataService = SpringUtil.getApplicationContext().getBean(GridDataService.class);
@@ -55,7 +51,7 @@ public class ScheduledConfig {
 	/**
 	 * 每天21点执行
 	 */
-	@Scheduled(cron = "0 0 21 * * ?")
+	//@Scheduled(cron = "0 0 21 * * ?")
 	public void dateTask() {
 		SysUserService sysUserService = SpringUtil.getApplicationContext().getBean(SysUserService.class);
 		sysUserService.clearTestGridData(dealBDateScheduled,dealEDateScheduled);

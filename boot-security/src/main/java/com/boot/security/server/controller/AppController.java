@@ -102,7 +102,7 @@ public class AppController {
 			}
 		} catch (Exception e) {
 			map.put("status", 2);
-			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyy-MM-dd HH:mm");
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyyMMddHHmmss");
 		}
 		return map;
 	}
@@ -228,7 +228,8 @@ public class AppController {
 	}
 
 	/**
-	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
+	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 
+	 * 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
 	 */
 	@RequestMapping(value = "/queryGridPeopleNumData")
 	public Map<String, Object> queryGridPeopleNumData(
@@ -298,7 +299,8 @@ public class AppController {
 	}
 
 	/**
-	 * 最新 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 查询历史表
+	 * 最新   废弃 不用了  这个
+	 * 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 查询历史表
 	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2019-7-26
 	 * 11:55&endDateStr=2019-7-26 12:30&minute=5 这个就是开始时间 结束结束范围 然后跟几分钟切割
 	 * 计算每个场馆各个时刻的值
@@ -348,54 +350,6 @@ public class AppController {
 		return map;
 	}
 
-	/**
-	 * 接口1.获取所有场馆的各自在馆人数和所有场馆总人数 对接接口 这个废弃 这个是返回各管的所有数据 而不是最新管的数据
-	 */
-	@RequestMapping(value = "/queryGridPeopleNumDataOld")
-	public Map<String, Object> queryGridPeopleNumDataOld() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", 0);
-		map.put("msg", "操作成功！");
-		map.put("time", "");
-		map.put("peopleParameterList", new ArrayList<>());
-		try {
-			List<Map<String, Object>> mapListData = gridDataService.querySingleGridData();
-			if (mapListData != null && mapListData.size() > 0) {
-				Long allNum = 0l;
-				List<Long> list = new ArrayList<Long>();// 存储数字
-				for (int i = 0; i < 17; i++) {
-					list.add(0l);
-				}
-				for (int j = 0; j < numList.size(); j++) {
-					String key = numList.get(j);
-					allNum = getMapVal(mapListData, allNum, list, j, key);
-				}
-				list.set(0, allNum);
-				map.put("peopleParameterList", list);
-			} else {
-				map.put("status", 1);
-				map.put("msg", "没有对应条件的数据！");
-			}
-		} catch (Exception e) {
-			map.put("status", 2);
-			map.put("msg", "系统异常:" + e.getLocalizedMessage());
-		}
-		return map;
-	}
-
-	private Long getMapVal(List<Map<String, Object>> mapListData, Long allNum, List<Long> list, int j, String key) {
-		for (int i = 0; i < mapListData.size(); i++) {
-			Map<String, Object> mapEntity = mapListData.get(i);
-			if (key.equals(mapEntity.get("region"))) {
-				Long numM = Long.parseLong(mapEntity.get("userCount").toString());
-				allNum += numM;
-				list.set(j, numM);
-				mapListData.remove(i);
-				break;
-			}
-		}
-		return allNum;
-	}
 
 	/**
 	 * 用户散点图 接口 七、接口7 获取指定用户的散点图。 返回各个用户在各个时间点的 数量 返回xy
