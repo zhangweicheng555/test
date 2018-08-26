@@ -1012,8 +1012,21 @@ countByValue()  各元素在RDD中出现次数   这个注意了
 reduce()        并行整合所有RDD数据，例如求和操作          (rddInt.reduce((x ,y) => x + y))
 
 
-
-
+ sc.textFile("hdfs://192.168.233.21:9000/zws").flatMap(_.split(" "))
+   .map((_,1)).reduceByKey(_+_)
+   .sortBy(_._2,false).collect
+   --sortBy(_._2,false)  接收两个参数   一个个是按照什么排序 第二个是升序还是降序
+ sc.textFile("hdfs://192.168.233.21:9000/zws").flatMap(_.split(" ")).map((_,1))
+   .reduceByKey(_+_).sortBy(_._1,false)
+   .saveAsTextFile("hdfs://192.168.233.21:9000/ss/zwp")   --这个地方是指定目录就可以 名字他们会默认
+ 
+ sc.textFile("hdfs://192.168.233.21:9000/zws").flatMap(_.split(" ")).map((_,1))
+   .reduceByKey(_+_,1).sortBy(_._1,false)     --reduceByKey(_+_,1)  他可以指定1   来说明生成的结果问价你有几个
+                                                                                                                            注意，有时候Hadoop的时候我们会设置生成三个，
+                                                                                                                            但是如果我们还想生成一个结果文件，那么就可以i使用这个了
+                                                                                                                             这个就是指定了reduce的文件数量
+   .saveAsTextFile("hdfs://192.168.233.21:9000/ss/zwp")   --这个地方是指定目录就可以 名字他们会默认
+ 
 
 
 

@@ -31,8 +31,8 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 	}
 
 	@Override
-	public HiGridDataHour queryHiGridDataHourLatest(String region) {
-		return hiGridDataHourDao.queryHiGridDataHourLatest(region);
+	public HiGridDataHour queryHiGridDataHourLatest(String region,String maxDate) {
+		return hiGridDataHourDao.queryHiGridDataHourLatest(region,maxDate);
 	}
 
 	@Override
@@ -56,5 +56,10 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 	@Override
 	public List<Integer> queryPeopleNumByTimeRangeNew(List<String> listDates, String key) {
 		return hiGridDataHourDao.queryPeopleNumByTimeRangeNew(listDates,key);
+	}
+
+	@Override
+	public String queryMaxDate() {
+		return hiGridDataHourDao.queryMaxDate();
 	}
 }

@@ -472,6 +472,7 @@ public class MyUtil {
 		return list;
 	}
 	
+	
 	public static List<Date> getDateListN(String beginDateStr, String endDateStr, int minute) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss");

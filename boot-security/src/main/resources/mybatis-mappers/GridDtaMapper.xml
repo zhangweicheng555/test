@@ -69,7 +69,6 @@
 		from LTE_GRID_USER_NUM d 
 		where d.area_type='Indoor' 
 		   and d.stadium_no=#{region} 
-		   <!-- and to_date(d.statistics_time,'yyyymmddhh24miss')=to_date(#{maxDate},'yyyymmddhh24miss')  -->
 		   and d.statistics_time=#{maxDate} 
 	</select> 
 	

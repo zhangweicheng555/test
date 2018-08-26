@@ -33,8 +33,15 @@
 		          ,d.IMSI_AGE5 as "imsiAge5"
 		          ,d.IMSI_SOURCE1 as "imsiSource1"
 		          ,d.IMSI_SOURCE2 as "imsiSource2"
-		          ,rownum as rn  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE='Indoor'  and d.REGION=#{region} order by  d.Sdate desc 
+		          
+<!-- 		          ,rownum as rn  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE='Indoor'  and d.REGION=#{region} and d.sdate=#{maxDate}  -->
+		          ,rownum as rn  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE='Indoor'  and d.REGION=#{region} order by d.sdate desc 
 		) 
 		where rn=1
+	</select> 
+	
+	
+	<select id="queryMaxDate" resultType="string">
+		select max(d.statistics_time) from LTE_GRID_USER_NUM d where  d.area_type='Indoor' 
 	</select> 
 </mapper>

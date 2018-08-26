@@ -11,9 +11,11 @@ public interface HiGridDataHourService {
 
 	public Integer queryPeopleNumByTimeRange(Date dateStr, String region);
 
-	public HiGridDataHour queryHiGridDataHourLatest(String region);
+	public HiGridDataHour queryHiGridDataHourLatest(String region,String maxDate);
 
 	public long queryCount(HttpSession session);
+	
+	public String queryMaxDate();
 
 	public List<Integer> queryPeopleNumByTimeRangeNew(List<String> listDates, String key);
 

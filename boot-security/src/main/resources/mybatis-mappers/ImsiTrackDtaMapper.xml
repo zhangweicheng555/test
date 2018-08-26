@@ -10,7 +10,6 @@
 		  from LTE_IMSI_TRACE_DATA d 
 		    inner join GRIDMAPPER m
 		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		       <!--  where d.IMSI=#{imsi} and to_date(d.Sdate,'yyyymmddhh24miss') >= to_date(#{beginDate},'yyyy-mm-dd hh24:mi:ss')  and to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss') >= to_date(d.Sdate,'yyyymmddhh24miss') -->
 		        where d.IMSI=#{imsi} and d.Sdate between #{beginDate}  and  #{endDate}
 	</select>
 	
