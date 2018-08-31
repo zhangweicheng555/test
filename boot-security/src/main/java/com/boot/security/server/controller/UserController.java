@@ -1,10 +1,7 @@
 package com.boot.security.server.controller;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.ibatis.annotations.Param;
@@ -34,36 +31,36 @@ public class UserController {
 			@RequestParam("endDate") String endDate) {
 		return sysUserService.findTest(beginDate, endDate);
 	}
-	
-	
+
 	@RequestMapping(value = "/testCache")
 	public void testCache(@Param("num1") Integer num1) {
 		sysUserService.testCache(num1);
 	}
+
 	@RequestMapping(value = "/clear")
 	@ResponseBody
 	public String clear() {
-		List<TestH> lMaps=sysUserService.find1();
-		Set<String> set=new HashSet<>();
+		List<TestH> lMaps = sysUserService.find1();
+		Set<String> set = new HashSet<>();
 		for (TestH testH : lMaps) {
-			int x=testH.getX();
-			int y=testH.getY();
-			
-			int beginX=(x-100)+1;
-			int endX=(x+100)-1;
-			
-			int beginY=(y-100)+1;
-			int endY=(y+100)-1;
-			
+			int x = testH.getX();
+			int y = testH.getY();
+
+			int beginX = (x - 100) + 1;
+			int endX = (x + 100) - 1;
+
+			int beginY = (y - 100) + 1;
+			int endY = (y + 100) - 1;
+
 			for (int i = beginX; i <= endX; i++) {
 				for (int j = beginY; j <= endY; j++) {
-					set.add(String.valueOf(i)+"_"+String.valueOf(j));
+					set.add(String.valueOf(i) + "_" + String.valueOf(j));
 				}
 			}
 		}
-		System.out.println(set.size()+"===========================");
+		System.out.println(set.size() + "===========================");
 		for (String key : set) {
-			String[] arrayStr=key.split("_");
+			String[] arrayStr = key.split("_");
 			sysUserService.find2(arrayStr[0], arrayStr[1]);
 		}
 		return "succeess";

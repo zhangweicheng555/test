@@ -1,8 +1,5 @@
 package com.boot.security.server.backUpFile;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-
 /**
  *配置文件映射实体类
  */
