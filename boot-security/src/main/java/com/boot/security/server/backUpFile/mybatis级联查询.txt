@@ -1,0 +1,39 @@
+<select id="findById" resultMap="resultMap">
+		select * from t_data where
+		id=#{id}
+</select>
+
+
+
+	<resultMap type="com.kuandeng.kts.process.entity.Data" id="resultMap">
+		<id property="id" column="id" />
+		<result property="dataRangeId" column="data_range_id" />
+		<result property="deleted" column="deleted" />
+		<result property="asSource" column="as_source" />
+		<result property="status" column="status" />
+		<association property="dataOutput" column="id"
+			javaType="com.kuandeng.kts.process.entity.DataOutput" select="com.kuandeng.kts.process.dao.DataOutputDao.findByDataId" />
+		<association property="dataRange" column="data_range_id"
+			javaType="com.kuandeng.kts.base.entity.DataRange" select="com.kuandeng.kts.base.dao.DataRangeDao.findById" />
+		<collection property="dataTags" column="id"
+			ofType="com.kuandeng.kts.process.entity.DataTag" select="com.kuandeng.kts.process.dao.DataTagDao.findByDataId" />
+		<collection property="dataTypes" column="id"
+			ofType="com.kuandeng.kts.scene.entity.DataType" select="com.kuandeng.kts.scene.dao.DataTypeDao.findByDataId" />
+		<collection property="dataTracks" column="id"
+			ofType="com.kuandeng.kts.base.entity.DataTrack" select="com.kuandeng.kts.base.dao.DataTrackDao.findByDataId" />
+	</resultMap>
+
+	
+	
+	com.kuandeng.kts.base.dao.DataRangeDao里面写  这个貌似也可以不写，有机会试试
+	DataRange findById(Long id);
+	
+	
+	xml里面
+	<select id="findById" resultMap="resultMap">
+		select
+		id,adcode,x,y,bounds,ST_AsText(polygon) as polygon,md5
+		from
+		t_data_range
+		where id=#{id}
+	</select>
