@@ -1,70 +1,183 @@
-﻿<!DOCTYPE html>
-<HTML>
-<HEAD>
-<TITLE>bootstrap风格的zTree树形菜单代码</TITLE>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-
-<link rel="stylesheet" href="zTree/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
-
-<script type="text/javascript" src="zTree/js/jquery-1.4.4.min.js"></script>
-<script type="text/javascript" src="zTree/js/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="zTree/js/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="zTree/js/jquery.ztree.exedit.js"></script>
-<SCRIPT type="text/javascript">
-	
-		var setting = {
-			check: {
-				enable: true,
-				nocheckInherit: true
-			},
-			data: {
-				simpleData: {
-					enable: true
-				}
-			}
-		};
-
-		var zNodes =[
-			{ id:1, pId:0, name:"随意勾选 1", open:true},
-			{ id:11, pId:1, name:"随意勾选 1-1", open:true},
-			{ id:111, pId:11, name:"无 checkbox 1-1-1", nocheck:true},
-			{ id:112, pId:11, name:"随意勾选 1-1-2"},
-			{ id:12, pId:1, name:"无 checkbox 1-2", nocheck:true, open:true},
-			{ id:121, pId:12, name:"无 checkbox 1-2-1"},
-			{ id:122, pId:12, name:"无 checkbox 1-2-2"},
-			{ id:2, pId:0, name:"随意勾选 2", checked:true, open:true},
-			{ id:21, pId:2, name:"随意勾选 2-1"},
-			{ id:22, pId:2, name:"随意勾选 2-2", open:true},
-			{ id:221, pId:22, name:"随意勾选 2-2-1", checked:true},
-			{ id:222, pId:22, name:"随意勾选 2-2-2"},
-			{ id:23, pId:2, name:"随意勾选 2-3"}
-		];
-
-		function nocheckNode(e) {
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
-			nocheck = e.data.nocheck,
-			nodes = zTree.getSelectedNodes();
-			if (nodes.length == 0) {
-				alert("请先选择一个节点");
-			}
-
-			for (var i=0, l=nodes.length; i<l; i++) {
-				nodes[i].nocheck = nocheck;
-				zTree.updateNode(nodes[i]);
-			}
-		}
-
-		$(document).ready(function(){
-			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-			$("#nocheckTrue").bind("click", {nocheck: true}, nocheckNode);
-			$("#nocheckFalse").bind("click", {nocheck: false}, nocheckNode);
-		});
-		
-	</SCRIPT>
-</HEAD>
-
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>layui-form表格</title>
+<link rel="stylesheet" type="text/css" media="screen" href="layui/css/layui.css">
+<script type="text/javascript" src="layui/layui.js"></script>
+</head>
 <body>
-<ul id="treeDemo" class="ztree"></ul>
 
-</BODY>
-</HTML>
+	
+	
+	<form class="layui-form" action="">
+	  
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">输入框</label>
+	    <div class="layui-input-block">
+	      <input type="text" name="title"   required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+	    </div>
+	  </div>
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">加密</label>
+	    <div class="layui-input-block">
+	      <input type="text" name="encrypt"   required lay-filter="encrypt" placeholder="请输入标题" autocomplete="off" class="layui-input">
+	    </div>
+	  </div>
+	  
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">密码框</label>
+	    <div class="layui-input-inline">
+	      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+	    </div>
+	    <div class="layui-form-mid layui-word-aux">辅助文字</div>
+	  </div>
+	  
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">选择框</label>
+	    <div class="layui-input-block">
+	      <select name="city" lay-verify="required">
+	        <option value=""></option>
+	        <option value="0" disabled>北京</option>
+	        <option value="1" selected>上海</option>
+	        <option value="2">广州</option>
+	        <option value="3">深圳</option>
+	        <option value="4">杭州</option>
+	      </select>
+	    </div>
+	  </div>
+	  
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">复选框</label>
+	    <div class="layui-input-block">
+	      <input type="checkbox" name="like[write]" title="写作" checked>
+	      <input type="checkbox" name="like[read]"  lay-skin="primary"  title="阅读" checked>
+	      <input type="checkbox" name="like[dai]" title="发呆">
+	    </div>
+	  </div>
+	  
+	  
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">单选框</label>
+	    <div class="layui-input-block">
+	      <input type="radio" name="sex" value="男" title="男">
+	      <input type="radio" name="sex" value="女" title="女" checked>
+	    </div>
+	  </div>
+	  
+	  <div class="layui-form-item layui-form-text">
+	    <label class="layui-form-label">文本域</label>
+	    <div class="layui-input-block">
+	      <textarea name="desc" required lay-verify="required" placeholder="请输入内容" class="layui-textarea"></textarea>
+	    </div>
+	  </div>
+	  <div class="layui-form-item">
+	    <div class="layui-input-block">
+	      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+	      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	    </div>
+	  </div>
+	  
+	  
+	  <hr />
+	  
+	  
+	  <!-- 
+		  	class="layui-inline"：定义外层行内 
+			class="layui-input-inline"：定义内层行内
+	   -->
+	  <div class="layui-form-item">
+		  <div class="layui-inline">
+		    <label class="layui-form-label">范围</label>
+		    <div class="layui-input-inline" style="width: 100px;">
+		      <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+		    </div>
+		    <div class="layui-form-mid">-</div>
+		    <div class="layui-input-inline" style="width: 100px;">
+		      <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+		    </div>
+		  </div>
+		  
+		  <div class="layui-inline">
+		    <label class="layui-form-label">密码</label>
+		    <div class="layui-input-inline" style="width: 100px;">
+		      <input type="password" name="" autocomplete="off" class="layui-input">
+		    </div>
+		  </div>
+	</div>
+	
+	</form>
+	
+	
+	
+	<!-- 另外一种风格 
+	<form class="layui-form layui-form-pane" action="">
+	  
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">输入框</label>
+	    <div class="layui-input-block">
+	      <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+	    </div>
+	  </div>
+	  
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">密码框</label>
+	    <div class="layui-input-inline">
+	      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+	    </div>
+	    <div class="layui-form-mid layui-word-aux">辅助文字</div>
+	  </div>
+	  
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">选择框</label>
+	    <div class="layui-input-block">
+	      <select name="city" lay-verify="required">
+	        <option value=""></option>
+	        <option value="0" disabled>北京</option>
+	        <option value="1" selected>上海</option>
+	        <option value="2">广州</option>
+	        <option value="3">深圳</option>
+	        <option value="4">杭州</option>
+	      </select>
+	    </div>
+	  </div>
+	  
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">复选框</label>
+	    <div class="layui-input-block">
+	      <input type="checkbox" name="like[write]" title="写作" checked>
+	      <input type="checkbox" name="like[read]"  lay-skin="primary"  title="阅读" checked>
+	      <input type="checkbox" name="like[dai]" title="发呆">
+	    </div>
+	  </div>
+	  
+	  
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">单选框</label>
+	    <div class="layui-input-block">
+	      <input type="radio" name="sex" value="男" title="男">
+	      <input type="radio" name="sex" value="女" title="女" checked>
+	    </div>
+	  </div>
+	  
+	
+	</form>
+	-->
+	
+<script>
+	layui.use(['layer', 'form'], function(){
+	  var layer = layui.layer
+	  ,form = layui.form;
+	  
+	//监听提交
+	  form.on('submit(formDemo)', function(data){
+		  //JSON.stringify(data.field)  将form表格序列化了
+		  layer.msg(JSON.stringify(data.field));
+	    return false;
+	  });
+	  
+	});
+</script> 
+
+</body>
+</html>
