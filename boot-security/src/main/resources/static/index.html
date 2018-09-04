@@ -164,11 +164,14 @@
 	</form>
 	-->
 	
+	
+	<button type="button" id="btnModel" class="layui-btn layui-btn-primary">弹框</button>
+	
 <script>
-	layui.use(['layer', 'form'], function(){
+	layui.use(['layer', 'form','jquery'], function(){
 	  var layer = layui.layer
-	  ,form = layui.form;
-	  
+	  ,form = layui.form
+	  $=layui.$;
 	//监听提交
 	  form.on('submit(formDemo)', function(data){
 		  //JSON.stringify(data.field)  将form表格序列化了
@@ -176,6 +179,57 @@
 	    return false;
 	  });
 	  
+	
+	$("#btnModel").click(function(){
+		layer.open({
+			//type: 2,//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）。 若你采用layer.open({type: 1})方式调用，则type为必填项（信息框除外） 
+			//content: ['http://www.baidu.com', 'no']//no不出现滚动条
+		
+			//type: 4,
+			//content: ['内容', '#btnModel'] //数组第二项即吸附元素选择器或者DOM
+			
+			//type: 3  //加载球
+			
+			//type: 3
+			//,icon:6    //信息框：0叹号  1对号  2错号  3问号  4锁  5哭脸  6笑脸
+			//,icon:  2    //加载层：0是红色的球转  1是黑色的小棍子转   2也是类似 黑色的小棍子
+			
+			type:0,
+			content:'这是内容',
+			skin:'layui-layer-molv',// layui-layer-lan 
+			area: ['700px', '500px']
+			,shade:0.4
+			,time: 5000  //5秒后自动消失
+			,isOutAnim :false  //默认情况下，关闭层时会有一个过度动画。如果你不想开启，设置 isOutAnim: false 即可
+			//,anim: 6   动画效果anim: 0	平滑放大。默认0     anim: 1	从上掉落
+			//offset   这个属性可以设置距离顶部的位置 这个就很好的解决了,一直居中带来的不雅
+			,resize:false //不允许拉伸
+			,scrollbar :false  //不允许出现滚动条 有则屏蔽
+		    ,tips :2//tips层的私有参数。  默认2 支持上右下左四个方向，通过1-4进行方向设定
+		    ,success: function(layero, index){//层弹出后的成功回调
+		        console.log(layero, index);//当你需要在层创建完毕时即执行一些语句，可以通过该回调。success会携带两个参数，分别是当前层DOM当前层索引
+		      }
+		    ,btn: ['确定', '取消', '关闭']//只有0模式是适合的
+			  ,yes: function(index, layero){
+			    //按钮【按钮一】的回调
+			     layer.close(index); //如果设定了yes回调，需进行手工关闭
+			  }
+			  ,btn2: function(index, layero){
+			    //按钮【按钮二】的回调
+			    //return false 开启该代码可禁止点击该按钮关闭
+			  }
+			  ,btn3: function(index, layero){
+			    //按钮【按钮三】的回调
+			    return false;
+			    //return false 开启该代码可禁止点击该按钮关闭
+			  }
+			  ,cancel: function(){ 
+			    //右上角关闭回调
+			    return true; //开启该代码可禁止点击该按钮关闭
+			  }
+		});
+	});
+	
 	});
 </script> 
 

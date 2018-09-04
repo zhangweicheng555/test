@@ -161,3 +161,30 @@ form.val("formTest", {
 第二个参数的键值是元素对应的 name 和 value。
 
 
+
+
+
+
+
+
+
+
+一、弹层组件：
+
+type - 基本层类型
+类型：Number，默认：0
+layer提供了5种层类型。可传入的值有：0（信息框，默认）
+                                  1（页面层）
+                                  2（iframe层）
+                                  3（加载层）
+                                  4（tips层）。 
+ 若你采用layer.open({type: 1})方式调用，则type为必填项（信息框除外）
+
+title - 标题
+类型：String/Array/Boolean，默认：'信息'
+title支持三种类型的值，若你传入的是普通的字符串，如title :'我是标题'，那么只会改变标题文本；
+若你还需要自定义标题区域样式，那么你可以title: ['文本', 'font-size:18px;']，数组第二项可以写任意css样式；
+如果你不想显示标题栏，你可以title: false
+
+
+
