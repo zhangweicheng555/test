@@ -144,11 +144,11 @@ public class AppController {
 			// 先判断数量是不是存在最新的数据
 			long num = hiGridDataHourService.queryCount(session);
 			if (num > 0) {
-				String maxDate=hiGridDataHourService.queryMaxDate();
+				String maxDate = hiGridDataHourService.queryMaxDate();
 				List<Map<String, Object>> listMaps = new ArrayList<Map<String, Object>>();
 				for (int j = 1; j < numList.size(); j++) {
 					String key = numList.get(j);// region
-					HiGridDataHour hiGridDataHour = hiGridDataHourService.queryHiGridDataHourLatest(key,maxDate);
+					HiGridDataHour hiGridDataHour = hiGridDataHourService.queryHiGridDataHourLatest(key, maxDate);
 					listMaps.add(hiGridDataHourToMap(hiGridDataHour));
 				}
 				listMaps.add(0, dealAllMap(listMaps));
@@ -229,10 +229,8 @@ public class AppController {
 	}
 
 	/**
-	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 
-	 * 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
-	 * 时间就是数据库的最大时间   -----
-	 * maxDate 是数据的最大时间    reqDate 没用
+	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
+	 * 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间 reqDate 没用
 	 */
 	@RequestMapping(value = "/queryGridPeopleNumData")
 	public Map<String, Object> queryGridPeopleNumData(
@@ -249,7 +247,7 @@ public class AppController {
 				map.put("status", 2);
 				map.put("msg", "未传入请求的参数:reqDate:格式(20180824234600)");
 			} else {
-//				maxDate = checkReqDate(reqDate);
+				// maxDate = checkReqDate(reqDate);
 				maxDate = reqDate;
 				if (StringUtils.isNoneBlank(maxDate)) {
 					List<Integer> peopleParameterList = new ArrayList<Integer>();
@@ -276,7 +274,6 @@ public class AppController {
 		return map;
 	}
 
-	
 	/**
 	 * 校验日期
 	 */
@@ -304,8 +301,7 @@ public class AppController {
 	}
 
 	/**
-	 * 最新   废弃 不用了  这个
-	 * 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 查询历史表
+	 * 最新 废弃 不用了 这个 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 查询历史表
 	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2019-7-26
 	 * 11:55&endDateStr=2019-7-26 12:30&minute=5 这个就是开始时间 结束结束范围 然后跟几分钟切割
 	 * 计算每个场馆各个时刻的值
@@ -354,7 +350,6 @@ public class AppController {
 		}
 		return map;
 	}
-
 
 	/**
 	 * 用户散点图 接口 七、8 获取指定用户的散点图。 返回各个用户在各个时间点的 数量 返回xy
@@ -894,6 +889,24 @@ public class AppController {
 			map.put("msg", "系统异常！");
 		}
 		return map;
+	}
+
+	@ResponseBody
+	@RequestMapping("/testzwc")
+	public String testzwc() {
+		List<GridMapper> findTests = gridMapperService.findTest();
+		int indexx = 0;
+		int indexy = 0;
+		for (int i = 0; i < findTests.size(); i++) {
+			GridMapper gridMapper = findTests.get(i);
+			gridMapper.setNewidx((i%134));
+			gridMapper.setNewidy(indexy);
+			if (i != 0 && i % 133 == 0) {
+				indexy = indexy + 1;
+			}
+			gridMapperService.save(gridMapper);
+		}
+		return "success";
 	}
 
 }

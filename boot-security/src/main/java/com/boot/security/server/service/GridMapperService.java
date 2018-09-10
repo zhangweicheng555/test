@@ -13,4 +13,5 @@ public interface GridMapperService {
 	public List<String> findIdList();
 
 	public List<GridMapper> find();
+	public List<GridMapper> findTest();
 }

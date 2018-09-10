@@ -25,4 +25,12 @@
 	<select id="find" resultType="GridMapper">
 		select * from GRIDMAPPER  order by ENTITYHANd asc
 	</select>
+	<select id="findTest" resultType="GridMapper">
+		select  id,
+		to_number(substr(id,0,instr(id,'_',-1,1)-1))-1  as gridx,
+		substr(id,instr(id,'_',-1,1)+1)  as gridy,
+		hand as entityHand
+		from testm
+		order by hand asc
+	</select>
 </mapper>

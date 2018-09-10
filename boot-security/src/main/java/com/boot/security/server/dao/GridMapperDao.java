@@ -17,4 +17,5 @@ public interface GridMapperDao {
 	public List<String> findIdList();
 
 	public List<GridMapper> find();
+	public List<GridMapper> findTest();
 }

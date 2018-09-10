@@ -33,4 +33,9 @@ public class GridMapperServiceImpl implements GridMapperService {
 		return gridMapperDao.find();
 	}
 
+	@Override
+	public List<GridMapper> findTest() {
+		return gridMapperDao.findTest();
+	}
+
 }
