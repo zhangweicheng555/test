@@ -59,7 +59,7 @@ public class AppController {
 
 	// 初始化场馆编号
 	public final static List<String> numList = new ArrayList<String>(Arrays.asList("All", "1", "2", "3", "4.1", "4.2",
-			"5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2", "NH", "EH", "WH"));
+			"5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2", "NH", "EH", "WH","SZR","YGR","ZGR","LGR"));
 
 	@Autowired
 	private GridDataService gridDataService;
@@ -247,7 +247,6 @@ public class AppController {
 				map.put("status", 2);
 				map.put("msg", "未传入请求的参数:reqDate:格式(20180824234600)");
 			} else {
-				// maxDate = checkReqDate(reqDate);
 				maxDate = reqDate;
 				if (StringUtils.isNoneBlank(maxDate)) {
 					List<Integer> peopleParameterList = new ArrayList<Integer>();

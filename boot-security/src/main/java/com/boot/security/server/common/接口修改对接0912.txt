@@ -1,0 +1,48 @@
+
+1.完成   接口1是统计各个场馆的总人数  最新时间的总人数   这个改动之处就在于新增了场馆    计算其他场馆的
+2.接口6   
+         是b 域    第一个是总的和    每个属性都是独立的求和    也是最新时间的
+         但是城市这个 要自己计算求出10个最大的   
+         就是第一个是所有场馆的最大的前十个   
+         其余的是各个场馆的最大的十个   接口6 是b域的问题  是新表的结构
+        这个计算量最大  逻辑性能最复杂
+
+3.  条件改为  时间  场馆编号   对应的告警数量
+      接口8  是返回所有场馆的告警信息条件    改为传递每个场馆的告警数量，所以需要根据传递的参数进行修改
+
+4.  
+  接口10 改为移动百分比
+  所有涉及到userCount的都改为计算百分比的方式   修改最多的地方  
+
+
+
+
+
+ select substr('zwc_123',0,instr('zwc_123','_',-1,1)-1) from dual;
+
+
+
+
+select substr('zwc_123',instr('zwc_123','_',-1,1)+1) from dual;
+
+
+
+
+select  
+to_number(substr(id,0,instr(id,'_',-1,1)-1))-1  as id1,
+substr(id,instr(id,'_',-1,1)+1)  as id2,
+hand
+from testm;
+
+
+
+
+17250
+
+
+select  id,
+to_number(substr(id,0,instr(id,'_',-1,1)-1))-1  as gridx,
+substr(id,instr(id,'_',-1,1)+1)  as gridy,
+hand as entityHand
+from testm
+order by hand asc;
