@@ -895,13 +895,12 @@ public class AppController {
 	@RequestMapping("/testzwc")
 	public String testzwc() {
 		List<GridMapper> findTests = gridMapperService.findTest();
-		int indexx = 0;
 		int indexy = 0;
 		for (int i = 0; i < findTests.size(); i++) {
 			GridMapper gridMapper = findTests.get(i);
-			gridMapper.setNewidx((i%134));
+			gridMapper.setNewidx((i % 134));
 			gridMapper.setNewidy(indexy);
-			if (i != 0 && i % 133 == 0) {
+			if ((i > 0) && (i % 133 == 0)) {
 				indexy = indexy + 1;
 			}
 			gridMapperService.save(gridMapper);
