@@ -44,6 +44,7 @@
 		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
 		        where d.area_type='Indoor' and  d.total_user_num >= #{warnNum}
 		          and d.statistics_time=#{maxDate} 
+		            and d.stadium_no=#{region}
 		            order by d.stadium_no desc
 	</select>
 	<!-- 

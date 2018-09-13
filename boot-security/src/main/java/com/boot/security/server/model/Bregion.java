@@ -8,16 +8,16 @@ package com.boot.security.server.model;
  */
 public class Bregion {
 
-	private String sdate;
-	private Long eci;
-	private String gender;
-	private Long age;
-	private Long sourcetype;
-	private String source;
-	private Long imei_num;
-	private String area_type;
-	private Long floor_no;
-	private Long stadium_no;
+	private String sdate;// 时间
+	private Long eci;// 小区id
+	private String gender;// 性别 男 女
+	private String age;// 年龄段 0-18、18-35、35-50、50-65、65-200、NA
+	private Long sourcetype;// 来源地是否属于大陆 0-大陆，1-大陆之外的区域和国家
+	private String source;// 省份或者直辖市或者国家地区
+	private Long imei_num;// IMEI数量
+	private String area_type;// 区域类型
+	private Long floor_no;// 楼层号
+	private String stadium_no;// 场馆编号
 
 	public String getSdate() {
 		return sdate;
@@ -43,11 +43,11 @@ public class Bregion {
 		this.gender = gender;
 	}
 
-	public Long getAge() {
+	public String getAge() {
 		return age;
 	}
 
-	public void setAge(Long age) {
+	public void setAge(String age) {
 		this.age = age;
 	}
 
@@ -91,16 +91,8 @@ public class Bregion {
 		this.floor_no = floor_no;
 	}
 
-	public Long getStadium_no() {
-		return stadium_no;
-	}
-
-	public void setStadium_no(Long stadium_no) {
-		this.stadium_no = stadium_no;
-	}
-
-	public Bregion(String sdate, Long eci, String gender, Long age, Long sourcetype, String source, Long imei_num,
-			String area_type, Long floor_no, Long stadium_no) {
+	public Bregion(String sdate, Long eci, String gender, String age, Long sourcetype, String source, Long imei_num,
+			String area_type, Long floor_no, String stadium_no) {
 		super();
 		this.sdate = sdate;
 		this.eci = eci;
@@ -111,6 +103,14 @@ public class Bregion {
 		this.imei_num = imei_num;
 		this.area_type = area_type;
 		this.floor_no = floor_no;
+		this.stadium_no = stadium_no;
+	}
+
+	public String getStadium_no() {
+		return stadium_no;
+	}
+
+	public void setStadium_no(String stadium_no) {
 		this.stadium_no = stadium_no;
 	}
 

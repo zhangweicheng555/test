@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.boot.security.server.common.BootConstant;
+import com.boot.security.server.model.AnalysisModel;
 import com.boot.security.server.model.GridData;
 import com.boot.security.server.model.GridMapper;
 import com.boot.security.server.model.HiGridDataHour;
@@ -43,6 +44,7 @@ import com.boot.security.server.service.GridDataService;
 import com.boot.security.server.service.GridMapperService;
 import com.boot.security.server.service.HiGridDataHourService;
 import com.boot.security.server.service.ImsiTrackDataService;
+import com.boot.security.server.service.RegionService;
 import com.boot.security.server.service.TestGridDataService;
 import com.boot.security.server.util.JsonMsgUtil;
 import com.boot.security.server.util.MyUtil;
@@ -59,7 +61,7 @@ public class AppController {
 
 	// 初始化场馆编号
 	public final static List<String> numList = new ArrayList<String>(Arrays.asList("All", "1", "2", "3", "4.1", "4.2",
-			"5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2", "NH", "EH", "WH","SZR","YGR","ZGR","LGR"));
+			"5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2", "NH", "EH", "WH", "SZR", "YGR", "ZGR", "LGR"));
 
 	@Autowired
 	private GridDataService gridDataService;
@@ -110,20 +112,44 @@ public class AppController {
 	/**
 	 * 接口8 获取当前所有场馆的告警信息。 根据传入的告警数量 获取所有的栅格数据 最大时间的
 	 */
+	
 	@RequestMapping(value = "/queryGridWarnData")
-	public Map<String, Object> queryGridWarnData(@RequestParam(value = "warnNum", required = true) int warnNum) {
+	public Map<String, Object> queryGridWarnData(@RequestParam(value = "warnNum", required = true) String warnNum) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
 		map.put("warningParameter", new ArrayList<>());
 		try {
-			String maxDate = gridDataService.queryMaxDate();
-			List<Map<String, Object>> listDatas = gridDataService.queryGridWarnData(warnNum, maxDate);
-			if (listDatas.size() > 0) {
-				map.put("warningParameter", listDatas);
+			if (StringUtils.isBlank(warnNum)) {
+				map.put("status", 2);
+				map.put("msg", "未传入告警数量字符串warnNum");
 			} else {
-				map.put("status", 1);
-				map.put("msg", "没有对应条件的数据！");
+				String[] warnNums = warnNum.split(",");
+				if (warnNums.length != 20) {
+					map.put("status", 2);
+					map.put("msg", "请传入20个场馆对应的告警数量");
+				} else {
+					List<Map<String, Object>> listDatas = new ArrayList<>();
+					String maxDate = gridDataService.queryMaxDate();
+					for (int i = 1; i < numList.size(); i++) {
+						Double dVal = Double.valueOf(warnNums[i - 1]);
+						if (dVal != -1) {
+							List<Map<String, Object>> listRegionDatas = gridDataService
+									.queryGridWarnData(dVal, maxDate, numList.get(i));
+							if (listRegionDatas != null && listRegionDatas.size() > 0) {
+								for (Map<String, Object> map2 : listRegionDatas) {
+									listDatas.add(map2);
+								}
+							}
+						}
+					}
+					if (listDatas.size() > 0) {
+						map.put("warningParameter", listDatas);
+					} else {
+						map.put("status", 1);
+						map.put("msg", "没有对应条件的数据！");
+					}
+				}
 			}
 		} catch (Exception e) {
 			map.put("status", 2);
@@ -132,11 +158,42 @@ public class AppController {
 		return map;
 	}
 
+	@Autowired
+	private RegionService regionService;
+
+	/**
+	 * 接口6 新 b域接口
+	 */
+	@RequestMapping(value = "/queryHiGridDataHourLatest")
+	public Map<String, Object> queryHiGridDataHourLatest() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		try {
+			// 先判断数量是不是存在最新的数据
+			String maxDate = regionService.queryMaxDate();
+			List<AnalysisModel> list = new ArrayList<AnalysisModel>();
+			for (int j = 0; j < numList.size(); j++) {
+				String key = numList.get(j);// region
+				if (j == 0) {
+					key = null;
+				}
+				list.add(regionService.queryGridWarnData(key, maxDate));
+			}
+			map.put("miscParameter", list);
+
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() );
+		}
+		return map;
+	}
+
 	/**
 	 * 接口6 获取所有场馆的的年龄段、来源地、男女比例接口。
 	 */
-	@RequestMapping(value = "/queryHiGridDataHourLatest")
-	public Map<String, Object> queryHiGridDataHourLatest(HttpSession session) {
+	@RequestMapping(value = "/queryHiGridDataHourLatest1")
+	public Map<String, Object> queryHiGridDataHourLatest1(HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
@@ -271,32 +328,6 @@ public class AppController {
 		}
 		map.put("time", reqDate);
 		return map;
-	}
-
-	/**
-	 * 校验日期
-	 */
-	private String checkReqDate(String reqDate) {
-		String flag = null;
-		if (StringUtils.isNoneBlank(reqDate)) {
-			try {
-				if (reqDate.trim().length() == 14) {
-					String begin = reqDate.substring(0, 11);// 20180824234
-					String middle = reqDate.substring(11, 12);// 6
-					int middleInt = Integer.valueOf(middle);
-					if (middleInt < 5) {
-						flag = begin + "0" + "00";
-					} else if (middleInt >= 5) {
-						flag = begin + "5" + "00";
-					} else {
-						flag = null;
-					}
-				}
-			} catch (Exception e) {
-				flag = null;
-			}
-		}
-		return flag;
 	}
 
 	/**

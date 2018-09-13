@@ -22,5 +22,5 @@ public interface GridDataDao {
 	
 	public String queryMaxDate();
 
-	public List<Map<String, Object>> queryGridWarnData(@Param("warnNum") int warnNum,@Param("maxDate") String maxDate);
+	public List<Map<String, Object>> queryGridWarnData(@Param("warnNum") Double warnNum,@Param("maxDate") String maxDate,@Param("region") String region);
 }

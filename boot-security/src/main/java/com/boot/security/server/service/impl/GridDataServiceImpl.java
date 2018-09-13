@@ -53,8 +53,8 @@ public class GridDataServiceImpl implements GridDataService {
 	}
 
 	@Override
-	public List<Map<String, Object>> queryGridWarnData(int warnNum,String maxDate) {
-		return gridDataDao.queryGridWarnData(warnNum,maxDate);
+	public List<Map<String, Object>> queryGridWarnData(Double warnNum,String maxDate,String region) {
+		return gridDataDao.queryGridWarnData(warnNum,maxDate,region);
 	}
 
 	@Override

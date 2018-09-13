@@ -3,6 +3,50 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.boot.security.server.dao.BregionDao">
 
+    
+	<select id="analysisByGnder" resultType="BregionModel">
+		select d.gender as gender,nvl(sum(d.imei_num),0) as gnum
+		from B_REGION d 
+		where 1=1
+		and d.area_type='Indoor'  
+		<if test="region != null" >
+			and d.stadium_no=#{region} 
+		</if> 
+		and d.sdate=#{sdate} 
+		group by d.gender  
+	</select> 
 	
+	<select id="analysisByAge" resultType="BregionModel">
+		select d.age as age,nvl(sum(d.imei_num),0) as anum
+		from B_REGION d 
+		where 1=1
+		and d.area_type='Indoor' 
+		<if test="region != null">
+			and d.stadium_no=#{region} 
+		</if> 
+		and d.sdate=#{sdate} 
+		group by d.age  
+	</select> 
+	
+	<select id="analysisBySource" resultType="BregionModel">
+		select * from (
+		select d.source as source,nvl(sum(d.imei_num),0) as snum
+		from B_REGION d 
+		where 1=1
+		and d.area_type='Indoor' 
+		<if test="region != null">
+			and d.stadium_no=#{region} 
+		</if> 
+		and d.sdate=#{sdate} 
+		group by d.source  
+		order by nvl(sum(d.imei_num),0) desc
+		)
+		where ROWNUM &lt;=10
+		
+	</select> 
+	
+	<select id="queryMaxDate" resultType="string">
+		select max(d.sdate) from B_REGION d where  d.area_type='Indoor' 
+	</select> 
 	 
 </mapper>
