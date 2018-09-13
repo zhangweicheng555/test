@@ -112,7 +112,7 @@ public class AppController {
 	/**
 	 * 接口8 获取当前所有场馆的告警信息。 根据传入的告警数量 获取所有的栅格数据 最大时间的
 	 */
-	
+
 	@RequestMapping(value = "/queryGridWarnData")
 	public Map<String, Object> queryGridWarnData(@RequestParam(value = "warnNum", required = true) String warnNum) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -134,8 +134,8 @@ public class AppController {
 					for (int i = 1; i < numList.size(); i++) {
 						Double dVal = Double.valueOf(warnNums[i - 1]);
 						if (dVal != -1) {
-							List<Map<String, Object>> listRegionDatas = gridDataService
-									.queryGridWarnData(dVal, maxDate, numList.get(i));
+							List<Map<String, Object>> listRegionDatas = gridDataService.queryGridWarnData(dVal, maxDate,
+									numList.get(i));
 							if (listRegionDatas != null && listRegionDatas.size() > 0) {
 								for (Map<String, Object> map2 : listRegionDatas) {
 									listDatas.add(map2);
@@ -170,7 +170,6 @@ public class AppController {
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
 		try {
-			// 先判断数量是不是存在最新的数据
 			String maxDate = regionService.queryMaxDate();
 			List<AnalysisModel> list = new ArrayList<AnalysisModel>();
 			for (int j = 0; j < numList.size(); j++) {
@@ -184,7 +183,7 @@ public class AppController {
 
 		} catch (Exception e) {
 			map.put("status", 2);
-			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() );
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage());
 		}
 		return map;
 	}
