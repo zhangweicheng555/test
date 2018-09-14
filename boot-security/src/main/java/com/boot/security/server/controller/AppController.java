@@ -131,23 +131,28 @@ public class AppController {
 				} else {
 					List<Map<String, Object>> listDatas = new ArrayList<>();
 					String maxDate = gridDataService.queryMaxDate();
-					for (int i = 1; i < numList.size(); i++) {
-						Double dVal = Double.valueOf(warnNums[i - 1]);
-						if (dVal != -1) {
-							List<Map<String, Object>> listRegionDatas = gridDataService.queryGridWarnData(dVal, maxDate,
-									numList.get(i));
-							if (listRegionDatas != null && listRegionDatas.size() > 0) {
-								for (Map<String, Object> map2 : listRegionDatas) {
-									listDatas.add(map2);
+					if(StringUtils.isBlank(maxDate)) {
+						map.put("status", 2);
+						map.put("msg", "数据库中日期不存在");
+					}else {
+						for (int i = 1; i < numList.size(); i++) {
+							Double dVal = Double.valueOf(warnNums[i - 1]);
+							if (dVal != -1) {
+								List<Map<String, Object>> listRegionDatas = gridDataService.queryGridWarnData(dVal, maxDate,
+										numList.get(i));
+								if (listRegionDatas != null && listRegionDatas.size() > 0) {
+									for (Map<String, Object> map2 : listRegionDatas) {
+										listDatas.add(map2);
+									}
 								}
 							}
 						}
-					}
-					if (listDatas.size() > 0) {
-						map.put("warningParameter", listDatas);
-					} else {
-						map.put("status", 1);
-						map.put("msg", "没有对应条件的数据！");
+						if (listDatas.size() > 0) {
+							map.put("warningParameter", listDatas);
+						} else {
+							map.put("status", 1);
+							map.put("msg", "没有对应条件的数据！");
+						}
 					}
 				}
 			}
@@ -171,16 +176,20 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		try {
 			String maxDate = regionService.queryMaxDate();
-			List<AnalysisModel> list = new ArrayList<AnalysisModel>();
-			for (int j = 0; j < numList.size(); j++) {
-				String key = numList.get(j);// region
-				if (j == 0) {
-					key = null;
+			if(StringUtils.isBlank(maxDate)) {
+				map.put("status", 2);
+				map.put("msg", "数据库中日期不存在");
+			}else {
+				List<AnalysisModel> list = new ArrayList<AnalysisModel>();
+				for (int j = 0; j < numList.size(); j++) {
+					String key = numList.get(j);// region
+					if (j == 0) {
+						key = null;
+					}
+					list.add(regionService.queryGridWarnData(key, maxDate));
 				}
-				list.add(regionService.queryGridWarnData(key, maxDate));
+				map.put("miscParameter", list);
 			}
-			map.put("miscParameter", list);
-
 		} catch (Exception e) {
 			map.put("status", 2);
 			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage());
@@ -201,14 +210,19 @@ public class AppController {
 			long num = hiGridDataHourService.queryCount(session);
 			if (num > 0) {
 				String maxDate = hiGridDataHourService.queryMaxDate();
-				List<Map<String, Object>> listMaps = new ArrayList<Map<String, Object>>();
-				for (int j = 1; j < numList.size(); j++) {
-					String key = numList.get(j);// region
-					HiGridDataHour hiGridDataHour = hiGridDataHourService.queryHiGridDataHourLatest(key, maxDate);
-					listMaps.add(hiGridDataHourToMap(hiGridDataHour));
+				if(StringUtils.isBlank(maxDate)) {
+					map.put("status", 2);
+					map.put("msg", "数据库中日期不存在");
+				}else {
+					List<Map<String, Object>> listMaps = new ArrayList<Map<String, Object>>();
+					for (int j = 1; j < numList.size(); j++) {
+						String key = numList.get(j);// region
+						HiGridDataHour hiGridDataHour = hiGridDataHourService.queryHiGridDataHourLatest(key, maxDate);
+						listMaps.add(hiGridDataHourToMap(hiGridDataHour));
+					}
+					listMaps.add(0, dealAllMap(listMaps));
+					map.put("miscParameter", listMaps);
 				}
-				listMaps.add(0, dealAllMap(listMaps));
-				map.put("miscParameter", listMaps);
 			} else {
 				map.put("status", 3);
 				map.put("msg", "数据未更新");
@@ -468,17 +482,22 @@ public class AppController {
 		map.put("gridParameterList", new ArrayList<>());
 		String maxDate = gridDataService.queryMaxDate();
 		try {
-			if (StringUtils.isNoneBlank(region)) {
-				List<Map<String, Object>> list = gridDataService.queryGridDataByRegion(region, maxDate);
-				if (list.size() > 0) {
-					map.put("gridParameterList", list);
-				} else {
-					map.put("status", 1);
-					map.put("msg", "没有对应条件的数据！");
-				}
-			} else {
+			if(StringUtils.isBlank(maxDate)) {
 				map.put("status", 2);
-				map.put("msg", "未传入请求参数region");
+				map.put("msg", "数据库中日期不存在");
+			}else {
+				if (StringUtils.isNoneBlank(region)) {
+					List<Map<String, Object>> list = gridDataService.queryGridDataByRegion(region, maxDate);
+					if (list.size() > 0) {
+						map.put("gridParameterList", list);
+					} else {
+						map.put("status", 1);
+						map.put("msg", "没有对应条件的数据！");
+					}
+				} else {
+					map.put("status", 2);
+					map.put("msg", "未传入请求参数region");
+				}
 			}
 		} catch (Exception e) {
 			map.put("status", 2);

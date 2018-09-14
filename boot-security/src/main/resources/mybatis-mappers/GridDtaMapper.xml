@@ -5,7 +5,7 @@
 
 	<insert id="save" parameterType="GridData">
 		insert into LTE_GRID_USER_NUM
-		(SDATE,REGIONTYPE,REGION,GRIDX,GRIDY,LONGITUDE,LATITUDE,IMSI_NUM,RATIO,TOTALUSERS,RATIO_MR)
+		(SDATE,REGIONTYPE,REGION,GRIDX,GRIDY,LONGITUDE,LATITUDE,IMEI_NUM,USER_RATIO,TOTALUSERS,RATIO_MR)
 		values (#{sdate,jdbcType=VARCHAR},
 		#{regiontype,jdbcType=VARCHAR},
 		#{region,jdbcType=VARCHAR},
@@ -23,7 +23,7 @@
 
 	<select id="queryGridDataByRegion" resultType="java.util.Map">
 <!-- 		select m.NEWIDX as "x",m.NEWIDY as "y",d.total_user_num as "userCount"   -->
-		select m.NEWIDX as "x",m.NEWIDY as "y",d.IMSI_NUM as "imsi" ,d.RATIO as "radio"  
+		select m.NEWIDX as "x",m.NEWIDY as "y",d.IMEI_NUM as "imsi" ,d.USER_RATIO as "radio"  
 		   from LTE_GRID_USER_NUM d 
 		    inner join GRIDMAPPER m
 		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
@@ -31,7 +31,7 @@
 	</select>
 	
 	<select id="queryGridDataByTimeRegion" resultType="java.util.Map">
-		select m.NEWIDX as "x",m.NEWIDY as "y",d.IMSI_NUM as "imsi",d.RATIO as "radio"
+		select m.NEWIDX as "x",m.NEWIDY as "y",d.IMEI_NUM as "imsi",d.USER_RATIO as "radio"
 <!-- 		select m.NEWIDX as "x",m.NEWIDY as "y",d.total_user_num as "userCount"   -->
 		   from LTE_GRID_USER_NUM d 
 		    inner join GRIDMAPPER m
@@ -41,7 +41,7 @@
 	
 	<select id="queryGridWarnData" resultType="java.util.Map">
 		<!-- select m.NEWIDX as "x",m.NEWIDY as "y",d.total_user_num as "userCount",d.stadium_no as "region" ,d.statistics_time as "times"  -->
-		select m.NEWIDX as "x",m.NEWIDY as "y",d.IMSI_NUM as "imsi" ,d.RATIO as "radio",d.stadium_no as "region" ,d.statistics_time as "times" 
+		select m.NEWIDX as "x",m.NEWIDY as "y",d.IMEI_NUM as "imsi" ,d.USER_RATIO as "radio",d.stadium_no as "region" ,d.statistics_time as "times" 
 		   from LTE_GRID_USER_NUM d 
 		    inner join GRIDMAPPER m
 		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
