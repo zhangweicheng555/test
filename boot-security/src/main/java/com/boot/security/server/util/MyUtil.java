@@ -462,6 +462,7 @@ public class MyUtil {
 		Date endDate = sdf.parse(endDateStr);
 
 		List<Date> list = new ArrayList<Date>();
+		list.add(beginDate);
 		for (int i = 0; i < 20000; i++) {
 			beginDate = new Date(beginDate.getTime() + 60 * minute * 1000);
 			if (beginDate.compareTo(endDate) > 0) {

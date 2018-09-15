@@ -24,11 +24,11 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 	 * key是要缓存的内容  在缓存中的键值
 	 */
 	//@Cacheable(value="queryPeopleNumByTimeRange")
-	@Override
+	/*@Override
 	public Integer queryPeopleNumByTimeRange(Date dateStr, String region) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		return gridDataService.queryGridPeopleNumDataNew(region,sdf.format(dateStr));
-	}
+	}*/
 
 	@Override
 	public HiGridDataHour queryHiGridDataHourLatest(String region,String maxDate) {
@@ -61,5 +61,11 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 	@Override
 	public String queryMaxDate() {
 		return hiGridDataHourDao.queryMaxDate();
+	}
+
+	@Override
+	public Integer queryPeopleNumByTimeRange(Date dateStr, String region) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

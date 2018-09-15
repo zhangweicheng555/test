@@ -82,6 +82,7 @@ public class AppController {
 			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
 			@RequestParam(value = "endDateStr", required = true) String endDateStr,
 			@RequestParam(value = "minute", required = true) int minute,
+			@RequestParam(value = "warnNum", required = true) Long warnNum,
 			@RequestParam(value = "region", required = true) String region) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
@@ -92,7 +93,7 @@ public class AppController {
 			if (listDates.size() > 0) {
 				List<Map<String, Object>> listMaps = new ArrayList<>();
 				for (Date date : listDates) {
-					Map<String, Object> map2 = gridDataService.queryGridDataByTimeRegion(date, region);
+					Map<String, Object> map2 = gridDataService.queryGridDataByTimeRegion(date, region, warnNum);
 					if (map2 != null) {
 						listMaps.add(map2);
 					}
@@ -131,15 +132,15 @@ public class AppController {
 				} else {
 					List<Map<String, Object>> listDatas = new ArrayList<>();
 					String maxDate = gridDataService.queryMaxDate();
-					if(StringUtils.isBlank(maxDate)) {
+					if (StringUtils.isBlank(maxDate)) {
 						map.put("status", 2);
 						map.put("msg", "数据库中日期不存在");
-					}else {
+					} else {
 						for (int i = 1; i < numList.size(); i++) {
 							Double dVal = Double.valueOf(warnNums[i - 1]);
 							if (dVal != -1) {
-								List<Map<String, Object>> listRegionDatas = gridDataService.queryGridWarnData(dVal, maxDate,
-										numList.get(i));
+								List<Map<String, Object>> listRegionDatas = gridDataService.queryGridWarnData(dVal,
+										maxDate, numList.get(i));
 								if (listRegionDatas != null && listRegionDatas.size() > 0) {
 									for (Map<String, Object> map2 : listRegionDatas) {
 										listDatas.add(map2);
@@ -176,10 +177,10 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		try {
 			String maxDate = regionService.queryMaxDate();
-			if(StringUtils.isBlank(maxDate)) {
+			if (StringUtils.isBlank(maxDate)) {
 				map.put("status", 2);
 				map.put("msg", "数据库中日期不存在");
-			}else {
+			} else {
 				List<AnalysisModel> list = new ArrayList<AnalysisModel>();
 				for (int j = 0; j < numList.size(); j++) {
 					String key = numList.get(j);// region
@@ -210,10 +211,10 @@ public class AppController {
 			long num = hiGridDataHourService.queryCount(session);
 			if (num > 0) {
 				String maxDate = hiGridDataHourService.queryMaxDate();
-				if(StringUtils.isBlank(maxDate)) {
+				if (StringUtils.isBlank(maxDate)) {
 					map.put("status", 2);
 					map.put("msg", "数据库中日期不存在");
-				}else {
+				} else {
 					List<Map<String, Object>> listMaps = new ArrayList<Map<String, Object>>();
 					for (int j = 1; j < numList.size(); j++) {
 						String key = numList.get(j);// region
@@ -300,8 +301,9 @@ public class AppController {
 
 	/**
 	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
-	 * 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间 reqDate 没用
-	   正式服
+	 * 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间 reqDate 没用 
+	 * 正式服
+	*/
 	@RequestMapping(value = "/queryGridPeopleNumData")
 	public Map<String, Object> queryGridPeopleNumData(
 			@RequestParam(value = "reqDate", required = true) String reqDate) {
@@ -319,13 +321,13 @@ public class AppController {
 			} else {
 				maxDate = reqDate;
 				if (StringUtils.isNoneBlank(maxDate)) {
-					List<Integer> peopleParameterList = new ArrayList<Integer>();
+					List<Double> peopleParameterList = new ArrayList<Double>();
 					for (int j = 1; j < numList.size(); j++) {
 						String key = numList.get(j);// region
 						peopleParameterList.add(gridDataService.queryGridPeopleNumDataNew(key, maxDate));
 					}
-					int countAll = 0;
-					for (Integer num : peopleParameterList) {
+					Double countAll = 0.0;
+					for (Double num : peopleParameterList) {
 						countAll += num;
 					}
 					peopleParameterList.add(0, countAll);
@@ -341,12 +343,14 @@ public class AppController {
 		}
 		map.put("time", reqDate);
 		return map;
-	} */
+	}
+	 
+
 	/**
 	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
 	 * 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间 reqDate 没用
-	 * 测试服
-	 */
+	 *  测试服
+	 
 	@RequestMapping(value = "/queryGridPeopleNumData")
 	public Map<String, Object> queryGridPeopleNumData(
 			@RequestParam(value = "reqDate", required = true) String reqDate) {
@@ -360,17 +364,17 @@ public class AppController {
 				map.put("status", 2);
 				map.put("msg", "未传入请求的参数:reqDate:格式(20180824234600)");
 			} else {
-				if(("00000000000000").equals(reqDate)) {
+				if (("00000000000000").equals(reqDate)) {
 					reqDate = gridDataService.queryMaxDate();
 				}
 				if (StringUtils.isNoneBlank(reqDate)) {
-					List<Integer> peopleParameterList = new ArrayList<Integer>();
+					List<Double> peopleParameterList = new ArrayList<Double>();
 					for (int j = 1; j < numList.size(); j++) {
 						String key = numList.get(j);// region
 						peopleParameterList.add(gridDataService.queryGridPeopleNumDataNew(key, reqDate));
 					}
-					int countAll = 0;
-					for (Integer num : peopleParameterList) {
+					Double countAll = 0.0;
+					for (Double num : peopleParameterList) {
 						countAll += num;
 					}
 					peopleParameterList.add(0, countAll);
@@ -387,58 +391,7 @@ public class AppController {
 		map.put("time", reqDate);
 		return map;
 	}
-
-	/**
-	 * 最新 废弃 不用了 这个 接口2 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 查询历史表
-	 * http://localhost:8989/app/queryPeopleNumByTimeRange?beginDateStr=2019-7-26
-	 * 11:55&endDateStr=2019-7-26 12:30&minute=5 这个就是开始时间 结束结束范围 然后跟几分钟切割
-	 * 计算每个场馆各个时刻的值
-	 * 
-	 * 这个返回本馆当天的
-	 */
-
-	@RequestMapping(value = "/queryPeopleNumByTimeRange")
-	public Map<String, Object> queryPeopleNumByTimeRange(
-			@RequestParam(value = "beginDate", required = true) String beginDate,
-			@RequestParam(value = "minute", required = true) int minute) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", 0);
-		map.put("msg", "操作成功！");
-		map.put("time", "");
-		map.put("item", new ArrayList<>());
-		try {
-			String maxDate = gridDataService.queryMaxDate();
-			List<Date> listDates = MyUtil.getDateListN(beginDate, maxDate, minute);
-			if (listDates.size() > 0) {
-				List<Map<String, Object>> myList = new ArrayList<Map<String, Object>>();
-				for (String key : numList) {
-					Map<String, Object> map2 = new HashMap<>();
-					map2.put("name", key);
-					List<Integer> lInteger = new ArrayList<>();
-					for (Date date : listDates) {
-						Integer integerNum = hiGridDataHourService.queryPeopleNumByTimeRange(date, key);
-						if (integerNum != null && integerNum > 0) {
-							lInteger.add(integerNum);
-						} else {
-							lInteger.add(0);
-						}
-					}
-					map2.put("item", lInteger);
-					myList.add(map2);
-				}
-				map.put("item", myList);
-				map.put("time", maxDate);
-			} else {
-				map.put("status", 1);
-				map.put("msg", "没有对应条件的数据！");
-			}
-		} catch (Exception e) {
-			map.put("status", 2);
-			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyy-MM-dd HH:mm");
-		}
-		return map;
-	}
-
+*/
 	/**
 	 * 用户散点图 接口 七、8 获取指定用户的散点图。 返回各个用户在各个时间点的 数量 返回xy
 	 */
@@ -482,10 +435,10 @@ public class AppController {
 		map.put("gridParameterList", new ArrayList<>());
 		String maxDate = gridDataService.queryMaxDate();
 		try {
-			if(StringUtils.isBlank(maxDate)) {
+			if (StringUtils.isBlank(maxDate)) {
 				map.put("status", 2);
 				map.put("msg", "数据库中日期不存在");
-			}else {
+			} else {
 				if (StringUtils.isNoneBlank(region)) {
 					List<Map<String, Object>> list = gridDataService.queryGridDataByRegion(region, maxDate);
 					if (list.size() > 0) {
@@ -1015,6 +968,31 @@ public class AppController {
 			map.put("msg", "设置移动百分比成功：" + BootConstant.People_Num_Percent + "！");
 		} catch (Exception e) {
 			map.put("status", 2);
+			map.put("msg", "系统异常！");
+		}
+		return map;
+	}
+	/**
+	 * 接口10 设置移动百分比
+	 */
+	@ResponseBody
+	@RequestMapping("/getUserPercent")
+	public Map<String, Object> getUserPercent() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			Double userPercent=BootConstant.People_Num_Percent ;
+			if (userPercent != null && userPercent >0) {
+				map.put("status", 0);
+				map.put("userPercent", userPercent);
+				map.put("msg", "获取移动百分比成功：" + BootConstant.People_Num_Percent + "！");
+			}else {
+				map.put("status", 0);
+				map.put("userPercent", 0);
+				map.put("msg", "未设置移动百分比！");
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("userPercent", 0);
 			map.put("msg", "系统异常！");
 		}
 		return map;

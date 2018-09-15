@@ -27,16 +27,16 @@
 		   from LTE_GRID_USER_NUM d 
 		    inner join GRIDMAPPER m
 		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		        where d.stadium_no=#{region,jdbcType=VARCHAR} and d.area_type='Indoor' and d.statistics_time=#{maxDate}   and  d.total_user_num > 0
+		        where d.stadium_no=#{region,jdbcType=VARCHAR} and d.area_type='Indoor' and d.statistics_time=#{maxDate}   
 	</select>
 	
-	<select id="queryGridDataByTimeRegion" resultType="java.util.Map">
-		select m.NEWIDX as "x",m.NEWIDY as "y",d.IMEI_NUM as "imsi",d.USER_RATIO as "radio"
+	<select id="queryGridDataByTimeRegion" resultType="CommonModel">
+		select m.NEWIDX as "x",m.NEWIDY as "y",d.IMEI_NUM as "imsi",d.USER_RATIO as "radio",d.total_user_num as "allNum"
 <!-- 		select m.NEWIDX as "x",m.NEWIDY as "y",d.total_user_num as "userCount"   -->
 		   from LTE_GRID_USER_NUM d 
 		    inner join GRIDMAPPER m
 		      on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		        where d.stadium_no=#{region} and d.area_type='Indoor' and d.statistics_time=#{dateStr}  and  d.total_user_num > 0
+		        where d.stadium_no=#{region} and d.area_type='Indoor' and d.statistics_time=#{dateStr} 
 	</select>
 	
 	<select id="queryGridWarnData" resultType="java.util.Map">
@@ -68,8 +68,8 @@
 	 
 	 
 	 
-	<select id="queryGridPeopleNumDataNew" resultType="int">
-		select nvl(sum(d.total_user_num),0)  
+	<select id="queryGridPeopleNumDataNew" resultType="CommonModel">
+		select d.IMEI_NUM as "imsi" ,d.USER_RATIO as "radio"
 		from LTE_GRID_USER_NUM d 
 		where d.area_type='Indoor' 
 		   and d.stadium_no=#{region} 
