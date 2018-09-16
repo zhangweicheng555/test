@@ -78,19 +78,19 @@ public class RegionServiceImpl implements RegionService {
 	private void handleAge(AnalysisModel analysisModel, List<BregionModel> analysisByAge) {
 		if (analysisByAge != null && analysisByAge.size() > 0) {
 			for (BregionModel bregionModel : analysisByAge) {
-				if (("0-18").equals(bregionModel.getAge())) {
+				if (("age18").equals(bregionModel.getAge())) {
 					analysisModel.setAge1(Long.valueOf(bregionModel.getAnum()));
 				}
-				if (("18-35").equals(bregionModel.getAge())) {
+				if (("age35").equals(bregionModel.getAge())) {
 					analysisModel.setAge1(Long.valueOf(bregionModel.getAnum()));
 				}
-				if (("35-50").equals(bregionModel.getAge())) {
+				if (("age50").equals(bregionModel.getAge())) {
 					analysisModel.setAge3(Long.valueOf(bregionModel.getAnum()));
 				}
-				if (("50-60").equals(bregionModel.getAge())) {
+				if (("age65").equals(bregionModel.getAge())) {
 					analysisModel.setAge4(Long.valueOf(bregionModel.getAnum()));
 				}
-				if (("65-200").equals(bregionModel.getAge())) {
+				if (("age_na").equals(bregionModel.getAge())) {
 					analysisModel.setAge5(Long.valueOf(bregionModel.getAnum()));
 				}
 			}
@@ -100,10 +100,10 @@ public class RegionServiceImpl implements RegionService {
 	private void handleSex(AnalysisModel analysisModel, List<BregionModel> analysisByGnder) {
 		if (analysisByGnder != null && analysisByGnder.size() > 0) {
 			for (BregionModel bregionModel : analysisByGnder) {
-				if (("男").equals(bregionModel.getGender())) {
+				if (("1").equals(bregionModel.getGender())) {
 					analysisModel.setMale(bregionModel.getGnum());
 				}
-				if (("女").equals(bregionModel.getGender())) {
+				if (("2").equals(bregionModel.getGender())) {
 					analysisModel.setFemale(bregionModel.getGnum());
 				}
 			}
