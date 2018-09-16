@@ -26,17 +26,16 @@ public class GridDataServiceImpl implements GridDataService {
 		gridDataDao.save(gridData);
 	}
 
-	
 	@Override
 	public List<Map<String, Object>> queryGridDataByRegion(String region, String maxDate) {
-		
+
 		Double numPercent = 0.0;
 		if (BootConstant.People_Num_Percent > 0) {
 			numPercent = BootConstant.People_Num_Percent;
 		} else {
 			numPercent = null;
 		}
-		return gridDataDao.queryGridDataByRegion(region,maxDate,numPercent); 
+		return gridDataDao.queryGridDataByRegion(region, maxDate, numPercent);
 	}
 
 	@Override
@@ -75,8 +74,8 @@ public class GridDataServiceImpl implements GridDataService {
 				}
 				map.put("grids", listMaps);
 			}
-		}else {
-			map =null;
+		} else {
+			map = null;
 		}
 		return map;
 	}
@@ -89,7 +88,7 @@ public class GridDataServiceImpl implements GridDataService {
 		} else {
 			numPercent = null;
 		}
-		return gridDataDao.queryGridPeopleNum(region, maxDate,numPercent);
+		return gridDataDao.queryGridPeopleNum(maxDate, region, numPercent);
 	}
 
 	@Override
@@ -100,7 +99,7 @@ public class GridDataServiceImpl implements GridDataService {
 		} else {
 			numPercent = null;
 		}
-		return gridDataDao.queryGridWarnData(warnNum, maxDate, region,numPercent);
+		return gridDataDao.queryGridWarnData(warnNum, maxDate, region, numPercent);
 	}
 
 	@Override

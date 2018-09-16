@@ -357,7 +357,7 @@ public class AppController {
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
 		map.put("time", "");
-		map.put("peopleParameterList", "");
+		map.put("peopleParameterList", new ArrayList<>());
 		try {
 			if (StringUtils.isBlank(reqDate)) {
 				map.put("status", 2);

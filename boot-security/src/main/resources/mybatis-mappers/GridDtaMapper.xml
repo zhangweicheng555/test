@@ -61,14 +61,14 @@
 	
 	<select id="queryGridPeopleNum" resultType="java.lang.Double">
 		 <if test="numPercent != null">
-			select sum(nvl(ceil(d.IMEI_NUM/#{numPercent}),0)) 
+		  select nvl(sum(ceil(d.IMEI_NUM/#{numPercent})),0) 
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
 		             where d.stadium_no=#{region} and d.area_type='Indoor' and d.statistics_time=#{dateStr} 
         </if> 
 		<if test="numPercent == null">
-			select sum(nvl(ceil(d.IMEI_NUM/d.USER_RATIO),0)) 
+			select nvl(sum(ceil(d.IMEI_NUM/d.USER_RATIO)),0)  
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
