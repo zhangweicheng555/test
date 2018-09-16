@@ -26,30 +26,17 @@ public class GridDataServiceImpl implements GridDataService {
 		gridDataDao.save(gridData);
 	}
 
+	
 	@Override
 	public List<Map<String, Object>> queryGridDataByRegion(String region, String maxDate) {
-		List<Map<String, Object>> queryGridDataByRegion = gridDataDao.queryGridDataByRegion(region, maxDate);
-		List<Map<String, Object>> lisMaps = new ArrayList<Map<String, Object>>();
-		if (queryGridDataByRegion != null && queryGridDataByRegion.size() > 0) {
-			for (Map<String, Object> map : queryGridDataByRegion) {
-				Double imsi = Double.valueOf(map.get("imsi").toString());
-				Double radio = Double.valueOf(map.get("radio").toString());
-				Double double1 = 0.0;
-				if (BootConstant.People_Num_Percent > 0) {
-					double1 = imsi / BootConstant.People_Num_Percent;
-				} else {
-					double1 = imsi / radio;
-				}
-				if (double1 >0) {
-					map.put("userCount", (int) Math.ceil(double1));
-					map.remove("imsi");
-					map.remove("radio");
-					lisMaps.add(map);
-				}
-			}
+		
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
 		}
-		return lisMaps;
-		/* return gridDataDao.queryGridDataByRegion(region,maxDate); */
+		return gridDataDao.queryGridDataByRegion(region,maxDate,numPercent); 
 	}
 
 	@Override
@@ -58,93 +45,62 @@ public class GridDataServiceImpl implements GridDataService {
 	}
 
 	@Override
-	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Long warnNum) {
+	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		Map<String, Object> map = new HashMap<>();
 
-		List<CommonModel> list = gridDataDao.queryGridDataByTimeRegion(sdf.format(date), region);
-
-		Map<String, Object> mapModel = new HashMap<>();
-		map.put("date", sdf.format(date));
-		map.put("total", 0);
-		map.put("grids", new ArrayList<>());
-		
-		
-		
-		if (list.size() > 0) {
-			Double countNum = 0.0;
-			List<Map<String, Object>> listMaps = new ArrayList<>();
-			for (CommonModel entity : list) {
-
-				Map<String, Object> mapM = new HashMap<>();
-
-				Double imsi = entity.getImsi();
-				Double radio = entity.getRadio();
-				Double double1 = 0.0;
-				if (BootConstant.People_Num_Percent > 0) {
-					double1 = imsi / BootConstant.People_Num_Percent;
-				} else {
-					double1 = imsi / radio;
-				}
-
-				countNum += Math.ceil(double1);
-				if (double1 > warnNum) {
-					mapM.put("userCount", Math.ceil(double1));
-					mapM.put("x", entity.getX());
-					mapM.put("y", entity.getY());
-
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+		// 查询这个馆这个时间的所有的人数的数量
+		Double total = gridDataDao.queryGridPeopleNum(sdf.format(date), region, numPercent);
+		if (total > 0) {
+			map.put("date", sdf.format(date));
+			map.put("total", total);
+			map.put("grids", new ArrayList<>());
+			// 查询符合条件的数据
+			List<CommonModel> list = gridDataDao.queryGridDataByTimeRegion(sdf.format(date), region, numPercent,
+					warnNum);
+			if (list != null && list.size() > 0) {
+				List<Map<String, Object>> listMaps = new ArrayList<>();
+				for (CommonModel commonModel : list) {
+					Map<String, Object> mapM = new HashMap<>();
+					mapM.put("userCount", commonModel.getUserCount());
+					mapM.put("x", commonModel.getX());
+					mapM.put("y", commonModel.getY());
 					listMaps.add(mapM);
 				}
+				map.put("grids", listMaps);
 			}
-			map.put("total", countNum);
-			map.put("grids", listMaps);
+		}else {
+			map =null;
 		}
 		return map;
 	}
 
 	@Override
 	public Double queryGridPeopleNumDataNew(String region, String maxDate) {
-		Double num = 0.0;
-		List<CommonModel> commonModels = gridDataDao.queryGridPeopleNumDataNew(region, maxDate);
-		if (commonModels != null && commonModels.size() > 0) {
-			for (CommonModel entity : commonModels) {
-
-				Double imsi = entity.getImsi();
-				Double radio = entity.getRadio();
-				Double double1 = 0.0;
-				if (BootConstant.People_Num_Percent > 0) {
-					double1 = imsi / BootConstant.People_Num_Percent;
-				} else {
-					double1 = imsi / radio;
-				}
-				num += Math.ceil(double1);
-			}
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
 		}
-		return num;
+		return gridDataDao.queryGridPeopleNum(region, maxDate,numPercent);
 	}
 
 	@Override
 	public List<Map<String, Object>> queryGridWarnData(Double warnNum, String maxDate, String region) {
-		/* return gridDataDao.queryGridWarnData(warnNum, maxDate, region); */
-		List<Map<String, Object>> queryGridWarnData = gridDataDao.queryGridWarnData(warnNum, maxDate, region);
-		List<Map<String, Object>> queryDataMaps = new ArrayList<>();
-		if (queryGridWarnData != null && queryGridWarnData.size() > 0) {
-			for (Map<String, Object> map : queryGridWarnData) {
-				Double imsi = Double.valueOf(map.get("imsi").toString());
-				Double radio = Double.valueOf(map.get("radio").toString());
-				Double double1 = 0.0;
-				if (BootConstant.People_Num_Percent > 0) {
-					double1 = imsi / BootConstant.People_Num_Percent;
-				} else {
-					double1 = imsi / radio;
-				}
-				map.put("userCount", (int) Math.ceil(double1));
-				map.remove("imsi");
-				map.remove("radio");
-				queryDataMaps.add(map);
-			}
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
 		}
-		return queryDataMaps;
+		return gridDataDao.queryGridWarnData(warnNum, maxDate, region,numPercent);
 	}
 
 	@Override

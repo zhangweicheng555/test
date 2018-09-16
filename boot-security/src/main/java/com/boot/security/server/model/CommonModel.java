@@ -16,6 +16,7 @@ public class CommonModel implements Serializable {
 	private Double imsi;
 	private Double radio;
 	private Double allNum;
+	private Double userCount;
 
 	public Double getX() {
 		return x;
@@ -23,6 +24,14 @@ public class CommonModel implements Serializable {
 
 	public void setX(Double x) {
 		this.x = x;
+	}
+
+	public Double getUserCount() {
+		return userCount;
+	}
+
+	public void setUserCount(Double userCount) {
+		this.userCount = userCount;
 	}
 
 	public Double getY() {

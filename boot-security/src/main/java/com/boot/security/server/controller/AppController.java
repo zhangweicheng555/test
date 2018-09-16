@@ -82,7 +82,7 @@ public class AppController {
 			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
 			@RequestParam(value = "endDateStr", required = true) String endDateStr,
 			@RequestParam(value = "minute", required = true) int minute,
-			@RequestParam(value = "warnNum", required = true) Long warnNum,
+			@RequestParam(value = "warnNum", required = true) Double warnNum,
 			@RequestParam(value = "region", required = true) String region) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
@@ -303,7 +303,6 @@ public class AppController {
 	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
 	 * 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间 reqDate 没用 
 	 * 正式服
-	*/
 	@RequestMapping(value = "/queryGridPeopleNumData")
 	public Map<String, Object> queryGridPeopleNumData(
 			@RequestParam(value = "reqDate", required = true) String reqDate) {
@@ -343,14 +342,14 @@ public class AppController {
 		}
 		map.put("time", reqDate);
 		return map;
-	}
+	}*/
 	 
 
 	/**
 	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
 	 * 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间 reqDate 没用
 	 *  测试服
-	 
+	 */
 	@RequestMapping(value = "/queryGridPeopleNumData")
 	public Map<String, Object> queryGridPeopleNumData(
 			@RequestParam(value = "reqDate", required = true) String reqDate) {
@@ -391,7 +390,7 @@ public class AppController {
 		map.put("time", reqDate);
 		return map;
 	}
-*/
+
 	/**
 	 * 用户散点图 接口 七、8 获取指定用户的散点图。 返回各个用户在各个时间点的 数量 返回xy
 	 */

@@ -14,7 +14,7 @@ public interface GridDataService {
 
 	public List<Map<String, Object>> querySingleGridData();
 
-	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Long warnNum);
+	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum);
 
 	public Double queryGridPeopleNumDataNew(String region, String maxDate);
 
