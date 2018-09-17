@@ -21,4 +21,13 @@ public interface GridDataService {
 	public List<Map<String, Object>> queryGridWarnData(Double warnNum, String maxDate, String region);
 
 	public String queryMaxDate();
+	
+	//0918
+	public String queryBeforeDate();
+
+	public void insertBatch(String beforeDate);
+
+	public void deleteBatch(String beforeDate);
+	
+	public String queryMinDate();
 }

@@ -47,14 +47,31 @@
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{dateStr} 
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{dateStr} and ceil(d.IMEI_NUM/#{numPercent}) >0
         </if>
 		<if test="numPercent == null">
 			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/d.USER_RATIO) as "userCount"
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{dateStr} 
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{dateStr} and ceil(d.IMEI_NUM/d.USER_RATIO) >0
+        </if> 
+		
+	</select>
+	<select id="queryHiGridDataByTimeRegion" resultType="CommonModel">
+		<if test="numPercent != null">
+			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/#{numPercent}) as "userCount"
+		       from HI_LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{dateStr} and ceil(d.IMEI_NUM/#{numPercent}) >0
+        </if>
+		<if test="numPercent == null">
+			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/d.USER_RATIO) as "userCount"
+		       from HI_LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{dateStr} and ceil(d.IMEI_NUM/d.USER_RATIO) >0
         </if> 
 		
 	</select>
@@ -70,6 +87,23 @@
 		<if test="numPercent == null">
 			select nvl(sum(ceil(d.IMEI_NUM/d.USER_RATIO)),0)  
 		       from LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{dateStr} 
+        </if>
+		
+	</select>
+	<select id="queryHiGridPeopleNum" resultType="java.lang.Double">
+		 <if test="numPercent != null">
+		  select nvl(sum(ceil(d.IMEI_NUM/#{numPercent})),0) 
+		       from HI_LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{dateStr} 
+        </if> 
+		<if test="numPercent == null">
+			select nvl(sum(ceil(d.IMEI_NUM/d.USER_RATIO)),0)  
+		       from HI_LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
 		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{dateStr} 
@@ -118,6 +152,24 @@
 	<select id="queryMaxDate" resultType="string">
 		select max(d.statistics_time) from LTE_GRID_USER_NUM d where  d.area_type in ('Indoor','Ondoor') 
 	</select> 
-	 
+	
+	 <!-- 0918修改 -->
+	<select id="queryBeforeDate" resultType="string">
+		select to_char(to_date((select max(statistics_time) from LTE_GRID_USER_NUM),'yyyyMMddHH24miss')-numtodsinterval(4,'hour'),'yyyyMMddHH24miss')
+		from dual
+	</select> 
+	<select id="queryMinDate" resultType="string">
+		select to_char(to_date((select min(statistics_time) from LTE_GRID_USER_NUM),'yyyyMMddHH24miss')-numtodsinterval(4,'hour'),'yyyyMMddHH24miss')
+		from dual
+	</select> 
+	<insert id="insertBatch">
+		insert into 
+		HI_LTE_GRID_USER_NUM(statistics_time,area_type,stadium_no,gridx,gridy,longitude,latitude,imei_num,user_ratio,total_user_num,floor_no) 
+		select      statistics_time,area_type,stadium_no,gridx,gridy,longitude,latitude,imei_num,user_ratio,total_user_num,floor_no 
+		from LTE_GRID_USER_NUM where statistics_time &lt;= #{beforeDate}
+	</insert> 
+	<delete id="deleteBatch">
+		delete from LTE_GRID_USER_NUM where statistics_time &lt;= #{beforeDate}
+	</delete> 
 	 
 </mapper>

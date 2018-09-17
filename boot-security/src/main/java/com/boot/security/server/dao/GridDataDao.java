@@ -20,9 +20,10 @@ public interface GridDataDao {
 
 	public List<CommonModel> queryGridDataByTimeRegion(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent, @Param("warnNum") Double warnNum);
-
+	
 	public Double queryGridPeopleNum(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
+
 
 	public List<CommonModel> queryGridPeopleNumDataNew(@Param("region") String region,
 			@Param("maxDate") String maxDate);
@@ -31,5 +32,15 @@ public interface GridDataDao {
 
 	public List<Map<String, Object>> queryGridWarnData(@Param("warnNum") Double warnNum,
 			@Param("maxDate") String maxDate, @Param("region") String region, @Param("numPercent") Double numPercent);
+	
+	//0918
+	public String queryBeforeDate();
+	public String queryMinDate();
+	public void insertBatch(@Param("beforeDate") String beforeDate);
+	public void deleteBatch(@Param("beforeDate") String beforeDate);
+	public Double queryHiGridPeopleNum(@Param("dateStr") String dateStr, @Param("region") String region,
+			@Param("numPercent") Double numPercent);
+	public List<CommonModel> queryHiGridDataByTimeRegion(@Param("dateStr") String dateStr, @Param("region") String region,
+			@Param("numPercent") Double numPercent, @Param("warnNum") Double warnNum);
 
 }
