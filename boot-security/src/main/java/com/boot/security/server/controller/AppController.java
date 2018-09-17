@@ -78,6 +78,7 @@ public class AppController {
 
 	/**
 	 * 五、接口5 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割
+	 * warnNum ：废弃
 	 */
 	@RequestMapping(value = "/queryGridDataByTimeRegion")
 	public Map<String, Object> queryGridDataByTimeRegion(
@@ -304,7 +305,8 @@ public class AppController {
 	/**
 	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
 	 * 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间 reqDate 没用 
-	 * 正式服
+	 * 正式服 */
+
 	@RequestMapping(value = "/queryGridPeopleNumData")
 	public Map<String, Object> queryGridPeopleNumData(
 			@RequestParam(value = "reqDate", required = true) String reqDate) {
@@ -345,13 +347,12 @@ public class AppController {
 		map.put("time", reqDate);
 		return map;
 	}
-	 */
-
+	
 	/**
 	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
 	 * 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间 reqDate 没用
 	 *  测试服
-	 */
+	 
 	@RequestMapping(value = "/queryGridPeopleNumData")
 	public Map<String, Object> queryGridPeopleNumData(
 			@RequestParam(value = "reqDate", required = true) String reqDate) {
@@ -392,7 +393,7 @@ public class AppController {
 		map.put("time", reqDate);
 		return map;
 	}
-
+*/
 	/**
 	 * 用户散点图 接口 七、8 获取指定用户的散点图。 返回各个用户在各个时间点的 数量 返回xy
 	 */
