@@ -61,7 +61,9 @@ public class AppController {
 
 	// 初始化场馆编号
 	public final static List<String> numList = new ArrayList<String>(Arrays.asList("All", "1", "2", "3", "4.1", "4.2",
-			"5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2", "NH", "EH", "WH", "SZR", "YGR", "ZGR", "LGR"));
+			"5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2", "NH", "EH", "WH","V1_1","V1_2","V1_3","V1_4","V2_1","V2_2","V2_3","V3_1","V3_2","V3_3","V3_4","V3_5","V3_6","V3_7","V4_1","V4_2","V4_3","V4_4","V4_5","V4_6","V5"));
+	
+	
 
 	@Autowired
 	private GridDataService gridDataService;
@@ -82,7 +84,7 @@ public class AppController {
 			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
 			@RequestParam(value = "endDateStr", required = true) String endDateStr,
 			@RequestParam(value = "minute", required = true) int minute,
-			@RequestParam(value = "warnNum", required = true) Double warnNum,
+			@RequestParam(value = "warnNum", required = false) Double warnNum,
 			@RequestParam(value = "region", required = true) String region) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
@@ -126,9 +128,9 @@ public class AppController {
 				map.put("msg", "未传入告警数量字符串warnNum");
 			} else {
 				String[] warnNums = warnNum.split(",");
-				if (warnNums.length != 20) {
+				if (warnNums.length != 37) {
 					map.put("status", 2);
-					map.put("msg", "请传入20个场馆对应的告警数量");
+					map.put("msg", "请传入37个场馆对应的告警数量");
 				} else {
 					List<Map<String, Object>> listDatas = new ArrayList<>();
 					String maxDate = gridDataService.queryMaxDate();

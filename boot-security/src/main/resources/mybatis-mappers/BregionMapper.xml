@@ -8,7 +8,7 @@
 		select d.gender as gender,nvl(sum(d.imei_num),0) as gnum
 		from B_REGION d 
 		where 1=1
-		and d.area_type='Indoor'  
+		and d.area_type in ('Indoor','Ondoor')  
 		<if test="region != null" >
 			and d.stadium_no=#{region} 
 		</if> 
@@ -20,7 +20,7 @@
 		select d.age as age,nvl(sum(d.imei_num),0) as anum
 		from B_REGION d 
 		where 1=1
-		and d.area_type='Indoor' 
+		and d.area_type in ('Indoor','Ondoor')  
 		<if test="region != null">
 			and d.stadium_no=#{region} 
 		</if> 
@@ -33,7 +33,7 @@
 		select d.source as source,nvl(sum(d.imei_num),0) as snum
 		from B_REGION d 
 		where 1=1
-		and d.area_type='Indoor' 
+		and d.area_type in ('Indoor','Ondoor')  
 		<if test="region != null">
 			and d.stadium_no=#{region} 
 		</if> 
@@ -46,7 +46,7 @@
 	</select> 
 	
 	<select id="queryMaxDate" resultType="string">
-		select max(d.sdate) from B_REGION d where  d.area_type='Indoor' 
+		select max(d.sdate) from B_REGION d where  d.area_type in ('Indoor','Ondoor')   
 	</select> 
 	 
 </mapper>

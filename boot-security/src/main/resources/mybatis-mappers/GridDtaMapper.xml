@@ -28,14 +28,14 @@
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where d.stadium_no=#{region} and d.area_type='Indoor' and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/#{numPercent}) > 0
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/#{numPercent}) > 0
         </if>
 		<if test="numPercent == null">
 			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/d.USER_RATIO) as "userCount"
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where d.stadium_no=#{region} and d.area_type='Indoor' and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/d.USER_RATIO) > 0
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/d.USER_RATIO) > 0
         </if> 
 		
 	</select>
@@ -47,14 +47,14 @@
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where d.stadium_no=#{region} and d.area_type='Indoor' and d.statistics_time=#{dateStr} and ceil(d.IMEI_NUM/#{numPercent}) > #{warnNum}
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{dateStr} 
         </if>
 		<if test="numPercent == null">
 			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/d.USER_RATIO) as "userCount"
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where d.stadium_no=#{region} and d.area_type='Indoor' and d.statistics_time=#{dateStr} and ceil(d.IMEI_NUM/d.USER_RATIO) > #{warnNum}
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{dateStr} 
         </if> 
 		
 	</select>
@@ -65,14 +65,14 @@
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where d.stadium_no=#{region} and d.area_type='Indoor' and d.statistics_time=#{dateStr} 
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{dateStr} 
         </if> 
 		<if test="numPercent == null">
 			select nvl(sum(ceil(d.IMEI_NUM/d.USER_RATIO)),0)  
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where d.stadium_no=#{region} and d.area_type='Indoor' and d.statistics_time=#{dateStr} 
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{dateStr} 
         </if>
 		
 	</select>
@@ -85,7 +85,7 @@
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where d.stadium_no=#{region} and d.area_type='Indoor' and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/#{numPercent}) > #{warnNum}
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/#{numPercent}) > #{warnNum}
        					order by d.stadium_no desc
         </if>
 		<if test="numPercent == null">
@@ -93,14 +93,14 @@
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where d.stadium_no=#{region} and d.area_type='Indoor' and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/d.USER_RATIO) > #{warnNum}
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Ondoor') and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/d.USER_RATIO) > #{warnNum}
         				order by d.stadium_no desc
         </if> 
 	</select>
 	
 	 
 	<select id="querySingleGridData" resultType="java.util.Map">
-		select d.stadium_no as "region",nvl(sum(d.total_user_num),0) as "userCount" from LTE_GRID_USER_NUM d where d.area_type='Indoor' group by d.stadium_no  
+		select d.stadium_no as "region",nvl(sum(d.total_user_num),0) as "userCount" from LTE_GRID_USER_NUM d where d.area_type in ('Indoor','Ondoor') group by d.stadium_no  
 	</select> 
 	 
 	 
@@ -110,13 +110,13 @@
 	<select id="queryGridPeopleNumDataNew" resultType="CommonModel">
 		select d.IMEI_NUM as "imsi" ,d.USER_RATIO as "radio"
 		from LTE_GRID_USER_NUM d 
-		where d.area_type='Indoor' 
+		where d.area_type in ('Indoor','Ondoor') 
 		   and d.stadium_no=#{region} 
 		   and d.statistics_time=#{maxDate} 
 	</select> 
 	
 	<select id="queryMaxDate" resultType="string">
-		select max(d.statistics_time) from LTE_GRID_USER_NUM d where  d.area_type='Indoor' 
+		select max(d.statistics_time) from LTE_GRID_USER_NUM d where  d.area_type in ('Indoor','Ondoor') 
 	</select> 
 	 
 	 
