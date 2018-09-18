@@ -3,6 +3,7 @@ package com.boot.security.server.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.boot.security.server.dao.BregionDao;
@@ -41,35 +42,39 @@ public class RegionServiceImpl implements RegionService {
 
 			for (int i = 0; i < analysisBySource.size(); i++) {
 				BregionModel bregionModel = analysisBySource.get(i);
+				String source= bregionModel.getSource();
+				if (StringUtils.isBlank(source) || ("null").equals(source) || ("").equals(source)) {
+					source="未知";
+				}
 				if (i == 0) {
-					analysisModel.setSource1(bregionModel.getSnum() + "," + bregionModel.getSource());
+					analysisModel.setSource1(bregionModel.getSnum() + "," + source);
 				}
 				if (i == 1) {
-					analysisModel.setSource2(bregionModel.getSnum() + "," + bregionModel.getSource());
+					analysisModel.setSource2(bregionModel.getSnum() + "," + source);
 				}
 				if (i == 2) {
-					analysisModel.setSource3(bregionModel.getSnum() + "," + bregionModel.getSource());
+					analysisModel.setSource3(bregionModel.getSnum() + "," + source);
 				}
 				if (i == 3) {
-					analysisModel.setSource4(bregionModel.getSnum() + "," + bregionModel.getSource());
+					analysisModel.setSource4(bregionModel.getSnum() + "," + source);
 				}
 				if (i == 4) {
-					analysisModel.setSource5(bregionModel.getSnum() + "," + bregionModel.getSource());
+					analysisModel.setSource5(bregionModel.getSnum() + "," + source);
 				}
 				if (i == 5) {
-					analysisModel.setSource6(bregionModel.getSnum() + "," + bregionModel.getSource());
+					analysisModel.setSource6(bregionModel.getSnum() + "," + source);
 				}
 				if (i == 6) {
-					analysisModel.setSource7(bregionModel.getSnum() + "," + bregionModel.getSource());
+					analysisModel.setSource7(bregionModel.getSnum() + "," + source);
 				}
 				if (i == 7) {
-					analysisModel.setSource8(bregionModel.getSnum() + "," + bregionModel.getSource());
+					analysisModel.setSource8(bregionModel.getSnum() + "," + source);
 				}
 				if (i == 8) {
-					analysisModel.setSource9(bregionModel.getSnum() + "," + bregionModel.getSource());
+					analysisModel.setSource9(bregionModel.getSnum() + "," + source);
 				}
 				if (i == 9) {
-					analysisModel.setSource10(bregionModel.getSnum() + "," + bregionModel.getSource());
+					analysisModel.setSource10(bregionModel.getSnum() + "," + source);
 				}
 			}
 		}
@@ -82,7 +87,7 @@ public class RegionServiceImpl implements RegionService {
 					analysisModel.setAge1(Long.valueOf(bregionModel.getAnum()));
 				}
 				if (("age35").equals(bregionModel.getAge())) {
-					analysisModel.setAge1(Long.valueOf(bregionModel.getAnum()));
+					analysisModel.setAge2(Long.valueOf(bregionModel.getAnum()));
 				}
 				if (("age50").equals(bregionModel.getAge())) {
 					analysisModel.setAge3(Long.valueOf(bregionModel.getAnum()));
@@ -90,7 +95,7 @@ public class RegionServiceImpl implements RegionService {
 				if (("age65").equals(bregionModel.getAge())) {
 					analysisModel.setAge4(Long.valueOf(bregionModel.getAnum()));
 				}
-				if (("age_na").equals(bregionModel.getAge())) {
+				if (("age200").equals(bregionModel.getAge())) {
 					analysisModel.setAge5(Long.valueOf(bregionModel.getAnum()));
 				}
 			}
