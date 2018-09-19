@@ -159,7 +159,7 @@
 		from dual
 	</select> 
 	<select id="queryMinDate" resultType="string">
-		select min(statistics_time) from LTE_GRID_USER_NUM where  d.area_type in ('Indoor','Ondoor')
+		select min(d.statistics_time) from LTE_GRID_USER_NUM d where  d.area_type in ('Indoor','Ondoor')
 	</select> 
 	<insert id="insertBatch">
 		insert into 
