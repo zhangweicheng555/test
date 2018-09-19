@@ -442,7 +442,8 @@ public class AppController {
 				map.put("msg", "数据库中日期不存在");
 			} else {
 				if (StringUtils.isNoneBlank(region)) {
-					List<Map<String, Object>> list = gridDataService.queryGridDataByRegion(region, maxDate);
+					String[] regionArr=region.trim().split(",");
+					List<Map<String, Object>> list = gridDataService.queryGridDataByRegion(regionArr, maxDate);
 					if (list.size() > 0) {
 						map.put("gridParameterList", list);
 					} else {
