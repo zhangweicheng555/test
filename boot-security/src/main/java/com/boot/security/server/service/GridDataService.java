@@ -32,4 +32,9 @@ public interface GridDataService {
 	public void deleteBatch(String beforeDate);
 
 	public String queryMinDate();
+
+	//更新测试服所有日期
+	public void updateDate(String nowDate);
+	
+	public void insertNewData(String beforeDate);
 }

@@ -38,6 +38,7 @@ public interface GridDataDao {
 	public String queryMinDate();
 
 	public void insertBatch(@Param("beforeDate") String beforeDate);
+	public void insertNewData(@Param("beforeDate") String beforeDate);
 
 	public void deleteBatch(@Param("beforeDate") String beforeDate);
 
@@ -46,5 +47,7 @@ public interface GridDataDao {
 
 	public List<CommonModel> queryHiGridDataByTimeRegion(@Param("dateStr") String dateStr,
 			@Param("region") String region, @Param("numPercent") Double numPercent, @Param("warnNum") Double warnNum);
+
+	public void updateDate(@Param("nowDate") String nowDate);
 
 }

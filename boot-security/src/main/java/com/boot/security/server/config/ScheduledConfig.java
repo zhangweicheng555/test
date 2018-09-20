@@ -40,15 +40,18 @@ public class ScheduledConfig {
 	 * @throws ParseException 
 	 */
 	@Transactional
-	@Scheduled(cron = "0 0/5 0 * * ?")
+	@Scheduled(cron = "0 0/5 * * * ?")
 	public void execByFiveMin() throws ParseException {
+		System.out.println("开始定时器-------------");
 		// 查询表中最大时间
 		String beforeDate = gridDataService.queryMaxDate();
 		//加5分钟
 		String nowDate=dealMaxDate(beforeDate);
-		// 更新表中的所有时间
-		//更新表中的所有人数  select ceil(dbms_random.value(1,42)) from dual;
+		// 更新表中的所有时间和所有人数
+		gridDataService.updateDate(nowDate);
+		//更新表中的  select ceil(dbms_random.value(1,42)) from dual;
 		//插入到新表中 
+		gridDataService.insertNewData(nowDate);
 	}
 
 	private  String dealMaxDate(String beforeDate) throws ParseException {
