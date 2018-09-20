@@ -15,7 +15,7 @@
 	        order by to_date(d.Sdate,'yyyymmddhh24miss') asc
 	</select> 
 	<select id="queryPeopleNumByTimeRange" resultType="java.lang.Integer">
-		select nvl(sum(d.IMSI_CUM),0)  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE in ('Indoor','Ondoor') and to_date(d.Sdate,'yyyymmddhh24miss')=to_date(#{dateStr},'yyyy-mm-dd hh24:mi:ss') and d.REGION=#{region}
+		select nvl(sum(d.IMSI_CUM),0)  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE in ('Indoor','Outdoor') and to_date(d.Sdate,'yyyymmddhh24miss')=to_date(#{dateStr},'yyyy-mm-dd hh24:mi:ss') and d.REGION=#{region}
 	</select> 
 	<select id="queryCount" resultType="long">
 		select count(1)  from LTE_REGION_NUM_HOUR 
@@ -35,13 +35,13 @@
 		          ,d.IMSI_SOURCE2 as "imsiSource2"
 		          
 <!-- 		          ,rownum as rn  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE='Indoor'  and d.REGION=#{region} and d.sdate=#{maxDate}  -->
-		          ,rownum as rn  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE in ('Indoor','Ondoor')  and d.REGION=#{region} order by d.sdate desc 
+		          ,rownum as rn  from LTE_REGION_NUM_HOUR d where d.REGIONTYPE in ('Indoor','Outdoor')  and d.REGION=#{region} order by d.sdate desc 
 		) 
 		where rn=1
 	</select> 
 	
 	
 	<select id="queryMaxDate" resultType="string">
-		select max(d.statistics_time) from LTE_GRID_USER_NUM d where  d.area_type in ('Indoor','Ondoor') 
+		select max(d.statistics_time) from LTE_GRID_USER_NUM d where  d.area_type in ('Indoor','Outdoor') 
 	</select> 
 </mapper>
