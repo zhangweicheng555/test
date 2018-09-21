@@ -24,7 +24,7 @@
 	
 	<select id="queryGridDataByRegion" resultType="java.util.Map">
 		<if test="numPercent != null">
-			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/#{numPercent}) as "userCount"
+			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/#{numPercent}) as "userCount",d.stadium_no as "region"
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
@@ -60,7 +60,7 @@
 		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{dateStr} and ceil(d.IMEI_NUM/#{numPercent}) >0
         </if>
 		<if test="numPercent == null">
-			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/d.USER_RATIO) as "userCount"
+			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/d.USER_RATIO) as "userCount",d.stadium_no as "region"
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
