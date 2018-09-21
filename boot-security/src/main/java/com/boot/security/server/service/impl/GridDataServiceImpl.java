@@ -44,49 +44,15 @@ public class GridDataServiceImpl implements GridDataService {
 	public List<Map<String, Object>> querySingleGridData() {
 		return gridDataDao.querySingleGridData();
 	}
-	//测试
+
+	/**
+	 * 正式
+	 */
 	@Override
 	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		Map<String, Object> map = new HashMap<>();
 
-		Double numPercent = 0.0;
-		if (BootConstant.People_Num_Percent > 0) {
-			numPercent = BootConstant.People_Num_Percent;
-		} else {
-			numPercent = null;
-		}
-		String dateNow = sdf.format(date);
-		// 查询这个馆这个时间的所有的人数的数量
-		Double total = gridDataDao.queryGridPeopleNum(dateNow, region, numPercent);
-		if (total > 0) {
-			map.put("date", dateNow);
-			map.put("total", total);
-			map.put("grids", new ArrayList<>());
-			// 查询符合条件的数据
-			List<CommonModel> list = gridDataDao.queryGridDataByTimeRegion(dateNow, region, numPercent, warnNum);
-			if (list != null && list.size() > 0) {
-				List<Map<String, Object>> listMaps = new ArrayList<>();
-				for (CommonModel commonModel : list) {
-					Map<String, Object> mapM = new HashMap<>();
-					mapM.put("userCount", commonModel.getUserCount());
-					mapM.put("x", commonModel.getX());
-					mapM.put("y", commonModel.getY());
-					listMaps.add(mapM);
-				}
-				map.put("grids", listMaps);
-			}
-		} else {
-			map = null;
-		}
-		return map;
-	}
-/*	  正式
-	@Override
-	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		Map<String, Object> map = new HashMap<>();
-		
 		Double numPercent = 0.0;
 		if (BootConstant.People_Num_Percent > 0) {
 			numPercent = BootConstant.People_Num_Percent;
@@ -144,7 +110,7 @@ public class GridDataServiceImpl implements GridDataService {
 		}
 		return map;
 	}
-*/
+
 	@Override
 	public Double queryGridPeopleNumDataNew(String region, String maxDate) {
 		Double numPercent = 0.0;

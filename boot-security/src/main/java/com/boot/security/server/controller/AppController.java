@@ -60,10 +60,10 @@ import com.opencsv.CSVReader;
 public class AppController {
 
 	// 初始化场馆编号
-	public final static List<String> numList = new ArrayList<String>(Arrays.asList("All", "1", "2", "3", "4.1", "4.2",
-			"5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2", "NH", "EH", "WH","V1_1","V1_2","V1_3","V1_4","V2_1","V2_2","V2_3","V3_1","V3_2","V3_3","V3_4","V3_5","V3_6","V3_7","V4_1","V4_2","V4_3","V4_4","V4_5","V4_6","V5"));
-	
-	
+	public final static List<String> numList = new ArrayList<String>(
+			Arrays.asList("All", "1", "2", "3", "4.1", "4.2", "5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2",
+					"NH", "EH", "WH", "V1_1", "V1_2", "V1_3", "V1_4", "V2_1", "V2_2", "V2_3", "V3_1", "V3_2", "V3_3",
+					"V3_4", "V3_5", "V3_6", "V3_7", "V4_1", "V4_2", "V4_3", "V4_4", "V4_5", "V4_6", "V5"));
 
 	@Autowired
 	private GridDataService gridDataService;
@@ -77,8 +77,7 @@ public class AppController {
 	private ImsiTrackDataService imsiTrackDataService;
 
 	/**
-	 * 五、接口5 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割
-	 * warnNum ：废弃
+	 * 五、接口5 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割 warnNum ：废弃
 	 */
 	@RequestMapping(value = "/queryGridDataByTimeRegion")
 	public Map<String, Object> queryGridDataByTimeRegion(
@@ -304,9 +303,8 @@ public class AppController {
 
 	/**
 	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
-	 * 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间 reqDate 没用 
-	 * 正式服 
-
+	 * 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间 reqDate 没用 正式服
+	 */
 	@RequestMapping(value = "/queryGridPeopleNumData")
 	public Map<String, Object> queryGridPeopleNumData(
 			@RequestParam(value = "reqDate", required = true) String reqDate) {
@@ -328,52 +326,6 @@ public class AppController {
 					for (int j = 1; j < numList.size(); j++) {
 						String key = numList.get(j);// region
 						peopleParameterList.add(gridDataService.queryGridPeopleNumDataNew(key, maxDate));
-					}
-					Double countAll = 0.0;
-					for (Double num : peopleParameterList) {
-						countAll += num;
-					}
-					peopleParameterList.add(0, countAll);
-					map.put("peopleParameterList", peopleParameterList);
-				} else {// fasle
-					map.put("status", 2);
-					map.put("msg", "传入请求的参数:reqDate格式不正确(20180824234600)");
-				}
-			}
-		} catch (Exception e) {
-			map.put("status", 2);
-			map.put("msg", "系统异常:" + e.getLocalizedMessage());
-		}
-		map.put("time", reqDate);
-		return map;
-	}
-	*/
-	/**
-	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
-	 * 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间 reqDate 没用
-	 *  测试服
-	 */
-	@RequestMapping(value = "/queryGridPeopleNumData")
-	public Map<String, Object> queryGridPeopleNumData(
-			@RequestParam(value = "reqDate", required = true) String reqDate) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", 0);
-		map.put("msg", "操作成功！");
-		map.put("time", "");
-		map.put("peopleParameterList", new ArrayList<>());
-		try {
-			if (StringUtils.isBlank(reqDate)) {
-				map.put("status", 2);
-				map.put("msg", "未传入请求的参数:reqDate:格式(20180824234600)");
-			} else {
-				if (("00000000000000").equals(reqDate)) {
-					reqDate = gridDataService.queryMaxDate();
-				}
-				if (StringUtils.isNoneBlank(reqDate)) {
-					List<Double> peopleParameterList = new ArrayList<Double>();
-					for (int j = 1; j < numList.size(); j++) {
-						String key = numList.get(j);// region
-						peopleParameterList.add(gridDataService.queryGridPeopleNumDataNew(key, reqDate));
 					}
 					Double countAll = 0.0;
 					for (Double num : peopleParameterList) {
@@ -442,7 +394,7 @@ public class AppController {
 				map.put("msg", "数据库中日期不存在");
 			} else {
 				if (StringUtils.isNoneBlank(region)) {
-					String[] regionArr=region.trim().split(",");
+					String[] regionArr = region.trim().split(",");
 					List<Map<String, Object>> list = gridDataService.queryGridDataByRegion(regionArr, maxDate);
 					if (list.size() > 0) {
 						map.put("gridParameterList", list);
@@ -975,6 +927,7 @@ public class AppController {
 		}
 		return map;
 	}
+
 	/**
 	 * 接口10 设置移动百分比
 	 */
@@ -983,12 +936,12 @@ public class AppController {
 	public Map<String, Object> getUserPercent() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			Double userPercent=BootConstant.People_Num_Percent ;
-			if (userPercent != null && userPercent >0) {
+			Double userPercent = BootConstant.People_Num_Percent;
+			if (userPercent != null && userPercent > 0) {
 				map.put("status", 0);
 				map.put("userPercent", userPercent);
 				map.put("msg", "获取移动百分比成功：" + BootConstant.People_Num_Percent + "！");
-			}else {
+			} else {
 				map.put("status", 0);
 				map.put("userPercent", 0);
 				map.put("msg", "未设置移动百分比！");
