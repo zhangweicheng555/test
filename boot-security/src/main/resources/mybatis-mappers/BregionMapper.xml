@@ -49,4 +49,7 @@
 		select max(d.sdate) from B_REGION d where  d.area_type in ('Indoor','Outdoor')   
 	</select> 
 	 
+	 <select id="updateDate" >
+		update B_REGION1 t set t.statistics_time=#{nowDate},t.imei_num=ceil(DBMS_RANDOM.value(6,43)),t.USER_RATIO=0.7
+	</select> 
 </mapper>

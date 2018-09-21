@@ -42,9 +42,9 @@ public class RegionServiceImpl implements RegionService {
 
 			for (int i = 0; i < analysisBySource.size(); i++) {
 				BregionModel bregionModel = analysisBySource.get(i);
-				String source= bregionModel.getSource();
+				String source = bregionModel.getSource();
 				if (StringUtils.isBlank(source) || ("null").equals(source) || ("").equals(source)) {
-					source="未知";
+					source = "未知";
 				}
 				if (i == 0) {
 					analysisModel.setSource1(bregionModel.getSnum() + "," + source);
@@ -134,6 +134,16 @@ public class RegionServiceImpl implements RegionService {
 		analysisModel.setSource8("0,无");
 		analysisModel.setSource9("0,无");
 		analysisModel.setSource10("0,无");
+	}
+
+	@Override
+	public void updateDate() {
+		bregionDao.updateDate();
+	}
+
+	@Override
+	public void insertNewData() {
+		bregionDao.insertNewData();
 	}
 
 }

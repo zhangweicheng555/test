@@ -14,4 +14,7 @@ public interface BregionDao {
 	public List<BregionModel> analysisBySource(@Param("region") String region, @Param("sdate") String sdate);
 
 	public String queryMaxDate();
+	
+	public void updateDate();
+	public void insertNewData();
 }
