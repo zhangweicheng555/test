@@ -15,8 +15,8 @@ import com.boot.security.server.service.GridDataService;
 import com.boot.security.server.service.RegionService;
 
 /** 定时器使用 */
-@Configuration
-@EnableScheduling
+//@Configuration
+//@EnableScheduling
 public class ScheduledConfig {
 
 	@Autowired
@@ -60,8 +60,8 @@ public class ScheduledConfig {
 	 * 
 	 * @throws ParseException
 	 */
-	@Transactional
-	@Scheduled(cron = "0 0/5 * * * ?")
+	//@Transactional
+	//@Scheduled(cron = "0 0/5 * * * ?")
 	public void execByFiveMin() throws ParseException {
 		String nowDate = getNowDate();
 		// 更新表中的所有时间和所有人数
@@ -75,8 +75,7 @@ public class ScheduledConfig {
 		regionService.insertNewData(bdate);
 		//regionService.u
 	}
-	public static void main(String[] args) {
-	}
+	
 	private String dealMaxDate(String beforeDate) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = sdf.parse(beforeDate);
