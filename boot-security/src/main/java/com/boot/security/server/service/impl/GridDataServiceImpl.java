@@ -7,10 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.dao.GridDataDao;
 import com.boot.security.server.model.CommonModel;
@@ -44,7 +43,8 @@ public class GridDataServiceImpl implements GridDataService {
 	public List<Map<String, Object>> querySingleGridData() {
 		return gridDataDao.querySingleGridData();
 	}
-	//测试
+
+	// 测试
 	@Override
 	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -81,70 +81,40 @@ public class GridDataServiceImpl implements GridDataService {
 		}
 		return map;
 	}
-/*	  正式
-	@Override
-	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		Map<String, Object> map = new HashMap<>();
-		
-		Double numPercent = 0.0;
-		if (BootConstant.People_Num_Percent > 0) {
-			numPercent = BootConstant.People_Num_Percent;
-		} else {
-			numPercent = null;
-		}
-		String dateNow = sdf.format(date);
-		String minDate = gridDataDao.queryMinDate();
-		if (minDate.compareTo(dateNow) <= 0) {
-			// 查询这个馆这个时间的所有的人数的数量
-			Double total = gridDataDao.queryGridPeopleNum(dateNow, region, numPercent);
-			if (total > 0) {
-				map.put("date", dateNow);
-				map.put("total", total);
-				map.put("grids", new ArrayList<>());
-				// 查询符合条件的数据
-				List<CommonModel> list = gridDataDao.queryGridDataByTimeRegion(dateNow, region, numPercent, warnNum);
-				if (list != null && list.size() > 0) {
-					List<Map<String, Object>> listMaps = new ArrayList<>();
-					for (CommonModel commonModel : list) {
-						Map<String, Object> mapM = new HashMap<>();
-						mapM.put("userCount", commonModel.getUserCount());
-						mapM.put("x", commonModel.getX());
-						mapM.put("y", commonModel.getY());
-						listMaps.add(mapM);
-					}
-					map.put("grids", listMaps);
-				}
-			} else {
-				map = null;
-			}
-		} else {
-			// 查询这个馆这个时间的所有的人数的数量
-			Double total = gridDataDao.queryHiGridPeopleNum(dateNow, region, numPercent);
-			if (total > 0) {
-				map.put("date", dateNow);
-				map.put("total", total);
-				map.put("grids", new ArrayList<>());
-				// 查询符合条件的数据
-				List<CommonModel> list = gridDataDao.queryHiGridDataByTimeRegion(dateNow, region, numPercent, warnNum);
-				if (list != null && list.size() > 0) {
-					List<Map<String, Object>> listMaps = new ArrayList<>();
-					for (CommonModel commonModel : list) {
-						Map<String, Object> mapM = new HashMap<>();
-						mapM.put("userCount", commonModel.getUserCount());
-						mapM.put("x", commonModel.getX());
-						mapM.put("y", commonModel.getY());
-						listMaps.add(mapM);
-					}
-					map.put("grids", listMaps);
-				}
-			} else {
-				map = null;
-			}
-		}
-		return map;
-	}
-*/
+
+	/*
+	 * 正式
+	 * 
+	 * @Override public Map<String, Object> queryGridDataByTimeRegion(Date date,
+	 * String region, Double warnNum) { SimpleDateFormat sdf = new
+	 * SimpleDateFormat("yyyyMMddHHmmss"); Map<String, Object> map = new
+	 * HashMap<>();
+	 * 
+	 * Double numPercent = 0.0; if (BootConstant.People_Num_Percent > 0) {
+	 * numPercent = BootConstant.People_Num_Percent; } else { numPercent = null; }
+	 * String dateNow = sdf.format(date); String minDate =
+	 * gridDataDao.queryMinDate(); if (minDate.compareTo(dateNow) <= 0) { //
+	 * 查询这个馆这个时间的所有的人数的数量 Double total = gridDataDao.queryGridPeopleNum(dateNow,
+	 * region, numPercent); if (total > 0) { map.put("date", dateNow);
+	 * map.put("total", total); map.put("grids", new ArrayList<>()); // 查询符合条件的数据
+	 * List<CommonModel> list = gridDataDao.queryGridDataByTimeRegion(dateNow,
+	 * region, numPercent, warnNum); if (list != null && list.size() > 0) {
+	 * List<Map<String, Object>> listMaps = new ArrayList<>(); for (CommonModel
+	 * commonModel : list) { Map<String, Object> mapM = new HashMap<>();
+	 * mapM.put("userCount", commonModel.getUserCount()); mapM.put("x",
+	 * commonModel.getX()); mapM.put("y", commonModel.getY()); listMaps.add(mapM); }
+	 * map.put("grids", listMaps); } } else { map = null; } } else { //
+	 * 查询这个馆这个时间的所有的人数的数量 Double total = gridDataDao.queryHiGridPeopleNum(dateNow,
+	 * region, numPercent); if (total > 0) { map.put("date", dateNow);
+	 * map.put("total", total); map.put("grids", new ArrayList<>()); // 查询符合条件的数据
+	 * List<CommonModel> list = gridDataDao.queryHiGridDataByTimeRegion(dateNow,
+	 * region, numPercent, warnNum); if (list != null && list.size() > 0) {
+	 * List<Map<String, Object>> listMaps = new ArrayList<>(); for (CommonModel
+	 * commonModel : list) { Map<String, Object> mapM = new HashMap<>();
+	 * mapM.put("userCount", commonModel.getUserCount()); mapM.put("x",
+	 * commonModel.getX()); mapM.put("y", commonModel.getY()); listMaps.add(mapM); }
+	 * map.put("grids", listMaps); } } else { map = null; } } return map; }
+	 */
 	@Override
 	public Double queryGridPeopleNumDataNew(String region, String maxDate) {
 		Double numPercent = 0.0;
@@ -201,5 +171,32 @@ public class GridDataServiceImpl implements GridDataService {
 	public void insertNewData(String beforeDate) {
 		gridDataDao.insertNewData(beforeDate);
 	}
+
+	@Override
+	public List<Map<String, Object>> queryPeopleNumByTimeRange(List<String> listDates, String region) {
+
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+		List<Map<String, Object>> list=new ArrayList<>();
+		if (StringUtils.isNoneBlank(region)) {
+			String[] regionStr=region.trim().split(",");
+			for (int i = 0; i < regionStr.length; i++) {
+				Map<String, Object> map=new HashMap<>();
+				map.put("name", regionStr[i]);
+				List<Double> listDouble=new ArrayList<>();
+				for (String date : listDates) {
+					listDouble.add(gridDataDao.queryGridPeopleNum(date, region, numPercent));
+				}
+				map.put("item", listDouble);
+				list.add(map);
+			}
+		}
+		return list;
+	}
+
 
 }

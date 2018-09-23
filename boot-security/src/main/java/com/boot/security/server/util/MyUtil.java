@@ -473,6 +473,23 @@ public class MyUtil {
 		return list;
 	}
 	
+	public static List<String> getDateStrList(String beginDateStr, String endDateStr, int minute) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date beginDate = sdf.parse(beginDateStr);
+		Date endDate = sdf.parse(endDateStr);
+		
+		List<String> list = new ArrayList<String>();
+		list.add(sdf.format(beginDate));
+		for (int i = 0; i < 20000; i++) {
+			beginDate = new Date(beginDate.getTime() + 60 * minute * 1000);
+			if (beginDate.compareTo(endDate) > 0) {
+				break;
+			}
+			list.add(sdf.format(beginDate));
+		}
+		return list;
+	}
+	
 	
 	public static List<Date> getDateListN(String beginDateStr, String endDateStr, int minute) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");

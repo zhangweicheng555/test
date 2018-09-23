@@ -23,7 +23,7 @@ public interface GridDataDao {
 
 	public Double queryGridPeopleNum(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
-
+	
 	public List<CommonModel> queryGridPeopleNumDataNew(@Param("region") String region,
 			@Param("maxDate") String maxDate);
 

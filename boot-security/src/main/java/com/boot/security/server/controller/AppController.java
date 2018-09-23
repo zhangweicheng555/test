@@ -84,6 +84,69 @@ public class AppController {
 	}
 
 	/**
+	 * 2、接口2根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
+	 */
+	@ApiOperation(value = "接口2:根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。", notes = "据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "beginDate", value = "开始时间(格式20180909121212)", dataType = "string", required = true),
+			@ApiImplicitParam(name = "endDate", value = "结束时间(格式20180909121212)", dataType = "string", required = true),
+			@ApiImplicitParam(name = "minute", value = "时间颗粒", dataType = "int", required = true),
+			@ApiImplicitParam(name = "regionStr", value = "场馆编号(多个以逗号分隔)", dataType = "string", required = true) })
+	@RequestMapping(value = "/queryPeopleNumByTimeRange", method = RequestMethod.GET)
+	public Map<String, Object> queryPeopleNumByTimeRange(
+			@RequestParam(value = "beginDate", required = true) String beginDateStr,
+			@RequestParam(value = "endDate", required = true) String endDateStr,
+			@RequestParam(value = "minute", required = true) int minute,
+			@RequestParam(value = "regionStr", required = true) String regionStr) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		map.put("item", new ArrayList<>());
+		try {
+			List<String> listDates = MyUtil.getDateStrList(beginDateStr, endDateStr, minute);
+			if (listDates.size() > 0) {
+				List<Map<String, Object>> listMaps = gridDataService.queryPeopleNumByTimeRange(listDates, regionStr);
+				if (listMaps != null && listMaps.size() > 0) {
+					// 处理总和
+					handleListMap(listMaps);
+					map.put("item", listMaps);
+				}
+			} else {
+				map.put("status", 1);
+				map.put("msg", "没有对应条件的数据！");
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyyMMddHHmmss");
+		}
+		return map;
+	}
+
+
+	@SuppressWarnings("unchecked")
+	private void handleListMap(List<Map<String, Object>> listMaps) {
+		Map<String, Object> mapOne = new HashMap<>();
+		mapOne.put("name", "All");
+		List<Double> listNew = new ArrayList<Double>();
+		
+		for (int i = 0; i < listMaps.size(); i++) {
+			Map<String, Object> map=listMaps.get(i);
+			List<Double> listM=(List<Double>) map.get("item");
+			if (i==0) {
+				listNew=listM;
+			}else {
+				List<Double> list=new ArrayList<>();
+				for (int j = 0; j < listNew.size(); j++) {
+					list.add(j, listNew.get(j)+listM.get(j));
+				}
+				listNew=list;
+			}
+		}
+		mapOne.put("item", listNew);
+		listMaps.add(0, mapOne);
+	}
+
+	/**
 	 * 接口8 获取当前所有场馆的告警信息。 根据传入的告警数量 获取所有的栅格数据 最大时间的
 	 */
 	@ApiOperation(value = "接口8:获取当前所有场馆的告警信息", notes = "根据传入的告警数量(37个, 获取对应栅格最大时间的数据")

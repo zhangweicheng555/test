@@ -103,6 +103,8 @@
         </if>
 		
 	</select>
+	
+	
 	<select id="queryHiGridPeopleNum" resultType="java.lang.Double">
 		 <if test="numPercent != null">
 		  select nvl(sum(ceil(d.IMEI_NUM/#{numPercent})),0) 
