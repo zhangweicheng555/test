@@ -453,8 +453,7 @@ public class MyUtil {
 	}
 
 	/**
-	 * 根据起始 终止时间 分割时间范围
-	 * 注意这个时间的格式是yyyy-MM-dd HH-mm
+	 * 根据起始 终止时间 分割时间范围 注意这个时间的格式是yyyy-MM-dd HH-mm
 	 */
 	public static List<Date> getDateList(String beginDateStr, String endDateStr, int minute) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -472,14 +471,13 @@ public class MyUtil {
 		}
 		return list;
 	}
-	
-	
+
 	public static List<Date> getDateListN(String beginDateStr, String endDateStr, int minute) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date beginDate = sdf.parse(beginDateStr);
 		Date endDate = sdf1.parse(endDateStr);
-		
+
 		List<Date> list = new ArrayList<Date>();
 		for (int i = 0; i < 20000; i++) {
 			beginDate = new Date(beginDate.getTime() + 60 * minute * 1000);
@@ -490,15 +488,16 @@ public class MyUtil {
 		}
 		return list;
 	}
+
 	/**
-	 * 根据起始 终止时间 分割时间范围
-	 * 注意这个时间的格式是yyyy-MM-dd HH-mm
+	 * 根据起始 终止时间 分割时间范围 注意这个时间的格式是yyyy-MM-dd HH-mm
 	 */
-	public static List<String> getDateListStr(String beginDateStr, String endDateStr, int minute) throws ParseException {
+	public static List<String> getDateListStr(String beginDateStr, String endDateStr, int minute)
+			throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		Date beginDate = sdf.parse(beginDateStr);
 		Date endDate = sdf.parse(endDateStr);
-		
+
 		List<String> list = new ArrayList<String>();
 		for (int i = 0; i < 20000; i++) {
 			beginDate = new Date(beginDate.getTime() + 60 * minute * 1000);
@@ -509,4 +508,23 @@ public class MyUtil {
 		}
 		return list;
 	}
+
+	public static List<String> getDateStrList(String beginDateStr, String endDateStr, int minute)
+			throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date beginDate = sdf.parse(beginDateStr);
+		Date endDate = sdf.parse(endDateStr);
+
+		List<String> list = new ArrayList<String>();
+		list.add(sdf.format(beginDate));
+		for (int i = 0; i < 20000; i++) {
+			beginDate = new Date(beginDate.getTime() + 60 * minute * 1000);
+			if (beginDate.compareTo(endDate) > 0) {
+				break;
+			}
+			list.add(sdf.format(beginDate));
+		}
+		return list;
+	}
+
 }

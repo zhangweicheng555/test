@@ -24,6 +24,7 @@ public interface GridDataDao {
 	public Double queryGridPeopleNum(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
 
+
 	public List<CommonModel> queryGridPeopleNumDataNew(@Param("region") String region,
 			@Param("maxDate") String maxDate);
 
@@ -38,6 +39,7 @@ public interface GridDataDao {
 	public String queryMinDate();
 
 	public void insertBatch(@Param("beforeDate") String beforeDate);
+
 	public void insertNewData(@Param("beforeDate") String beforeDate);
 
 	public void deleteBatch(@Param("beforeDate") String beforeDate);

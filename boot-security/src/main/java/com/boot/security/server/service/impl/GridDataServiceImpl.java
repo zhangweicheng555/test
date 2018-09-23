@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -111,6 +112,40 @@ public class GridDataServiceImpl implements GridDataService {
 		return map;
 	}
 
+	@Override
+	public List<Map<String, Object>> queryPeopleNumByTimeRange(List<String> listDates, String region) {
+
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+		
+		List<Map<String, Object>> list=new ArrayList<>();
+		
+		if (StringUtils.isNoneBlank(region)) {
+			String minDate = gridDataDao.queryMinDate();
+			String[] regionStr=region.trim().split(",");
+			for (int i = 0; i < regionStr.length; i++) {
+				Map<String, Object> map=new HashMap<>();
+				map.put("name", regionStr[i]);
+				List<Double> listDouble=new ArrayList<>();
+				for (String date : listDates) {
+					if (minDate.compareTo(date) <= 0) {
+						listDouble.add(gridDataDao.queryGridPeopleNum(date, region, numPercent));
+					}else {
+						listDouble.add(gridDataDao.queryHiGridPeopleNum(date, region, numPercent));
+					}
+				}
+				map.put("item", listDouble);
+				list.add(map);
+			}
+		}
+		return list;
+	}
+
+	
 	@Override
 	public Double queryGridPeopleNumDataNew(String region, String maxDate) {
 		Double numPercent = 0.0;

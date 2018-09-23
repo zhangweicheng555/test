@@ -37,4 +37,6 @@ public interface GridDataService {
 	public void updateDate(String nowDate);
 	
 	public void insertNewData(String beforeDate);
+
+	public List<Map<String, Object>> queryPeopleNumByTimeRange(List<String> listDates, String regionStr);
 }
