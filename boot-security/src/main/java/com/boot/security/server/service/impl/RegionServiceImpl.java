@@ -137,13 +137,13 @@ public class RegionServiceImpl implements RegionService {
 	}
 
 	@Override
-	public void updateDate() {
-		bregionDao.updateDate();
+	public void updateDate(String nowDate) {
+		bregionDao.updateDate(nowDate);
 	}
 
 	@Override
-	public void insertNewData() {
-		bregionDao.insertNewData();
+	public void insertNewData(String beforeDate) {
+		bregionDao.insertNewData(beforeDate);
 	}
 
 }

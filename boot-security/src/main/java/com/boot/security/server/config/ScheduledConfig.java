@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.boot.security.server.service.GridDataService;
+import com.boot.security.server.service.RegionService;
 
 /** 定时器使用 */
 @Configuration
@@ -20,6 +21,8 @@ public class ScheduledConfig {
 
 	@Autowired
 	private GridDataService gridDataService;
+	@Autowired
+	private RegionService regionService;
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 
@@ -60,14 +63,20 @@ public class ScheduledConfig {
 	@Transactional
 	@Scheduled(cron = "0 0/5 * * * ?")
 	public void execByFiveMin() throws ParseException {
-		System.out.println("开始定时器-------------");
 		String nowDate = getNowDate();
 		// 更新表中的所有时间和所有人数
 		gridDataService.updateDate(nowDate);
 		// 插入到新表中
 		gridDataService.insertNewData(nowDate);
+		//b域导入
+		//处理时间
+		String bdate=nowDate.substring(0, 12);
+		regionService.updateDate(bdate);
+		regionService.insertNewData(bdate);
+		//regionService.u
 	}
-
+	public static void main(String[] args) {
+	}
 	private String dealMaxDate(String beforeDate) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = sdf.parse(beforeDate);
@@ -78,7 +87,7 @@ public class ScheduledConfig {
 	public String getNowDate() {
 		Calendar rightNow = Calendar.getInstance();
 		int minute = rightNow.get(Calendar.MINUTE);
-		minute = Math.round(minute / 5 * 5);// 计算10的整数分钟
+		minute = Math.round(minute / 5 * 5);// 计算5的整数分钟
 		rightNow.set(Calendar.MINUTE, minute);
 		rightNow.set(Calendar.SECOND, 0);
 		return sdf.format(rightNow.getTime());

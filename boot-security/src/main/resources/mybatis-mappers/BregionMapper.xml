@@ -50,12 +50,12 @@
 	</select> 
 	 
 	 <select id="updateDate" >
-		update B_REGION1 t set t.statistics_time=#{nowDate},t.imei_num=ceil(DBMS_RANDOM.value(6,43)),t.USER_RATIO=0.7
+		update B_REGION1 t set t.sdate=#{nowDate},t.imei_num=ceil(DBMS_RANDOM.value(6,43))
 	</select> 
 	<insert id="insertNewData">
 		insert into 
-		LTE_GRID_USER_NUM(statistics_time,area_type,stadium_no,gridx,gridy,longitude,latitude,imei_num,user_ratio,total_user_num,floor_no) 
-		select      statistics_time,area_type,stadium_no,gridx,gridy,longitude,latitude,imei_num,user_ratio,total_user_num,floor_no 
-		from Test_zwc where statistics_time = #{beforeDate}
+		B_REGION(SDATE,ECI,GENDER,AGE,SOURCETYPE,SOURCE,IMEI_NUM,AREA_TYPE,FLOOR_NO,STADIUM_NO) 
+		select  SDATE,ECI,GENDER,AGE,SOURCETYPE,SOURCE,IMEI_NUM,AREA_TYPE,FLOOR_NO,STADIUM_NO
+		from B_REGION1 where SDATE = #{beforeDate}
 	</insert>
 </mapper>

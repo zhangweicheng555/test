@@ -8,6 +8,6 @@ public interface RegionService {
 	
 	public AnalysisModel queryGridWarnData(String region,String sdate);
 	
-	public void updateDate();
-	public void insertNewData();
+	public void updateDate(String nowDate);
+	public void insertNewData(String beforeDate);
 }
