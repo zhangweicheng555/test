@@ -1,20 +1,12 @@
 package com.boot.security.server.config;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.boot.security.server.service.GridDataService;
 
 /** 定时器使用 */
-@Configuration
-@EnableScheduling
+//@Configuration
+//@EnableScheduling
 public class ScheduledConfig {
 
 	@Autowired
@@ -24,8 +16,8 @@ public class ScheduledConfig {
 	 * 0点三分执行
 	 * 确认入库的时间  正式服
 	 */
-	@Transactional
-	@Scheduled(cron = "0 3 0 * * ?")
+	//@Transactional
+	//@Scheduled(cron = "0 3 0 * * ?")
 	public void execByThirtyMin() {
 		// 查询表中最大时间
 		String beforeDate = gridDataService.queryMaxDate();
