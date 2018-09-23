@@ -1,60 +1,27 @@
 package com.boot.security.server.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.model.AnalysisModel;
-import com.boot.security.server.model.GridData;
-import com.boot.security.server.model.GridMapper;
-import com.boot.security.server.model.HiGridDataHour;
-import com.boot.security.server.model.ImsiTrackData;
-import com.boot.security.server.model.TestGridData;
-import com.boot.security.server.model.TraceModel;
 import com.boot.security.server.service.GridDataService;
 import com.boot.security.server.service.GridMapperService;
 import com.boot.security.server.service.HiGridDataHourService;
 import com.boot.security.server.service.ImsiTrackDataService;
 import com.boot.security.server.service.RegionService;
 import com.boot.security.server.service.TestGridDataService;
-import com.boot.security.server.util.JsonMsgUtil;
 import com.boot.security.server.util.MyUtil;
-import com.google.gson.Gson;
-import com.opencsv.CSVReader;
-
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -76,14 +43,6 @@ public class AppController {
 
 	@Autowired
 	private GridDataService gridDataService;
-	@Autowired
-	private HiGridDataHourService hiGridDataHourService;
-	@Autowired
-	private GridMapperService gridMapperService;
-	@Autowired
-	private TestGridDataService testGridDataService;
-	@Autowired
-	private ImsiTrackDataService imsiTrackDataService;
 
 	/**
 	 * 五、接口5 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割 warnNum ：废弃
