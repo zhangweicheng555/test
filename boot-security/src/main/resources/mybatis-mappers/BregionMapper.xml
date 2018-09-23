@@ -52,4 +52,10 @@
 	 <select id="updateDate" >
 		update B_REGION1 t set t.statistics_time=#{nowDate},t.imei_num=ceil(DBMS_RANDOM.value(6,43)),t.USER_RATIO=0.7
 	</select> 
+	<insert id="insertNewData">
+		insert into 
+		LTE_GRID_USER_NUM(statistics_time,area_type,stadium_no,gridx,gridy,longitude,latitude,imei_num,user_ratio,total_user_num,floor_no) 
+		select      statistics_time,area_type,stadium_no,gridx,gridy,longitude,latitude,imei_num,user_ratio,total_user_num,floor_no 
+		from Test_zwc where statistics_time = #{beforeDate}
+	</insert>
 </mapper>
