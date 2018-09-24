@@ -198,5 +198,10 @@ public class GridDataServiceImpl implements GridDataService {
 		return list;
 	}
 
+	@Override
+	public void deleteBatchT(String beforeDate) {
+		gridDataDao.deleteBatchT(beforeDate);
+	}
+
 
 }

@@ -11,12 +11,13 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.service.GridDataService;
 import com.boot.security.server.service.RegionService;
 
 /** 定时器使用 */
-//@Configuration
-//@EnableScheduling
+// @Configuration
+// @EnableScheduling
 public class ScheduledConfig {
 
 	@Autowired
@@ -56,26 +57,45 @@ public class ScheduledConfig {
 	}
 
 	/**
-	 * 每五分钟执行一次 测试服
-	 * 
-	 * @throws ParseException
+	 * 每五分钟执行一次 测试服 栅格定时
 	 */
-	//@Transactional
-	//@Scheduled(cron = "0 0/5 * * * ?")
+	// @Transactional
+	// @Scheduled(cron = "0 0/5 * * * ?")
 	public void execByFiveMin() throws ParseException {
-		String nowDate = getNowDate();
+		String setTime = BootConstant.Back_Send_Time;
+		String nowDate = null;
+		if (("0").equals(setTime)) {
+			nowDate = getNowDate();
+		} else {
+			nowDate = setTime;
+		}
 		// 更新表中的所有时间和所有人数
 		gridDataService.updateDate(nowDate);
 		// 插入到新表中
 		gridDataService.insertNewData(nowDate);
-		//b域导入
-		//处理时间
-		String bdate=nowDate.substring(0, 12);
+		// b域导入
+		// 处理时间
+		String bdate = nowDate.substring(0, 12);
 		regionService.updateDate(bdate);
 		regionService.insertNewData(bdate);
-		//regionService.u
+		if (!("0").equals(setTime)) {
+			BootConstant.Back_Send_Time = dealMaxDate(setTime);
+		}
 	}
-	
+
+	/**
+	 * 每五分钟执行一次 测试服 B域定时
+	 */
+	// @Transactional
+	// @Scheduled(cron = "0 0/5 * * * ?")
+	public void execByBFiveMin() throws ParseException {
+		String nowDate = getNowDate();
+		// 处理时间
+		String bdate = nowDate.substring(0, 12);
+		regionService.updateDate(bdate);
+		regionService.insertNewData(bdate);
+	}
+
 	private String dealMaxDate(String beforeDate) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = sdf.parse(beforeDate);

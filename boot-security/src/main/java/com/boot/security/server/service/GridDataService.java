@@ -27,6 +27,7 @@ public interface GridDataService {
 	public void insertBatch(String beforeDate);
 
 	public void deleteBatch(String beforeDate);
+	public void deleteBatchT(String beforeDate);
 
 	public String queryMinDate();
 

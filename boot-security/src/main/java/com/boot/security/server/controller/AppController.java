@@ -122,24 +122,23 @@ public class AppController {
 		return map;
 	}
 
-
 	@SuppressWarnings("unchecked")
 	private void handleListMap(List<Map<String, Object>> listMaps) {
 		Map<String, Object> mapOne = new HashMap<>();
 		mapOne.put("name", "All");
 		List<Double> listNew = new ArrayList<Double>();
-		
+
 		for (int i = 0; i < listMaps.size(); i++) {
-			Map<String, Object> map=listMaps.get(i);
-			List<Double> listM=(List<Double>) map.get("item");
-			if (i==0) {
-				listNew=listM;
-			}else {
-				List<Double> list=new ArrayList<>();
+			Map<String, Object> map = listMaps.get(i);
+			List<Double> listM = (List<Double>) map.get("item");
+			if (i == 0) {
+				listNew = listM;
+			} else {
+				List<Double> list = new ArrayList<>();
 				for (int j = 0; j < listNew.size(); j++) {
-					list.add(j, listNew.get(j)+listM.get(j));
+					list.add(j, listNew.get(j) + listM.get(j));
 				}
-				listNew=list;
+				listNew = list;
 			}
 		}
 		mapOne.put("item", listNew);
@@ -370,6 +369,47 @@ public class AppController {
 		} catch (Exception e) {
 			map.put("status", 2);
 			map.put("userPercent", 0);
+			map.put("msg", "系统异常！");
+		}
+		return map;
+	}
+
+	/**
+	 * 接口12 清除指定时间之前得所有后台数据
+	 */
+	@ApiOperation(value = "接口12:清除指定时间之前得所有后台数据", notes = "清除指定时间之前得所有后台数据")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "clearDate", value = "日期(格式20180909121200)", dataType = "string", required = true) })
+	@ResponseBody
+	@RequestMapping(value = "/clearData", method = RequestMethod.GET)
+	public Map<String, Object> clearData(@RequestParam(value = "clearDate", required = true) String clearDate) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			gridDataService.deleteBatchT(clearDate);
+			map.put("status", 0);
+			map.put("msg", "删除数据成功！");
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常！" + e.getLocalizedMessage());
+		}
+		return map;
+	}
+
+	/**
+	 * 接口13 设置当前后台推送时间
+	 */
+	@ApiOperation(value = "接口13: 设置当前后台推送时间", notes = "设置当前后台推送时间")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "time", value = "设置当前后台推送时间", dataType = "string", required = true) })
+	@ResponseBody
+	@RequestMapping(value = "/setGridTime", method = RequestMethod.GET)
+	public Map<String, Object> setGridTime(@RequestParam(value = "time", required = true) String time) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			BootConstant.Back_Send_Time = time;
+			map.put("status", 0);
+			map.put("msg", "设置后台推送时间成功：" + BootConstant.Back_Send_Time + "！");
+		} catch (Exception e) {
+			map.put("status", 2);
 			map.put("msg", "系统异常！");
 		}
 		return map;

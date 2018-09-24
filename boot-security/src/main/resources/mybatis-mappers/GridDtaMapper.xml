@@ -185,5 +185,8 @@
 	<delete id="deleteBatch">
 		delete from LTE_GRID_USER_NUM where statistics_time &lt; #{beforeDate}
 	</delete> 
+	<delete id="deleteBatchT">
+		delete from LTE_GRID_USER_NUM where statistics_time &lt;= #{beforeDate}
+	</delete> 
 	 
 </mapper>

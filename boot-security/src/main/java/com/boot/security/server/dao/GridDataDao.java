@@ -41,6 +41,7 @@ public interface GridDataDao {
 	public void insertNewData(@Param("beforeDate") String beforeDate);
 
 	public void deleteBatch(@Param("beforeDate") String beforeDate);
+	public void deleteBatchT(@Param("beforeDate") String beforeDate);
 
 	public Double queryHiGridPeopleNum(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
