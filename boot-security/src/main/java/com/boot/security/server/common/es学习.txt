@@ -6,6 +6,9 @@
 0.官网
 https://www.elastic.co
 
+
+注意  es的http端口是9200   tcp端口是9300
+
 1.下载：
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.2.tar.gz
 
