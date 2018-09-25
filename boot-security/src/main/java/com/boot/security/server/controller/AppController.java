@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -84,7 +87,7 @@ public class AppController {
 		}
 		return map;
 	}
-	
+
 	/**
 	 * 2、接口2根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
 	 */
@@ -124,30 +127,28 @@ public class AppController {
 		return map;
 	}
 
-
 	@SuppressWarnings("unchecked")
 	private void handleListMap(List<Map<String, Object>> listMaps) {
 		Map<String, Object> mapOne = new HashMap<>();
 		mapOne.put("name", "All");
 		List<Double> listNew = new ArrayList<Double>();
-		
+
 		for (int i = 0; i < listMaps.size(); i++) {
-			Map<String, Object> map=listMaps.get(i);
-			List<Double> listM=(List<Double>) map.get("item");
-			if (i==0) {
-				listNew=listM;
-			}else {
-				List<Double> list=new ArrayList<>();
+			Map<String, Object> map = listMaps.get(i);
+			List<Double> listM = (List<Double>) map.get("item");
+			if (i == 0) {
+				listNew = listM;
+			} else {
+				List<Double> list = new ArrayList<>();
 				for (int j = 0; j < listNew.size(); j++) {
-					list.add(j, listNew.get(j)+listM.get(j));
+					list.add(j, listNew.get(j) + listM.get(j));
 				}
-				listNew=list;
+				listNew = list;
 			}
 		}
 		mapOne.put("item", listNew);
 		listMaps.add(0, mapOne);
 	}
-	
 
 	/**
 	 * 接口8 获取当前所有场馆的告警信息。 根据传入的告警数量 获取所有的栅格数据 最大时间的
@@ -329,8 +330,6 @@ public class AppController {
 		return map;
 	}
 
-	
-
 	/**
 	 * 接口10 设置移动百分比
 	 */
@@ -338,7 +337,7 @@ public class AppController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "userPercent", value = "移动百分比", dataType = "double", required = true) })
 	@ResponseBody
-	@RequestMapping(value="/setUserPercent",method=RequestMethod.GET)
+	@RequestMapping(value = "/setUserPercent", method = RequestMethod.GET)
 	public Map<String, Object> setUserPercent(
 			@RequestParam(value = "userPercent", required = true) Double userPercent) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -358,7 +357,7 @@ public class AppController {
 	 */
 	@ApiOperation(value = "接口11:获取移动百分比", notes = "获取移动百分比")
 	@ResponseBody
-	@RequestMapping(value="/getUserPercent",method=RequestMethod.GET)
+	@RequestMapping(value = "/getUserPercent", method = RequestMethod.GET)
 	public Map<String, Object> getUserPercent() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -380,4 +379,23 @@ public class AppController {
 		return map;
 	}
 
+	/**
+	 * 接口9 强制设置后台所有接口数据变成更新状态。
+	 */
+	@ResponseBody
+	@RequestMapping("/refreshAllData")
+	public Map<String, Object> refreshAllData(HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			map.put("status", 0);
+			map.put("msg", "刷新成功！");
+			if (session.getAttribute(BootConstant.LTE_Region_NUM_HOUR) != null) {
+				session.removeAttribute(BootConstant.LTE_Region_NUM_HOUR);
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常！");
+		}
+		return map;
+	}
 }
