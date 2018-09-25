@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -408,6 +411,26 @@ public class AppController {
 			BootConstant.Back_Send_Time = time;
 			map.put("status", 0);
 			map.put("msg", "设置后台推送时间成功：" + BootConstant.Back_Send_Time + "！");
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常！");
+		}
+		return map;
+	}
+
+	/**
+	 * 接口9 强制设置后台所有接口数据变成更新状态。
+	 */
+	@ResponseBody
+	@RequestMapping("/refreshAllData")
+	public Map<String, Object> refreshAllData(HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			map.put("status", 0);
+			map.put("msg", "刷新成功！");
+			if (session.getAttribute(BootConstant.LTE_Region_NUM_HOUR) != null) {
+				session.removeAttribute(BootConstant.LTE_Region_NUM_HOUR);
+			}
 		} catch (Exception e) {
 			map.put("status", 2);
 			map.put("msg", "系统异常！");

@@ -16,8 +16,8 @@ import com.boot.security.server.service.GridDataService;
 import com.boot.security.server.service.RegionService;
 
 /** 定时器使用 */
-// @Configuration
-// @EnableScheduling
+@Configuration
+@EnableScheduling
 public class ScheduledConfig {
 
 	@Autowired
@@ -59,8 +59,8 @@ public class ScheduledConfig {
 	/**
 	 * 每五分钟执行一次 测试服 栅格定时
 	 */
-	// @Transactional
-	// @Scheduled(cron = "0 0/5 * * * ?")
+	@Transactional
+	@Scheduled(cron = "0 0/5 * * * ?")
 	public void execByFiveMin() throws ParseException {
 		String setTime = BootConstant.Back_Send_Time;
 		String nowDate = null;
