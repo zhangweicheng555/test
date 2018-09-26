@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.ibatis.annotations.Param;
-import org.elasticsearch.action.get.GetRequestBuilder;
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.client.transport.TransportClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,30 +25,6 @@ public class UserController {
 	@Autowired
 	private SysUserService sysUserService;
 
-	@Autowired
-	private TransportClient transportClient;
-	/**
-	 * es
-	 * 测试开始
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/TestZ")
-	public GetResponse TestZ() {
-		GetResponse prepareGet = transportClient.prepareGet("people", "man", "1").get();
-		return prepareGet;
-	}
-	/**
-	 * es
-	 * 测试结束
-	 */
-	
-	
-	
-	
-	
-	
-	
-	
 	@RequestMapping(value = "/userList")
 	@ResponseBody
 	public List<SysUser> searchTest(@RequestParam("beginDate") String beginDate,
