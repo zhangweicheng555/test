@@ -1,4 +1,5 @@
 package com.boot.security.server.dao;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,7 +12,8 @@ public interface BregionDao {
 
 	public List<BregionModel> analysisByAge(@Param("region") String region, @Param("sdate") String sdate);
 
-	public List<BregionModel> analysisBySource(@Param("region") String region, @Param("sdate") String sdate);
+	public List<BregionModel> analysisBySource(@Param("region") String region, @Param("sdate") String sdate,
+			@Param("sourcetype") Long sourcetype);
 
 	public String queryMaxDate();
 }

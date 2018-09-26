@@ -2,7 +2,7 @@ package com.boot.security.server.model;
 
 import java.io.Serializable;
 
-public class AnalysisModel implements Serializable{
+public class AnalysisModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Long male;
@@ -23,6 +23,18 @@ public class AnalysisModel implements Serializable{
 	private String source8;
 	private String source9;
 	private String source10;
+
+	private String gloal1;
+	private String gloal2;
+	private String gloal3;
+	private String gloal4;
+	private String gloal5;
+	private String gloal6;
+	private String gloal7;
+	private String gloal8;
+	private String gloal9;
+	private String gloal10;
+
 	private String time;
 
 	public Long getMale() {
@@ -31,6 +43,86 @@ public class AnalysisModel implements Serializable{
 
 	public void setMale(Long male) {
 		this.male = male;
+	}
+
+	public String getGloal1() {
+		return gloal1;
+	}
+
+	public void setGloal1(String gloal1) {
+		this.gloal1 = gloal1;
+	}
+
+	public String getGloal2() {
+		return gloal2;
+	}
+
+	public void setGloal2(String gloal2) {
+		this.gloal2 = gloal2;
+	}
+
+	public String getGloal3() {
+		return gloal3;
+	}
+
+	public void setGloal3(String gloal3) {
+		this.gloal3 = gloal3;
+	}
+
+	public String getGloal4() {
+		return gloal4;
+	}
+
+	public void setGloal4(String gloal4) {
+		this.gloal4 = gloal4;
+	}
+
+	public String getGloal5() {
+		return gloal5;
+	}
+
+	public void setGloal5(String gloal5) {
+		this.gloal5 = gloal5;
+	}
+
+	public String getGloal6() {
+		return gloal6;
+	}
+
+	public void setGloal6(String gloal6) {
+		this.gloal6 = gloal6;
+	}
+
+	public String getGloal7() {
+		return gloal7;
+	}
+
+	public void setGloal7(String gloal7) {
+		this.gloal7 = gloal7;
+	}
+
+	public String getGloal8() {
+		return gloal8;
+	}
+
+	public void setGloal8(String gloal8) {
+		this.gloal8 = gloal8;
+	}
+
+	public String getGloal9() {
+		return gloal9;
+	}
+
+	public void setGloal9(String gloal9) {
+		this.gloal9 = gloal9;
+	}
+
+	public String getGloal10() {
+		return gloal10;
+	}
+
+	public void setGloal10(String gloal10) {
+		this.gloal10 = gloal10;
 	}
 
 	public Long getFemale() {

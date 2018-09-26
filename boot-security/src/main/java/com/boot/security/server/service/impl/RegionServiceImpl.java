@@ -32,9 +32,55 @@ public class RegionServiceImpl implements RegionService {
 		handleSex(analysisModel, bregionDao.analysisByGnder(region, sdate));
 		// 处理年龄
 		handleAge(analysisModel, bregionDao.analysisByAge(region, sdate));
-		// 处理省份
-		handleSource(analysisModel, bregionDao.analysisBySource(region, sdate));
+		// 处理省份  境内
+		handleSource(analysisModel, bregionDao.analysisBySource(region, sdate, 0l));
+		//境外
+		handleSourceOut(analysisModel, bregionDao.analysisBySource(region, sdate, 1l));
+
 		return analysisModel;
+	}
+
+	private void handleSourceOut(AnalysisModel analysisModel, List<BregionModel> analysisBySource) {
+		if (analysisBySource != null && analysisBySource.size() > 0) {
+
+			for (int i = 0; i < analysisBySource.size(); i++) {
+				BregionModel bregionModel = analysisBySource.get(i);
+				String source = bregionModel.getSource();
+				if (StringUtils.isBlank(source) || ("null").equals(source) || ("").equals(source)) {
+					source = "未知";
+				}
+				if (i == 0) {
+					analysisModel.setGloal1(bregionModel.getSnum() + "," + source);
+				}
+				if (i == 1) {
+					analysisModel.setGloal2(bregionModel.getSnum() + "," + source);
+				}
+				if (i == 2) {
+					analysisModel.setGloal3(bregionModel.getSnum() + "," + source);
+				}
+				if (i == 3) {
+					analysisModel.setGloal4(bregionModel.getSnum() + "," + source);
+				}
+				if (i == 4) {
+					analysisModel.setGloal5(bregionModel.getSnum() + "," + source);
+				}
+				if (i == 5) {
+					analysisModel.setGloal6(bregionModel.getSnum() + "," + source);
+				}
+				if (i == 6) {
+					analysisModel.setGloal7(bregionModel.getSnum() + "," + source);
+				}
+				if (i == 7) {
+					analysisModel.setGloal8(bregionModel.getSnum() + "," + source);
+				}
+				if (i == 8) {
+					analysisModel.setGloal9(bregionModel.getSnum() + "," + source);
+				}
+				if (i == 9) {
+					analysisModel.setGloal10(bregionModel.getSnum() + "," + source);
+				}
+			}
+		}
 	}
 
 	private void handleSource(AnalysisModel analysisModel, List<BregionModel> analysisBySource) {
@@ -42,9 +88,9 @@ public class RegionServiceImpl implements RegionService {
 
 			for (int i = 0; i < analysisBySource.size(); i++) {
 				BregionModel bregionModel = analysisBySource.get(i);
-				String source= bregionModel.getSource();
+				String source = bregionModel.getSource();
 				if (StringUtils.isBlank(source) || ("null").equals(source) || ("").equals(source)) {
-					source="未知";
+					source = "未知";
 				}
 				if (i == 0) {
 					analysisModel.setSource1(bregionModel.getSnum() + "," + source);
@@ -134,6 +180,17 @@ public class RegionServiceImpl implements RegionService {
 		analysisModel.setSource8("0,无");
 		analysisModel.setSource9("0,无");
 		analysisModel.setSource10("0,无");
+		
+		analysisModel.setGloal1("0,无");
+		analysisModel.setGloal2("0,无");
+		analysisModel.setGloal3("0,无");
+		analysisModel.setGloal4("0,无");
+		analysisModel.setGloal5("0,无");
+		analysisModel.setGloal6("0,无");
+		analysisModel.setGloal7("0,无");
+		analysisModel.setGloal8("0,无");
+		analysisModel.setGloal9("0,无");
+		analysisModel.setGloal10("0,无");
 	}
 
 }

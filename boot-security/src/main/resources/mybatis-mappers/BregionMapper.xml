@@ -38,6 +38,7 @@
 			and d.stadium_no=#{region} 
 		</if> 
 		and d.sdate=#{sdate} 
+		and d.sourcetype=#{sourcetype}
 		group by d.source  
 		order by nvl(sum(d.imei_num),0) desc
 		)

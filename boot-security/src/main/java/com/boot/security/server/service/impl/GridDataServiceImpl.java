@@ -14,15 +14,19 @@ import org.springframework.stereotype.Service;
 
 import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.dao.GridDataDao;
+import com.boot.security.server.model.AnalysisModel;
 import com.boot.security.server.model.CommonModel;
 import com.boot.security.server.model.GridData;
 import com.boot.security.server.service.GridDataService;
+import com.boot.security.server.service.RegionService;
 
 @Service
 public class GridDataServiceImpl implements GridDataService {
 
 	@Autowired
 	private GridDataDao gridDataDao;
+	@Autowired
+	private RegionService regionService;
 
 	@Override
 	public void save(GridData gridData) {
@@ -69,6 +73,7 @@ public class GridDataServiceImpl implements GridDataService {
 				map.put("date", dateNow);
 				map.put("total", total);
 				map.put("grids", new ArrayList<>());
+				map.put("misc", new AnalysisModel());
 				// 查询符合条件的数据
 				List<CommonModel> list = gridDataDao.queryGridDataByTimeRegion(dateNow, region, numPercent, warnNum);
 				if (list != null && list.size() > 0) {
@@ -82,6 +87,8 @@ public class GridDataServiceImpl implements GridDataService {
 					}
 					map.put("grids", listMaps);
 				}
+				//查询b域
+				map.put("misc", regionService.queryGridWarnData(region, dateNow));
 			} else {
 				map = null;
 			}
