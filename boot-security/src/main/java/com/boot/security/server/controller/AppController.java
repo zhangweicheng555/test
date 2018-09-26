@@ -43,6 +43,8 @@ public class AppController {
 	@Autowired
 	private GridDataService gridDataService;
 
+	
+	
 	/**
 	 * 五、接口5 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割 warnNum ：废弃
 	 */
