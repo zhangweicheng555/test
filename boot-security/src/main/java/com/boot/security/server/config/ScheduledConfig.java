@@ -86,8 +86,8 @@ public class ScheduledConfig {
 	/**
 	 * 每五分钟执行一次 测试服 B域定时
 	 */
-	// @Transactional
-	// @Scheduled(cron = "0 0/5 * * * ?")
+	 @Transactional
+	 @Scheduled(cron = "0 0/5 * * * ?")
 	public void execByBFiveMin() throws ParseException {
 		String nowDate = getNowDate();
 		// 处理时间
