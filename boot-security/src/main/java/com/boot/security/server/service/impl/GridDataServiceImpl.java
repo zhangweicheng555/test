@@ -88,6 +88,7 @@ public class GridDataServiceImpl implements GridDataService {
 					map.put("grids", listMaps);
 				}
 				//查询b域
+				dateNow=dateNow.substring(0, 12);
 				map.put("misc", regionService.queryGridWarnData(region, dateNow));
 			} else {
 				map = null;
