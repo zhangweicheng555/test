@@ -81,14 +81,18 @@ public class GridDataServiceImpl implements GridDataService {
 				}
 				map.put("grids", listMaps);
 			}
+			
 			//查询b域
+			dateNow=dateNow.substring(0, 12);
 			map.put("misc", regionService.queryGridWarnData(region, dateNow));
 		} else {
 			map = null;
 		}
 		return map;
 	}
-
+	
+	
+	
 	@Override
 	public Double queryGridPeopleNumDataNew(String region, String maxDate) {
 		Double numPercent = 0.0;
