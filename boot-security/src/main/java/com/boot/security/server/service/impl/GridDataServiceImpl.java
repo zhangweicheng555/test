@@ -6,9 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,6 +81,7 @@ public class GridDataServiceImpl implements GridDataService {
 						mapM.put("userCount", commonModel.getUserCount());
 						mapM.put("x", commonModel.getX());
 						mapM.put("y", commonModel.getY());
+						mapM.put("region", commonModel.getRegion());
 						listMaps.add(mapM);
 					}
 					map.put("grids", listMaps);

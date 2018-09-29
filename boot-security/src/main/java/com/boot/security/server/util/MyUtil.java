@@ -527,4 +527,37 @@ public class MyUtil {
 		return list;
 	}
 
+	public static String getFiveDate(String beginDateStr, int minute) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date beginDate = sdf.parse(beginDateStr);
+		Date afterDate = new Date(beginDate.getTime() - 60 * minute * 1000);
+		return sdf.format(afterDate);
+	}
+	
+	
+	public static List<String> getDateStrY(String beginDateStr, String endDateStr, int minute)
+			throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date beginDate = sdf.parse(beginDateStr);
+		Date endDate = sdf.parse(endDateStr);
+
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < 20000; i++) {
+			beginDate = new Date(beginDate.getTime() + 60 * minute * 1000);
+			if (beginDate.compareTo(endDate) >= 0) {
+				break;
+			}
+			list.add(sdf.format(beginDate));
+		}
+		return list;
+	}
+	public static void main(String[] args) throws ParseException {
+		List<String> dateListStr = getDateStrY("20180909121500","20180909122000",1);
+		for (String key : dateListStr) {
+			
+			System.out.println(key);
+		}
+	}
+	
+
 }
