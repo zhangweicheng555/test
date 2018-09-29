@@ -51,4 +51,7 @@ public interface GridDataDao {
 
 	public void updateDate(@Param("nowDate") String nowDate);
 
+	public Double queryGridPeopleNumCluster(@Param("dateStr") String dateStr, @Param("region") String region,
+			@Param("numPercent") Double numPercent);
+
 }

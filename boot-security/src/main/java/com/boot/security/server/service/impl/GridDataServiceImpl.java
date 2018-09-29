@@ -77,14 +77,15 @@ public class GridDataServiceImpl implements GridDataService {
 					mapM.put("userCount", commonModel.getUserCount());
 					mapM.put("x", commonModel.getX());
 					mapM.put("y", commonModel.getY());
+					mapM.put("region", commonModel.getRegion());
 					listMaps.add(mapM);
 				}
 				map.put("grids", listMaps);
 			}
 			
 			//查询b域
-			dateNow=dateNow.substring(0, 12);
-			map.put("misc", regionService.queryGridWarnData(region, dateNow));
+			//dateNow=dateNow.substring(0, 12);
+			map.put("misc", regionService.queryGridWarnDataCluster(region, dateNow));
 		} else {
 			map = null;
 		}
@@ -167,7 +168,7 @@ public class GridDataServiceImpl implements GridDataService {
 				map.put("name", regionStr[i]);
 				List<Double> listDouble=new ArrayList<>();
 				for (String date : listDates) {
-					listDouble.add(gridDataDao.queryGridPeopleNum(date, region, numPercent));
+					listDouble.add(gridDataDao.queryGridPeopleNumCluster(date, regionStr[i], numPercent));
 				}
 				map.put("item", listDouble);
 				list.add(map);

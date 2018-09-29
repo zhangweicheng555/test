@@ -230,7 +230,7 @@ public class AppController {
 					if (j == 0) {
 						key = null;
 					}
-					list.add(regionService.queryGridWarnData(key, maxDate));
+					list.add(regionService.queryGridWarnDataCluster(key, maxDate));
 				}
 				map.put("miscParameter", list);
 			}
@@ -440,4 +440,30 @@ public class AppController {
 		return map;
 	}
 
+
+	/**
+	 * 14、接口14 根据指定时间范围和场馆编号获取指定场馆的人数数据。
+	 */
+	@RequestMapping(value = "/queryDateForMinute", method = RequestMethod.GET)
+	public Map<String, Object> queryDateForMinute(@RequestParam(value = "beginDate", required = true) String beginDate,
+			@RequestParam(value = "endDate", required = true) String endDate,
+			@RequestParam(value = "region", required = true) String region) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		map.put("peopleHistoryParameterList", new ArrayList<>());
+		try {
+			List<Map<String, Object>> list = regionService.queryDateForMinute(beginDate, endDate, region);
+			if (list.size() > 0) {
+				map.put("peopleHistoryParameterList", list);
+			} else {
+				map.put("status", 1);
+				map.put("msg", "没有对应条件的数据！");
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyyMMddHHmmss");
+		}
+		return map;
+	}
 }

@@ -18,8 +18,18 @@ public class CommonModel implements Serializable {
 	private Double allNum;
 	private Double userCount;
 
+	private String region;
+
 	public Double getX() {
 		return x;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
 	}
 
 	public void setX(Double x) {
