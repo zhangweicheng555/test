@@ -551,13 +551,6 @@ public class MyUtil {
 		}
 		return list;
 	}
-	public static void main(String[] args) throws ParseException {
-		List<String> dateListStr = getDateStrY("20180909121500","20180909122000",1);
-		for (String key : dateListStr) {
-			
-			System.out.println(key);
-		}
-	}
 	
 
 }
