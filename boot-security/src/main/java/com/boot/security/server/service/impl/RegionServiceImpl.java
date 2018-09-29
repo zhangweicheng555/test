@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.boot.security.server.dao.BregionDao;
+import com.boot.security.server.model.AnalysisCluster;
 import com.boot.security.server.model.AnalysisModel;
 import com.boot.security.server.model.BregionModel;
 import com.boot.security.server.service.RegionService;
@@ -32,11 +33,56 @@ public class RegionServiceImpl implements RegionService {
 		handleSex(analysisModel, bregionDao.analysisByGnder(region, sdate));
 		// 处理年龄
 		handleAge(analysisModel, bregionDao.analysisByAge(region, sdate));
-		// 处理省份  境内
+		// 处理省份 境内
 		handleSource(analysisModel, bregionDao.analysisBySource(region, sdate, 0l));
-		//境外
+		// 境外
 		handleSourceOut(analysisModel, bregionDao.analysisBySource(region, sdate, 1l));
 
+		return analysisModel;
+	}
+
+	@Override
+	public AnalysisModel queryGridWarnDataCluster(String region, String sdate) {
+		AnalysisModel analysisModel = new AnalysisModel();
+		AnalysisCluster cluster=null;
+		if (region == null) {
+			cluster = bregionDao.queryGridWarnDataClusterAll(region, sdate);
+		}else {
+			cluster = bregionDao.queryGridWarnDataCluster(region, sdate);
+		}
+		if (cluster != null) {
+			analysisModel.setMale(cluster.getMale());
+			analysisModel.setFemale(cluster.getFemale());
+
+			analysisModel.setAge1(cluster.getAge1());
+			analysisModel.setAge2(cluster.getAge2());
+			analysisModel.setAge3(cluster.getAge3());
+			analysisModel.setAge4(cluster.getAge4());
+			analysisModel.setAge5(cluster.getAge5());
+
+			analysisModel.setSource1(cluster.getSourceNum1() + "," + cluster.getSource1());
+			analysisModel.setSource2(cluster.getSourceNum2() + "," + cluster.getSource2());
+			analysisModel.setSource3(cluster.getSourceNum3() + "," + cluster.getSource3());
+			analysisModel.setSource4(cluster.getSourceNum4() + "," + cluster.getSource4());
+			analysisModel.setSource5(cluster.getSourceNum5() + "," + cluster.getSource5());
+			analysisModel.setSource6(cluster.getSourceNum6() + "," + cluster.getSource6());
+			analysisModel.setSource7(cluster.getSourceNum7() + "," + cluster.getSource7());
+			analysisModel.setSource8(cluster.getSourceNum8() + "," + cluster.getSource8());
+			analysisModel.setSource9(cluster.getSourceNum9() + "," + cluster.getSource9());
+			analysisModel.setSource10(cluster.getSourceNum10() + "," + cluster.getSource10());
+
+			analysisModel.setGloal1(cluster.getGloalNum1() + "," + cluster.getGloal1());
+			analysisModel.setGloal2(cluster.getGloalNum2() + "," + cluster.getGloal2());
+			analysisModel.setGloal3(cluster.getGloalNum3() + "," + cluster.getGloal3());
+			analysisModel.setGloal4(cluster.getGloalNum4() + "," + cluster.getGloal4());
+			analysisModel.setGloal5(cluster.getGloalNum5() + "," + cluster.getGloal5());
+			analysisModel.setGloal6(cluster.getGloalNum6() + "," + cluster.getGloal6());
+			analysisModel.setGloal7(cluster.getGloalNum7() + "," + cluster.getGloal7());
+			analysisModel.setGloal8(cluster.getGloalNum8() + "," + cluster.getGloal8());
+			analysisModel.setGloal9(cluster.getGloalNum9() + "," + cluster.getGloal9());
+			analysisModel.setGloal10(cluster.getGloalNum10() + "," + cluster.getGloal10());
+		}
+		analysisModel.setTime(sdate);
 		return analysisModel;
 	}
 
@@ -180,7 +226,7 @@ public class RegionServiceImpl implements RegionService {
 		analysisModel.setSource8("0,无");
 		analysisModel.setSource9("0,无");
 		analysisModel.setSource10("0,无");
-		
+
 		analysisModel.setGloal1("0,无");
 		analysisModel.setGloal2("0,无");
 		analysisModel.setGloal3("0,无");

@@ -7,4 +7,6 @@ public interface RegionService {
 	public String queryMaxDate();
 	
 	public AnalysisModel queryGridWarnData(String region,String sdate);
+
+	public AnalysisModel queryGridWarnDataCluster(String region,String sdate);
 }

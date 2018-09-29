@@ -230,7 +230,7 @@ public class AppController {
 					if (j == 0) {
 						key = null;
 					}
-					list.add(regionService.queryGridWarnData(key, maxDate));
+					list.add(regionService.queryGridWarnDataCluster(key, maxDate));
 				}
 				map.put("miscParameter", list);
 			}

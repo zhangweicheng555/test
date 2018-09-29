@@ -122,6 +122,19 @@
         </if>
 		
 	</select>
+	<select id="queryGridPeopleNumCluster" resultType="java.lang.Double">
+		 <if test="numPercent != null">
+		  select nvl(sum(ceil(d.IMEI_NUM/#{numPercent})),0) 
+		       from LTE_GRID_USER_NUM_CLUSTER d 
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{dateStr} 
+        </if> 
+		<if test="numPercent == null">
+			  select nvl(sum(ceil(d.IMEI_NUM/d.user_ratio)),0) 
+		       from LTE_GRID_USER_NUM_CLUSTER d 
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{dateStr}  
+        </if>
+		
+	</select>
 	
 	
 	<select id="queryGridWarnData" resultType="java.util.Map">

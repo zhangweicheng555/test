@@ -47,9 +47,13 @@ public interface GridDataDao {
 	public Double queryHiGridPeopleNum(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
 
+	public Double queryGridPeopleNumCluster(@Param("dateStr") String dateStr, @Param("region") String region,
+			@Param("numPercent") Double numPercent);
+
 	public List<CommonModel> queryHiGridDataByTimeRegion(@Param("dateStr") String dateStr,
 			@Param("region") String region, @Param("numPercent") Double numPercent, @Param("warnNum") Double warnNum);
 
 	public void updateDate(@Param("nowDate") String nowDate);
+
 
 }

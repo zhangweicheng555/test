@@ -88,8 +88,8 @@ public class GridDataServiceImpl implements GridDataService {
 					map.put("grids", listMaps);
 				}
 				//查询b域
-				dateNow=dateNow.substring(0, 12);
-				map.put("misc", regionService.queryGridWarnData(region, dateNow));
+				//dateNow=dateNow.substring(0, 12);
+				map.put("misc", regionService.queryGridWarnDataCluster(region, dateNow));
 			} else {
 				map = null;
 			}
@@ -100,6 +100,7 @@ public class GridDataServiceImpl implements GridDataService {
 				map.put("date", dateNow);
 				map.put("total", total);
 				map.put("grids", new ArrayList<>());
+				map.put("misc", new AnalysisModel());
 				// 查询符合条件的数据
 				List<CommonModel> list = gridDataDao.queryHiGridDataByTimeRegion(dateNow, region, numPercent, warnNum);
 				if (list != null && list.size() > 0) {
@@ -113,6 +114,9 @@ public class GridDataServiceImpl implements GridDataService {
 					}
 					map.put("grids", listMaps);
 				}
+				//查询b域
+				//dateNow=dateNow.substring(0, 12);
+				map.put("misc", regionService.queryGridWarnDataCluster(region, dateNow));
 			} else {
 				map = null;
 			}
@@ -133,18 +137,13 @@ public class GridDataServiceImpl implements GridDataService {
 		List<Map<String, Object>> list=new ArrayList<>();
 		
 		if (StringUtils.isNoneBlank(region)) {
-			String minDate = gridDataDao.queryMinDate();
 			String[] regionStr=region.trim().split(",");
 			for (int i = 0; i < regionStr.length; i++) {
 				Map<String, Object> map=new HashMap<>();
 				map.put("name", regionStr[i]);
 				List<Double> listDouble=new ArrayList<>();
 				for (String date : listDates) {
-					if (minDate.compareTo(date) <= 0) {
-						listDouble.add(gridDataDao.queryGridPeopleNum(date, region, numPercent));
-					}else {
-						listDouble.add(gridDataDao.queryHiGridPeopleNum(date, region, numPercent));
-					}
+						listDouble.add(gridDataDao.queryGridPeopleNumCluster(date, regionStr[i], numPercent));
 				}
 				map.put("item", listDouble);
 				list.add(map);

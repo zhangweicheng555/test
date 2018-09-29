@@ -13,11 +13,14 @@ create table LTE_GRID_USER_NUM_CLUSTER
 
 
 //5分钟b域汇总表
-create table "B_REGION_ CLUSTER"
+create table "B_REGION_CLUSTER"
 (
   sdate             VARCHAR2(50),
   imei_num          NUMBER,
   area_type         VARCHAR2(20),
+  
+  stadium_no
+  
   floor_no          NUMBER,
   gender_male_num   NUMBER,
   gender_female_num NUMBER,
@@ -29,6 +32,25 @@ create table "B_REGION_ CLUSTER"
   age_na_num        NUMBER,
   source_in_1       VARCHAR2(50),
   source_in_1_num   NUMBER,
+  source_in_2       VARCHAR2(50),
+  source_in_2_num   NUMBER,
+  source_in_3       VARCHAR2(50),
+  source_in_3_num   NUMBER,
+  source_in_4       VARCHAR2(50),
+  source_in_4_num   NUMBER,
+  source_in_5       VARCHAR2(50),
+  source_in_5_num   NUMBER,
+  source_in_6       VARCHAR2(50),
+  source_in_6_num   NUMBER,
+  source_in_7       VARCHAR2(50),
+  source_in_7_num   NUMBER,
+  source_in_8       VARCHAR2(50),
+  source_in_8_num   NUMBER,
+  source_in_9       VARCHAR2(50),
+  source_in_9_num   NUMBER,
+  source_in_10      VARCHAR2(50),
+  source_in_10_num  NUMBER
+  
   source_out_1      VARCHAR2(50),
   source_out_1_num  NUMBER,
   source_out_2      VARCHAR2(50),
@@ -49,22 +71,5 @@ create table "B_REGION_ CLUSTER"
   source_out_9_num  NUMBER,
   source_out_10     VARCHAR2(50),
   source_out_10_num NUMBER,
-  source_in_2       VARCHAR2(50),
-  source_in_2_num   NUMBER,
-  source_in_3       VARCHAR2(50),
-  source_in_3_num   NUMBER,
-  source_in_4       VARCHAR2(50),
-  source_in_4_num   NUMBER,
-  source_in_5       VARCHAR2(50),
-  source_in_5_num   NUMBER,
-  source_in_6       VARCHAR2(50),
-  source_in_6_num   NUMBER,
-  source_in_7       VARCHAR2(50),
-  source_in_7_num   NUMBER,
-  source_in_8       VARCHAR2(50),
-  source_in_8_num   NUMBER,
-  source_in_9       VARCHAR2(50),
-  source_in_9_num   NUMBER,
-  source_in_10      VARCHAR2(50),
-  source_in_10_num  NUMBER
+  
 )
