@@ -8,6 +8,7 @@ import com.boot.security.server.model.AnalysisModel;
 public interface RegionService {
 
 	public String queryMaxDate();
+	public String queryMaxDateClus();
 	
 	public AnalysisModel queryGridWarnData(String region,String sdate);
 	

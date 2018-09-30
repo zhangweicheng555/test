@@ -27,6 +27,10 @@ public class RegionServiceImpl implements RegionService {
 	public String queryMaxDate() {
 		return bregionDao.queryMaxDate();
 	}
+	@Override
+	public String queryMaxDateClus() {
+		return bregionDao.queryMaxDateClus();
+	}
 
 	@Override
 	public List<Map<String, Object>> queryDateForMinute(String beginDate, String endDate, String region)  {

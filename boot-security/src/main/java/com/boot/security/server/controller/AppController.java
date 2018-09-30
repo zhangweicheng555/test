@@ -219,7 +219,7 @@ public class AppController {
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
 		try {
-			String maxDate = regionService.queryMaxDate();
+			String maxDate = regionService.queryMaxDateClus();
 			if (StringUtils.isBlank(maxDate)) {
 				map.put("status", 2);
 				map.put("msg", "数据库中日期不存在");

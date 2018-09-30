@@ -20,6 +20,7 @@ public interface BregionDao {
 			@Param("sourcetype") Long sourcetype);
 
 	public String queryMaxDate();
+	public String queryMaxDateClus();
 
 	public void updateDate(@Param("nowDate") String nowDate);
 

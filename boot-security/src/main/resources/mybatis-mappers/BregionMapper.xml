@@ -354,4 +354,9 @@
 		and d.sdate =#{beginDate} 
 		group by d.source_out_10
 	</select> 
+	
+	<select id="queryMaxDateClus" resultType="string">
+		select max(d.sdate) from B_REGION_CLUSTER d where  d.area_type in ('Indoor','Outdoor')   
+	</select> 
+	 
 </mapper>
