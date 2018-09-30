@@ -32,7 +32,7 @@
 	<select id="queryGridWarnDataClusterAll" resultType="AnalysisCluster">
 		select 
 		nvl(sum(gender_male_num),0) as "male"
-		,nvl(sum(gender_female_num,0) as "female"
+		,nvl(sum(gender_female_num),0) as "female"
 		
 		,nvl(sum(age_18_num),0) as "age1"
 		,nvl(sum(age_35_num),0) as "age2"
