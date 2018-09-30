@@ -21,6 +21,7 @@ public interface BregionDao {
 			@Param("sourcetype") Long sourcetype);
 
 	public String queryMaxDate();
+	public String queryMaxDateClus();
 
 	public AnalysisCluster queryGridWarnDataCluster(@Param("region") String region, @Param("sdate") String sdate);
 

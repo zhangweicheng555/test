@@ -49,10 +49,14 @@ public class RegionServiceImpl implements RegionService {
 	@Override
 	public AnalysisModel queryGridWarnDataCluster(String region, String sdate) {
 		AnalysisModel analysisModel = new AnalysisModel();
+		analysisModel.setTime(sdate);
 		AnalysisCluster cluster=null;
 		if (region == null) {
 			//获取所有的性别年龄 数量
 			cluster = bregionDao.queryGridWarnDataClusterAll(region, sdate);
+			if (cluster == null) {
+				return analysisModel;
+			}
 			//获取境内境外
 			Map<String, Object> querySource1 = bregionDao.querySource1(sdate);
 			if (querySource1 != null) {
@@ -137,6 +141,9 @@ public class RegionServiceImpl implements RegionService {
 			}
 		}else {
 			cluster = bregionDao.queryGridWarnDataCluster(region, sdate);
+			if (cluster == null) {
+				return analysisModel;
+			}
 		}
 		if (cluster != null) {
 			analysisModel.setSource1(cluster.getSourceNum1() + "," + cluster.getSource1());
@@ -160,15 +167,14 @@ public class RegionServiceImpl implements RegionService {
 			analysisModel.setGloal8(cluster.getGloalNum8() + "," + cluster.getGloal8());
 			analysisModel.setGloal9(cluster.getGloalNum9() + "," + cluster.getGloal9());
 			analysisModel.setGloal10(cluster.getGloalNum10() + "," + cluster.getGloal10());
+			analysisModel.setMale(cluster.getMale());
+			analysisModel.setFemale(cluster.getFemale());
+			analysisModel.setAge1(cluster.getAge1());
+			analysisModel.setAge2(cluster.getAge2());
+			analysisModel.setAge3(cluster.getAge3());
+			analysisModel.setAge4(cluster.getAge4());
+			analysisModel.setAge5(cluster.getAge5());
 		}
-		analysisModel.setMale(cluster.getMale());
-		analysisModel.setFemale(cluster.getFemale());
-		analysisModel.setAge1(cluster.getAge1());
-		analysisModel.setAge2(cluster.getAge2());
-		analysisModel.setAge3(cluster.getAge3());
-		analysisModel.setAge4(cluster.getAge4());
-		analysisModel.setAge5(cluster.getAge5());
-		analysisModel.setTime(sdate);
 		return analysisModel;
 	}
 
@@ -419,6 +425,11 @@ public class RegionServiceImpl implements RegionService {
 			}
 		}
 		return map;
+	}
+
+	@Override
+	public String queryMaxDateClus() {
+		return bregionDao.queryMaxDateClus();
 	}
 	
 }

@@ -5,35 +5,35 @@ import java.io.Serializable;
 public class AnalysisModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Long male;
-	private Long female;
-	private Long age1;
-	private Long age2;
-	private Long age3;
-	private Long age4;
-	private Long age5;
+	private Long male=0l;
+	private Long female=0l;
+	private Long age1=0l;
+	private Long age2=0l;
+	private Long age3=0l;
+	private Long age4=0l;
+	private Long age5=0l;
 
-	private String source1;
-	private String source2;
-	private String source3;
-	private String source4;
-	private String source5;
-	private String source6;
-	private String source7;
-	private String source8;
-	private String source9;
-	private String source10;
+	private String source1="0,无";
+	private String source2="0,无";
+	private String source3="0,无";
+	private String source4="0,无";
+	private String source5="0,无";
+	private String source6="0,无";
+	private String source7="0,无";
+	private String source8="0,无";
+	private String source9="0,无";
+	private String source10="0,无";
 
-	private String gloal1;
-	private String gloal2;
-	private String gloal3;
-	private String gloal4;
-	private String gloal5;
-	private String gloal6;
-	private String gloal7;
-	private String gloal8;
-	private String gloal9;
-	private String gloal10;
+	private String gloal1="0,无";
+	private String gloal2="0,无";
+	private String gloal3="0,无";
+	private String gloal4="0,无";
+	private String gloal5="0,无";
+	private String gloal6="0,无";
+	private String gloal7="0,无";
+	private String gloal8="0,无";
+	private String gloal9="0,无";
+	private String gloal10="0,无";
 
 	private String time;
 
