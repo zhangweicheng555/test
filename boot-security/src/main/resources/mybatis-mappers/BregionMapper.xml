@@ -153,16 +153,20 @@
 	
 	
 	<select id="querySource1" resultType="java.util.Map">
-		select 
-		source_in_1 as "source"
-		,max(source_in_1_num) as "sourceNum"
-		from B_REGION_CLUSTER d 
-		where 1=1
-		and d.area_type in ('Indoor','Outdoor')  
-		and d.sdate =#{beginDate} 
-		group by d.source_in_1
+		select t.* from (
+			select 
+			source_in_1 as "source"
+			,max(source_in_1_num) as "sourceNum"
+			from B_REGION_CLUSTER d 
+			where 1=1
+			and d.area_type in ('Indoor','Outdoor')  
+			and d.sdate =#{beginDate} 
+			group by d.source_in_1
+		) t
+		where rownum=1
 	</select> 
 	<select id="querySource2" resultType="java.util.Map">
+	select * from (
 		select 
 		source_in_2 as "source"
 		,max(source_in_2_num) as "sourceNum"
@@ -171,8 +175,11 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_in_2
+	)
+	where rownum=1
 	</select> 
 	<select id="querySource3" resultType="java.util.Map">
+	select * from (
 		select 
 		source_in_3 as "source"
 		,max(source_in_3_num) as "sourceNum"
@@ -181,48 +188,63 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_in_3
+	)
+	where rownum=1
 	</select> 
 	<select id="querySource4" resultType="java.util.Map">
-		select 
-		source_in_4 as "source"
-		,max(source_in_4_num) as "sourceNum"
-		from B_REGION_CLUSTER d 
-		where 1=1
-		and d.area_type in ('Indoor','Outdoor')  
-		and d.sdate =#{beginDate} 
-		group by d.source_in_4
+		select * from (
+			select 
+			source_in_4 as "source"
+			,max(source_in_4_num) as "sourceNum"
+			from B_REGION_CLUSTER d 
+			where 1=1
+			and d.area_type in ('Indoor','Outdoor')  
+			and d.sdate =#{beginDate} 
+			group by d.source_in_4
+		)
+		where rownum=1
 	</select> 
 	<select id="querySource5" resultType="java.util.Map">
-		select 
-		source_in_5 as "source"
-		,max(source_in_5_num) as "sourceNum"
-		from B_REGION_CLUSTER d 
-		where 1=1
-		and d.area_type in ('Indoor','Outdoor')  
-		and d.sdate =#{beginDate} 
-		group by d.source_in_5
+		select * from (
+			select 
+			source_in_5 as "source"
+			,max(source_in_5_num) as "sourceNum"
+			from B_REGION_CLUSTER d 
+			where 1=1
+			and d.area_type in ('Indoor','Outdoor')  
+			and d.sdate =#{beginDate} 
+			group by d.source_in_5
+		)
+		where rownum=1 
 	</select> 
 	<select id="querySource6" resultType="java.util.Map">
-		select 
-		source_in_6 as "source"
-		,max(source_in_6_num) as "sourceNum"
-		from B_REGION_CLUSTER d 
-		where 1=1
-		and d.area_type in ('Indoor','Outdoor')  
-		and d.sdate =#{beginDate} 
-		group by d.source_in_6
+		select * from (
+			select 
+			source_in_6 as "source"
+			,max(source_in_6_num) as "sourceNum"
+			from B_REGION_CLUSTER d 
+			where 1=1
+			and d.area_type in ('Indoor','Outdoor')  
+			and d.sdate =#{beginDate} 
+			group by d.source_in_6
+		)
+		where rownum=1 
 	</select> 
 	<select id="querySource7" resultType="java.util.Map">
-		select 
-		source_in_7 as "source"
-		,max(source_in_7_num) as "sourceNum"
-		from B_REGION_CLUSTER d 
-		where 1=1
-		and d.area_type in ('Indoor','Outdoor')  
-		and d.sdate =#{beginDate} 
-		group by d.source_in_7
+		select * from (
+			select 
+			source_in_7 as "source"
+			,max(source_in_7_num) as "sourceNum"
+			from B_REGION_CLUSTER d 
+			where 1=1
+			and d.area_type in ('Indoor','Outdoor')  
+			and d.sdate =#{beginDate} 
+			group by d.source_in_7
+		)
+		where rownum=1 
 	</select> 
 	<select id="querySource8" resultType="java.util.Map">
+	select * from (
 		select 
 		source_in_8 as "source"
 		,max(source_in_8_num) as "sourceNum"
@@ -231,8 +253,11 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_in_8
+		)
+		where rownum=1 
 	</select> 
 	<select id="querySource9" resultType="java.util.Map">
+	select * from (
 		select 
 		source_in_9 as "source"
 		,max(source_in_9_num) as "sourceNum"
@@ -241,8 +266,11 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_in_9
+		)
+		where rownum=1 
 	</select> 
 	<select id="querySource10" resultType="java.util.Map">
+	select * from (
 		select 
 		source_in_10 as "source"
 		,max(source_in_10_num) as "sourceNum"
@@ -251,10 +279,13 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_in_10
+		)
+		where rownum=1 
 	</select> 
 	
 	
 	<select id="gloal1" resultType="java.util.Map">
+	select *  from (
 		select 
 		source_out_1 as "source"
 		,max(source_out_1_num) as "sourceNum"
@@ -263,8 +294,11 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_out_1
+		)
+		where rownum=1 
 	</select> 
 	<select id="gloal2" resultType="java.util.Map">
+	select * from (
 		select 
 		source_out_2 as "source"
 		,max(source_out_2_num) as "sourceNum"
@@ -273,8 +307,11 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_out_2
+		)
+		where rownum=1 
 	</select> 
 	<select id="gloal3" resultType="java.util.Map">
+	select * from (
 		select 
 		source_out_3 as "source"
 		,max(source_out_3_num) as "sourceNum"
@@ -283,8 +320,11 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_out_3
+		)
+		where rownum=1 
 	</select> 
 	<select id="gloal4" resultType="java.util.Map">
+	select * from (
 		select 
 		source_out_4 as "source"
 		,max(source_out_4_num) as "sourceNum"
@@ -293,8 +333,11 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_out_4
+		)
+		where rownum=1 
 	</select> 
 	<select id="gloal5" resultType="java.util.Map">
+	select * from (
 		select 
 		source_out_5 as "source"
 		,max(source_out_5_num) as "sourceNum"
@@ -303,8 +346,11 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_out_5
+		)
+		where rownum=1 
 	</select> 
 	<select id="gloal6" resultType="java.util.Map">
+	select * from (
 		select 
 		source_out_6 as "source"
 		,max(source_out_6_num) as "sourceNum"
@@ -313,8 +359,11 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_out_6
+		)
+		where rownum=1 
 	</select> 
 	<select id="gloal7" resultType="java.util.Map">
+	select *  from (
 		select 
 		source_out_7 as "source"
 		,max(source_out_7_num) as "sourceNum"
@@ -323,8 +372,11 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_out_7
+		)
+		where rownum=1 
 	</select> 
 	<select id="gloal8" resultType="java.util.Map">
+	select * from (
 		select 
 		source_out_8 as "source"
 		,max(source_out_8_num) as "sourceNum"
@@ -333,8 +385,11 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_out_8
+		)
+		where rownum=1 
 	</select> 
 	<select id="gloal9" resultType="java.util.Map">
+	select * from (
 		select 
 		source_out_9 as "source"
 		,max(source_out_9_num) as "sourceNum"
@@ -343,8 +398,11 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_out_9
+		)
+		where rownum=1 
 	</select> 
 	<select id="gloal10" resultType="java.util.Map">
+	select * from (
 		select 
 		source_out_10 as "source"
 		,max(source_out_10_num) as "sourceNum"
@@ -353,6 +411,8 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.sdate =#{beginDate} 
 		group by d.source_out_10
+		)
+		where rownum=1 
 	</select> 
 	
 	<select id="queryMaxDateClus" resultType="string">
