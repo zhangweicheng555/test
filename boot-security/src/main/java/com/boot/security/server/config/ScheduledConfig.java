@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.boot.security.server.service.GridDataService;
 
 /** 定时器使用 */
-//@Configuration
-//@EnableScheduling
+@Configuration
+@EnableScheduling
 public class ScheduledConfig {
 
 	@Autowired
@@ -21,8 +21,8 @@ public class ScheduledConfig {
 	 * 0点三分执行
 	 * 确认入库的时间  正式服
 	 */
-	//@Transactional
-	//@Scheduled(cron = "0 3 0 * * ?")
+	@Transactional
+	@Scheduled(cron = "0 3 0 * * ?")
 	public void execByThirtyMin() {
 		// 查询表中最大时间
 		String beforeDate = gridDataService.queryMaxDate();
