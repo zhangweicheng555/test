@@ -20,39 +20,58 @@ public interface BregionDao {
 			@Param("sourcetype") Long sourcetype);
 
 	public String queryMaxDate();
+
 	public String queryMaxDateClus();
 
 	public void updateDate(@Param("nowDate") String nowDate);
 
 	public void insertNewData(@Param("beforeDate") String beforeDate);
-	
+
 	public AnalysisCluster queryGridWarnDataClusterAll(@Param("region") String region, @Param("sdate") String sdate);
 
-	
-	
-	public List<Map<String, Object>> queryDateForMinute(@Param("beginDate") String beginDate, @Param("endDate") String endDate,
-			@Param("region") String region);
+	public List<Map<String, Object>> queryDateForMinute(@Param("beginDate") String beginDate,
+			@Param("endDate") String endDate, @Param("region") String region, @Param("numPercent") Double numPercent);
+
 	public Map<String, Object> querySource1(@Param("beginDate") String sdate);
+
 	public Map<String, Object> querySource2(@Param("beginDate") String sdate);
+
 	public Map<String, Object> querySource3(@Param("beginDate") String sdate);
+
 	public Map<String, Object> querySource4(@Param("beginDate") String sdate);
+
 	public Map<String, Object> querySource5(@Param("beginDate") String sdate);
+
 	public Map<String, Object> querySource6(@Param("beginDate") String sdate);
+
 	public Map<String, Object> querySource7(@Param("beginDate") String sdate);
+
 	public Map<String, Object> querySource8(@Param("beginDate") String sdate);
+
 	public Map<String, Object> querySource9(@Param("beginDate") String sdate);
+
 	public Map<String, Object> querySource10(@Param("beginDate") String sdate);
 
 	public Map<String, Object> gloal1(@Param("beginDate") String sdate);
+
 	public Map<String, Object> gloal2(@Param("beginDate") String sdate);
+
 	public Map<String, Object> gloal3(@Param("beginDate") String sdate);
+
 	public Map<String, Object> gloal4(@Param("beginDate") String sdate);
+
 	public Map<String, Object> gloal5(@Param("beginDate") String sdate);
+
 	public Map<String, Object> gloal6(@Param("beginDate") String sdate);
+
 	public Map<String, Object> gloal7(@Param("beginDate") String sdate);
+
 	public Map<String, Object> gloal8(@Param("beginDate") String sdate);
+
 	public Map<String, Object> gloal9(@Param("beginDate") String sdate);
+
 	public Map<String, Object> gloal10(@Param("beginDate") String sdate);
+
 	public AnalysisCluster queryGridWarnDataCluster(@Param("region") String region, @Param("sdate") String sdate);
 
 }

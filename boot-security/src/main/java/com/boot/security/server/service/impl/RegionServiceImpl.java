@@ -10,6 +10,8 @@ import java.util.Random;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.dao.BregionDao;
 import com.boot.security.server.model.AnalysisCluster;
 import com.boot.security.server.model.AnalysisModel;
@@ -34,7 +36,15 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	public List<Map<String, Object>> queryDateForMinute(String beginDate, String endDate, String region)  {
-		List<Map<String,Object>> datas = bregionDao.queryDateForMinute(beginDate,endDate,region);
+		
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+		
+		List<Map<String,Object>> datas = bregionDao.queryDateForMinute(beginDate,endDate,region,numPercent);
 		
 		List<Map<String, Object>> list=new ArrayList<>();
 		
