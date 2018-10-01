@@ -153,6 +153,9 @@ public class RegionServiceImpl implements RegionService {
 		if (region == null) {
 			//获取所有的性别年龄 数量
 			cluster = bregionDao.queryGridWarnDataClusterAll(region, sdate);
+			if (cluster == null) {
+				return analysisModel;
+			}
 			//获取境内境外
 			Map<String, Object> querySource1 = bregionDao.querySource1(sdate);
 			if (querySource1 != null) {
@@ -237,6 +240,9 @@ public class RegionServiceImpl implements RegionService {
 			}
 		}else {
 			cluster = bregionDao.queryGridWarnDataCluster(region, sdate);
+			if (cluster == null) {
+				return analysisModel;
+			}
 		}
 		if (cluster != null) {
 			analysisModel.setSource1(cluster.getSourceNum1() + "," + cluster.getSource1());
