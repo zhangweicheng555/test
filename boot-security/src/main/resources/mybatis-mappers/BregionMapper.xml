@@ -130,15 +130,29 @@
 		and  d.stadium_no is not null
 	</select> 
 	<select id="queryDateForMinute" resultType="java.util.Map">
-		select 
-		d.sdate as "date"
-		,nvl(d.imei_num,0) as "num"
-		from B_REGION_CLUSTER d 
-		where 1=1
-		and d.area_type in ('Indoor','Outdoor')  
-		and d.stadium_no=#{region} 
-		and d.sdate &gt;=#{beginDate} and d.sdate &lt;=#{endDate}
-		order by d.sdate asc
+		 <if test="numPercent != null">
+		 	select 
+			d.statistics_time as "date"
+			,nvl(ceil(d.IMEI_NUM/#{numPercent}),0)  as "num"
+			from LTE_GRID_USER_NUM_CLUSTER d 
+			where 1=1
+			and d.area_type in ('Indoor','Outdoor')  
+			and d.stadium_no=#{region} 
+			and d.statistics_time &gt;=#{beginDate} and d.statistics_time &lt;=#{endDate}
+			order by d.statistics_time asc
+        </if> 
+        <if test="numPercent == null">
+        	select 
+			d.statistics_time as "date"
+			,nvl(ceil(d.IMEI_NUM/d.user_ratio),0)  as "num"
+			from LTE_GRID_USER_NUM_CLUSTER d 
+			where 1=1
+			and d.area_type in ('Indoor','Outdoor')  
+			and d.stadium_no=#{region} 
+			and d.statistics_time &gt;=#{beginDate} and d.statistics_time &lt;=#{endDate}
+			order by d.statistics_time asc
+        </if>
+		
 	</select> 
 	
 	
