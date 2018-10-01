@@ -148,6 +148,7 @@ public class RegionServiceImpl implements RegionService {
 	@Override
 	public AnalysisModel queryGridWarnDataCluster(String region, String sdate) {
 		AnalysisModel analysisModel = new AnalysisModel();
+		analysisModel.setTime(sdate);
 		AnalysisCluster cluster=null;
 		if (region == null) {
 			//获取所有的性别年龄 数量
@@ -259,15 +260,15 @@ public class RegionServiceImpl implements RegionService {
 			analysisModel.setGloal8(cluster.getGloalNum8() + "," + cluster.getGloal8());
 			analysisModel.setGloal9(cluster.getGloalNum9() + "," + cluster.getGloal9());
 			analysisModel.setGloal10(cluster.getGloalNum10() + "," + cluster.getGloal10());
+			
+			analysisModel.setMale(cluster.getMale());
+			analysisModel.setFemale(cluster.getFemale());
+			analysisModel.setAge1(cluster.getAge1());
+			analysisModel.setAge2(cluster.getAge2());
+			analysisModel.setAge3(cluster.getAge3());
+			analysisModel.setAge4(cluster.getAge4());
+			analysisModel.setAge5(cluster.getAge5());
 		}
-		analysisModel.setMale(cluster.getMale());
-		analysisModel.setFemale(cluster.getFemale());
-		analysisModel.setAge1(cluster.getAge1());
-		analysisModel.setAge2(cluster.getAge2());
-		analysisModel.setAge3(cluster.getAge3());
-		analysisModel.setAge4(cluster.getAge4());
-		analysisModel.setAge5(cluster.getAge5());
-		analysisModel.setTime(sdate);
 		return analysisModel;
 	}
 
