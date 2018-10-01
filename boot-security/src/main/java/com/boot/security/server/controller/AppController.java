@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.boot.security.server.common.BootConstant;
+import com.boot.security.server.dao.GridDataDao;
 import com.boot.security.server.model.AnalysisModel;
 import com.boot.security.server.service.GridDataService;
 import com.boot.security.server.service.RegionService;
@@ -42,6 +43,8 @@ public class AppController {
 
 	@Autowired
 	private GridDataService gridDataService;
+	@Autowired
+	private GridDataDao gridDataDao;
 
 	
 	
@@ -104,13 +107,43 @@ public class AppController {
 			@RequestParam(value = "minute", required = true) int minute,
 			@RequestParam(value = "regionStr", required = true) String regionStr) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
 		map.put("item", new ArrayList<>());
 		try {
 			List<String> listDates = MyUtil.getDateStrList(beginDateStr, endDateStr, minute);
 			if (listDates.size() > 0) {
-				List<Map<String, Object>> listMaps = gridDataService.queryPeopleNumByTimeRange(listDates, regionStr);
+				List<Map<String, Object>> listMaps = new ArrayList<>();
+				
+
+				String beginDate = listDates.get(0);
+				String endDate = listDates.get(listDates.size() - 1);
+
+				Double numPercent = 0.0;
+				if (BootConstant.People_Num_Percent > 0) {
+					numPercent = BootConstant.People_Num_Percent;
+				} else {
+					numPercent = null;
+				}
+				if (StringUtils.isNoneBlank(regionStr)) {
+					String[] regionStrs = regionStr.trim().split(",");
+					for (int i = 0; i < regionStrs.length; i++) {
+						Map<String, Object> map1 = new HashMap<>();
+						map1.put("name", regionStrs[i]);
+						List<Double> listDouble = new ArrayList<>();
+
+						/*** 查询这个场馆对应的所有的日期 */
+						List<String> datesStr = gridDataDao.findDatesStr(beginDate, endDate, regionStrs[i]);
+						for (String date : listDates) {
+							Double doubleNum = findGridPeopleNumClusterNew(datesStr, date, regionStrs[i], numPercent);
+							listDouble.add(doubleNum);
+						}
+						map1.put("item", listDouble);
+						listMaps.add(map1);
+					}
+				}
+				
 				if (listMaps != null && listMaps.size() > 0) {
 					// 处理总和
 					handleListMap(listMaps);
@@ -127,6 +160,18 @@ public class AppController {
 		return map;
 	}
 
+	private Double findGridPeopleNumClusterNew(List<String> dates, String dateStr, String region, Double numPercent) {
+		if (dates == null || dates.size() == 0) {
+			return 0.0;
+		} else {
+			if (dates.contains(dateStr)) {
+				return gridDataService.findNumByDate(dateStr, region, numPercent);
+			} else {
+				return 0.0;
+			}
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	private void handleListMap(List<Map<String, Object>> listMaps) {
 		Map<String, Object> mapOne = new HashMap<>();
@@ -463,6 +508,22 @@ public class AppController {
 		} catch (Exception e) {
 			map.put("status", 2);
 			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyyMMddHHmmss");
+		}
+		return map;
+	}
+	/**
+	 * 清除接口2的缓存
+	 */
+	@RequestMapping(value = "/clearCache", method = RequestMethod.GET)
+	public Map<String, Object> clearCache() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		try {
+			gridDataService.clearCache();
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  ");
 		}
 		return map;
 	}

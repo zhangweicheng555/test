@@ -29,7 +29,7 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	public String testCache(Integer num) {
 		if (num > 5) {
-			Cache cache = CacheUtil.getCacheManager("queryPeopleNumByTimeRange");
+			Cache cache = CacheUtil.getCache("queryPeopleNumByTimeRange");
 			System.out.println("======================================");
 			return "success";
 		} else {

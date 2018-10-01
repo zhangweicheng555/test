@@ -3,6 +3,7 @@ package com.boot.security.server.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import com.boot.security.server.model.GridData;
 
 public interface GridDataService {
@@ -36,5 +37,9 @@ public interface GridDataService {
 
 	public void insertNewData(String beforeDate);
 
-	public List<Map<String, Object>> queryPeopleNumByTimeRange(List<String> listDates, String region);
+
+	public Double findNumByDate(String dateStr, String region, Double numPercent);
+	
+	public void clearCache();
+	
 }

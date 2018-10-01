@@ -29,12 +29,12 @@
      
      <!-- 接口2使用 -->
     <cache name="queryPeopleNumByTimeRange"
-           eternal="false"
+           eternal="true"
            timeToIdleSeconds="3600"
            timeToLiveSeconds="3600"
-           maxEntriesLocalHeap="10000"
-           maxEntriesLocalDisk="1000"
-           diskSpoolBufferSizeMB="30"
+           maxEntriesLocalHeap="60000"
+           maxEntriesLocalDisk="100000"
+           diskSpoolBufferSizeMB="600"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">
         <persistence strategy="localTempSwap"/>
