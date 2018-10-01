@@ -109,6 +109,7 @@ public class GridDataServiceImpl implements GridDataService {
 						mapM.put("userCount", commonModel.getUserCount());
 						mapM.put("x", commonModel.getX());
 						mapM.put("y", commonModel.getY());
+						mapM.put("region", commonModel.getRegion());
 						listMaps.add(mapM);
 					}
 					map.put("grids", listMaps);
