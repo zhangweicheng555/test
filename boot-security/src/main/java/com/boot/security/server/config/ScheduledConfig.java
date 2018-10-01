@@ -35,8 +35,8 @@ public class ScheduledConfig {
 	/**
 	 * 0点三分执行 确认入库的时间 正式服
 	 */
-	// @Transactional
-	// @Scheduled(cron = "0 3 0 * * ?")
+	 @Transactional
+	 @Scheduled(cron = "0 3 0 * * ?")
 	public void execByThirtyMin() {
 		// 查询表中最大时间
 		String beforeDate = gridDataService.queryMaxDate();
@@ -64,8 +64,8 @@ public class ScheduledConfig {
 	/**
 	 * 每五分钟执行一次 测试服 栅格定时
 	 */
-	//@Transactional
-	//@Scheduled(cron = "0 0/5 * * * ?")
+	@Transactional
+	@Scheduled(cron = "0 0/5 * * * ?")
 	public void execByFiveMin() throws ParseException {
 		String setTime = BootConstant.Back_Send_Time;
 		String nowDate = null;
@@ -91,8 +91,8 @@ public class ScheduledConfig {
 	/**
 	 * 每五分钟执行一次 测试服 B域定时
 	 */
-	// @Transactional
-	// @Scheduled(cron = "0 0/5 * * * ?")
+	 @Transactional
+	 @Scheduled(cron = "0 0/5 * * * ?")
 	public void execByBFiveMin() throws ParseException {
 		String nowDate = getNowDate();
 		// 处理时间
@@ -128,7 +128,7 @@ public class ScheduledConfig {
 
 	
 	/**
-	 * 每10分钟执行一次 测试服 
+	 * 每10分钟执行一次 测试服  接口2 优化 
 	 */
 	@Scheduled(cron = "0 0/10 * * * ?")
 	public void execByFiveMinFor2() throws ParseException {
