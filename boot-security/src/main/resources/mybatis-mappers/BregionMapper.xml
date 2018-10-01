@@ -137,6 +137,7 @@
 		and d.area_type in ('Indoor','Outdoor')  
 		and d.stadium_no=#{region} 
 		and d.sdate &gt;=#{beginDate} and d.sdate &lt;=#{endDate}
+		order by d.sdate asc
 	</select> 
 	
 	
