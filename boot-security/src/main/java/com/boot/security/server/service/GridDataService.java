@@ -3,16 +3,13 @@ package com.boot.security.server.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.boot.security.server.model.GridData;
 
 public interface GridDataService {
 
 	public void save(GridData gridData);
 
-	public List<Map<String, Object>> queryGridDataByRegion( String[] regionArr, String maxDate);
+	public List<Map<String, Object>> queryGridDataByRegion(String[] regionArr, String maxDate);
 
 	public List<Map<String, Object>> querySingleGridData();
 
@@ -33,10 +30,12 @@ public interface GridDataService {
 
 	public String queryMinDate();
 
-	//更新测试服所有日期
+	// 更新测试服所有日期
 	public void updateDate(String nowDate);
-	
+
 	public void insertNewData(String beforeDate);
 
-	public List<Map<String, Object>> queryPeopleNumByTimeRange(List<String> listDates, String regionStr);
+	public Double findNumByDate(String dateStr, String region, Double numPercent);
+
+	public void clearCache();
 }

@@ -24,7 +24,6 @@ public interface GridDataDao {
 	public Double queryGridPeopleNum(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
 
-
 	public List<CommonModel> queryGridPeopleNumDataNew(@Param("region") String region,
 			@Param("maxDate") String maxDate);
 
@@ -55,5 +54,10 @@ public interface GridDataDao {
 
 	public void updateDate(@Param("nowDate") String nowDate);
 
+	public List<String> findDatesStr(@Param("beginDate") String beginDate, @Param("endDate") String endDate,
+			@Param("region") String region);
 
+	// 接口2优化使用
+	public Double queryGridPeopleNumClusterNew(@Param("dateStr") String dateStr, @Param("region") String region,
+			@Param("numPercent") Double numPercent);
 }

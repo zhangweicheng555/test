@@ -6,10 +6,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.dao.GridDataDao;
 import com.boot.security.server.model.AnalysisModel;
@@ -86,8 +86,8 @@ public class GridDataServiceImpl implements GridDataService {
 					}
 					map.put("grids", listMaps);
 				}
-				//查询b域
-				//dateNow=dateNow.substring(0, 12);
+				// 查询b域
+				// dateNow=dateNow.substring(0, 12);
 				map.put("misc", regionService.queryGridWarnDataCluster(region, dateNow));
 			} else {
 				map = null;
@@ -113,8 +113,8 @@ public class GridDataServiceImpl implements GridDataService {
 					}
 					map.put("grids", listMaps);
 				}
-				//查询b域
-				//dateNow=dateNow.substring(0, 12);
+				// 查询b域
+				// dateNow=dateNow.substring(0, 12);
 				map.put("misc", regionService.queryGridWarnDataCluster(region, dateNow));
 			} else {
 				map = null;
@@ -123,35 +123,6 @@ public class GridDataServiceImpl implements GridDataService {
 		return map;
 	}
 
-	@Override
-	public List<Map<String, Object>> queryPeopleNumByTimeRange(List<String> listDates, String region) {
-
-		Double numPercent = 0.0;
-		if (BootConstant.People_Num_Percent > 0) {
-			numPercent = BootConstant.People_Num_Percent;
-		} else {
-			numPercent = null;
-		}
-		
-		List<Map<String, Object>> list=new ArrayList<>();
-		
-		if (StringUtils.isNoneBlank(region)) {
-			String[] regionStr=region.trim().split(",");
-			for (int i = 0; i < regionStr.length; i++) {
-				Map<String, Object> map=new HashMap<>();
-				map.put("name", regionStr[i]);
-				List<Double> listDouble=new ArrayList<>();
-				for (String date : listDates) {
-						listDouble.add(gridDataDao.queryGridPeopleNumCluster(date, regionStr[i], numPercent));
-				}
-				map.put("item", listDouble);
-				list.add(map);
-			}
-		}
-		return list;
-	}
-
-	
 	@Override
 	public Double queryGridPeopleNumDataNew(String region, String maxDate) {
 		Double numPercent = 0.0;
@@ -209,4 +180,14 @@ public class GridDataServiceImpl implements GridDataService {
 		gridDataDao.insertNewData(beforeDate);
 	}
 
+	@Cacheable(value = "queryPeopleNumByTimeRange")
+	public Double findNumByDate(String dateStr, String region, Double numPercent) {
+		return gridDataDao.queryGridPeopleNumClusterNew(dateStr, region, numPercent);
+	}
+
+	@CacheEvict(value = "queryPeopleNumByTimeRange", allEntries = true)
+	@Override
+	public void clearCache() {
+		System.out.println("清除缓存操作。。。。");
+	}
 }
