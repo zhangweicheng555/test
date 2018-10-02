@@ -30,26 +30,6 @@
 	</select>
 
 
-	<select id="queryGridWarnDataClusterAll" resultType="AnalysisCluster">
-		select
-		nvl(sum(gender_male_num),0) as "male"
-		,nvl(sum(gender_female_num),0) as
-		"female"
-
-		,nvl(sum(age_18_num),0) as "age1"
-		,nvl(sum(age_35_num),0) as "age2"
-		,nvl(sum(age_50_num),0) as
-		"age3"
-		,nvl(sum(age_65_num),0) as "age4"
-		,nvl(sum(age_200_num),0) as
-		"age5"
-
-		from B_REGION_CLUSTER d
-		where 1=1
-		and d.area_type in ('Indoor','Outdoor')
-		and d.sdate=#{sdate}
-	</select>
-
 
 	<select resultType="java.util.Map" id="queryDateForMinute">
 
@@ -79,6 +59,26 @@
 	</select>
 
 	
+	<select id="queryGridWarnDataClusterAll" resultType="AnalysisCluster">
+		select
+		nvl(sum(gender_male_num),0) as "male"
+		,nvl(sum(gender_female_num),0) as
+		"female"
+
+		,nvl(sum(age_18_num),0) as "age1"
+		,nvl(sum(age_35_num),0) as "age2"
+		,nvl(sum(age_50_num),0) as
+		"age3"
+		,nvl(sum(age_65_num),0) as "age4"
+		,nvl(sum(age_200_num),0) as
+		"age5"
+
+		from B_REGION_CLUSTER d
+		where 1=1
+		and d.area_type in ('Indoor','Outdoor')
+		and d.sdate=#{sdate}
+		and d.stadium_no is not null 
+	</select>
 
 	<select id="queryGridWarnDataCluster" resultType="AnalysisCluster">
 		select
