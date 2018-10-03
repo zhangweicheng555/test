@@ -60,7 +60,8 @@ public class RegionServiceImpl implements RegionService {
 				return analysisModel;
 			}
 			//获取境内境外
-			Map<String, Object> querySource1 = bregionDao.querySource1(sdate);
+			
+			/*Map<String, Object> querySource1 = bregionDao.querySource1(sdate);
 			if (querySource1 != null) {
 				analysisModel.setSource1(querySource1.get("sourceNum")+","+querySource1.get("source"));
 			}
@@ -140,7 +141,7 @@ public class RegionServiceImpl implements RegionService {
 			Map<String, Object> queryGlobal10 = bregionDao.gloal10(sdate);
 			if (queryGlobal10 != null) {
 				analysisModel.setGloal10(queryGlobal10.get("sourceNum")+","+queryGlobal10.get("source"));
-			}
+			}*/
 		}else {
 			cluster = bregionDao.queryGridWarnDataCluster(region, sdate);
 			if (cluster == null) {
