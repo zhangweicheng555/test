@@ -78,11 +78,6 @@ public class ScheduledConfig {
 		gridDataService.updateDate(nowDate);
 		// 插入到新表中
 		gridDataService.insertNewData(nowDate);
-		// b域导入
-		// 处理时间
-		String bdate = nowDate.substring(0, 12);
-		regionService.updateDate(bdate);
-		regionService.insertNewData(bdate);
 		if (!("0").equals(setTime)) {
 			BootConstant.Back_Send_Time = dealMaxDate(setTime);
 		}
@@ -90,17 +85,23 @@ public class ScheduledConfig {
 
 	/**
 	 * 每五分钟执行一次 测试服 B域定时
-	 */
+	 
 	@Transactional
 	@Scheduled(cron = "0 0/5 * * * ?")
 	public void execByBFiveMin() throws ParseException {
-		String nowDate = getNowDate();
+		String setTime = BootConstant.Back_Send_Time;
+		String nowDate = null;
+		if (("0").equals(setTime)) {
+			nowDate = getNowDate();
+		} else {
+			nowDate = setTime;
+		}
 		// 处理时间
 		String bdate = nowDate.substring(0, 12);
 		regionService.updateDate(bdate);
 		regionService.insertNewData(bdate);
 	}
-
+*/
 	private String dealMaxDate(String beforeDate) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = sdf.parse(beforeDate);
