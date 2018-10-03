@@ -30,8 +30,8 @@ public class ScheduledConfig {
 	/**
 	 * 0点三分执行 确认入库的时间 正式服
 	 */
-	//@Transactional
-	//@Scheduled(cron = "0 3 0 * * ?")
+	@Transactional
+	@Scheduled(cron = "0 3 0 * * ?")
 	public void execByThirtyMin() {
 		// 查询表中最大时间
 		String beforeDate = gridDataService.queryMaxDate();
@@ -68,7 +68,7 @@ public class ScheduledConfig {
 	/**
 	 * 每10分钟执行一次 测试服 接口2 优化
 	 */
-	//@Scheduled(cron = "0 0/10 * * * ?")
+	@Scheduled(cron = "0 0/10 * * * ?")
 	public void execByFiveMinFor2() throws ParseException {
 		String endDate = getNowDate();
 		String beginDate = endDate.substring(0, 8) + "000000";
@@ -87,7 +87,7 @@ public class ScheduledConfig {
 	/**
 	 * 0点10分执行 清除接口2缓存
 	 */
-	//@Scheduled(cron = "0 10 0 * * ?")
+	@Scheduled(cron = "0 10 0 * * ?")
 	public void execClearCache() {
 		appController.clearCache();
 	}
