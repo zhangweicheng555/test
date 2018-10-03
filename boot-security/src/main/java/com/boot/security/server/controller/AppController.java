@@ -1,6 +1,5 @@
 package com.boot.security.server.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -140,6 +139,7 @@ public class AppController {
 				map.put("msg", "没有对应条件的数据！");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			map.put("status", 2);
 			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyyMMddHHmmss");
 		}
@@ -328,7 +328,7 @@ public class AppController {
 					String key = numList.get(j);// region
 					if (("Outdoor").equals(key) || ("Indoor").equals(key)) {
 						list.add(regionService.queryGridWarnDataClusterNew(key, maxDate));
-					}else {
+					} else {
 						list.add(regionService.queryGridWarnDataCluster(key, maxDate));
 					}
 				}
