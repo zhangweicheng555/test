@@ -190,6 +190,69 @@
 		and d.sdate=#{sdate} 
 		and  d.stadium_no is not null -->
 	</select> 
+	<select id="queryGridWarnDataClusterAllNew" resultType="AnalysisCluster">
+	
+		select 
+		gender_male_num as "male"
+		,gender_female_num as "female"
+		
+		,age_18_num as "age1"
+		,age_35_num as "age2"
+		,age_50_num as "age3"
+		,age_65_num as "age4"
+		,age_200_num as "age5"
+		
+		,source_in_1 as "source1"
+		,source_in_1_num as "sourceNum1"
+		,source_in_2 as "source2"
+		,source_in_2_num as "sourceNum2"
+		,source_in_3 as "source3"
+		,source_in_3_num as "sourceNum3"
+		,source_in_4 as "source4"
+		,source_in_4_num as "sourceNum4"
+		,source_in_5 as "source5"
+		,source_in_5_num as "sourceNum5"
+		,source_in_6 as "source6"
+		,source_in_6_num as "sourceNum6"
+		,source_in_7 as "source7"
+		,source_in_7_num as "sourceNum7"
+		,source_in_8 as "source8"
+		,source_in_8_num as "sourceNum8"
+		,source_in_9 as "source9"
+		,source_in_9_num as "sourceNum9"
+		,source_in_10 as "source10"
+		,source_in_10_num as "sourceNum10"
+		
+		,source_out_1 as "gloal1"
+		,source_out_1_num as "gloalNum1"
+		,source_out_2 as "gloal2"
+		,source_out_2_num as "gloalNum2"
+		,source_out_3 as "gloal3"
+		,source_out_3_num as "gloalNum3"
+		,source_out_4 as "gloal4"
+		,source_out_4_num as "gloalNum4"
+		,source_out_5 as "gloal5"
+		,source_out_5_num as "gloalNum5"
+		,source_out_6 as "gloal6"
+		,source_out_6_num as "gloalNum6"
+		,source_out_7 as "gloal7"
+		,source_out_7_num as "gloalNum7"
+		,source_out_8 as "gloal8"
+		,source_out_8_num as "gloalNum8"
+		,source_out_9 as "gloal9"
+		,source_out_9_num as "gloalNum9"
+		,source_out_10 as "gloal10"
+		,source_out_10_num as "gloalNum10"
+		
+		from B_REGION_CLUSTER d 
+		where 1=1
+		and d.area_type =#{region}  
+		<if test="region != null">
+			and d.stadium_no='All'
+		</if> 
+		and d.sdate=#{sdate} 
+	
+	</select> 
 	<select id="queryDateForMinute" resultType="java.util.Map">
 		 <if test="numPercent != null">
 		 	select 

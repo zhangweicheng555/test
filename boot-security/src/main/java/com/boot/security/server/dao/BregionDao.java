@@ -24,6 +24,7 @@ public interface BregionDao {
 	public AnalysisCluster queryGridWarnDataCluster(@Param("region") String region, @Param("sdate") String sdate);
 
 	public AnalysisCluster queryGridWarnDataClusterAll(@Param("region") String region, @Param("sdate") String sdate);
+	public AnalysisCluster queryGridWarnDataClusterAllNew(@Param("region") String region, @Param("sdate") String sdate);
 
 	public List<Map<String, Object>> queryDateForMinute(@Param("beginDate") String beginDate,
 			@Param("endDate") String endDate, @Param("region") String region,@Param("numPercent") Double numPercent);

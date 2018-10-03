@@ -122,6 +122,15 @@
         </if>
 		
 	</select>
+	
+	<select id="queryHiDates" resultType="java.lang.String">
+		
+		 select distinct(d.statistics_time) from HI_LTE_GRID_USER_NUM d
+		  where d.stadium_no=#{region} and d.area_type in ('Indoor','Outdoor') 
+		     and   d.statistics_time &gt;=#{beginDate} and d.statistics_time &lt;=#{endDate}
+		
+	</select>
+	
 	<select id="queryGridPeopleNumCluster" resultType="java.lang.Double">
 		 <if test="numPercent != null">
 		  select nvl(sum(ceil(d.IMEI_NUM/#{numPercent})),0) 

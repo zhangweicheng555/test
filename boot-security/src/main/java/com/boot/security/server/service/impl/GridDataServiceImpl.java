@@ -94,18 +94,46 @@ public class GridDataServiceImpl implements GridDataService {
 				map = null;
 			}
 		} else {
-			map = appController.getHiMap(region, warnNum, map, numPercent, dateNow);
+			map = appController.getHiMap(region, warnNum, numPercent, dateNow);
+		}
+		return map;
+	}
+
+	/**
+	 * 正式
+	 */
+	@Override
+	public Map<String, Object> queryGridDataByTimeRegionYh(Date date, String region, Double warnNum,
+			List<String> dates) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		Map<String, Object> map = new HashMap<>();
+
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+
+		String dateNow = sdf.format(date);
+		if (dates != null && dates.size() > 0) {
+			if (dates.contains(dateNow)) {
+				map = appController.getHiMap(region, warnNum, numPercent, dateNow);
+			} else {
+				return null;
+			}
+		} else {
+			return null;
 		}
 		return map;
 	}
 
 	@Autowired
 	private AppController appController;
-	
-	
+
 	@Cacheable(value = "queryGridHiData")
-	public Map<String, Object> getHiMap(String region, Double warnNum, Map<String, Object> map, Double numPercent,
-			String dateNow) {
+	public Map<String, Object> getHiMap(String region, Double warnNum, Double numPercent, String dateNow) {
+		Map<String, Object> map = new HashMap<>();
 		// 查询这个馆这个时间的所有的人数的数量
 		Double total = gridDataDao.queryHiGridPeopleNum(dateNow, region, numPercent);
 		if (total > 0) {
@@ -203,9 +231,17 @@ public class GridDataServiceImpl implements GridDataService {
 	public void clearCache() {
 		System.out.println("清除缓存2操作。。。。");
 	}
+
 	@CacheEvict(value = "queryGridHiData", allEntries = true)
 	@Override
 	public void clearFiveCache() {
 		System.out.println("清除缓存5操作。。。。");
+	}
+
+	@Cacheable(value = "queryHiDate")
+	@Override
+	public List<String> queryHiDates(String beginDateStr, String endDateStr, String region) {
+
+		return gridDataDao.queryHiDates(beginDateStr, endDateStr, region);
 	}
 }

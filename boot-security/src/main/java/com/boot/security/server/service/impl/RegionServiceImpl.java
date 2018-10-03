@@ -55,7 +55,7 @@ public class RegionServiceImpl implements RegionService {
 		AnalysisCluster cluster=null;
 		if (region == null) {
 			//获取所有的性别年龄 数量
-			cluster = bregionDao.queryGridWarnDataClusterAll(region, sdate);
+			cluster= bregionDao.queryGridWarnDataClusterAll(region, sdate);
 			if (cluster == null) {
 				return analysisModel;
 			}
@@ -160,6 +160,50 @@ public class RegionServiceImpl implements RegionService {
 			analysisModel.setSource9(cluster.getSourceNum9() + "," + cluster.getSource9());
 			analysisModel.setSource10(cluster.getSourceNum10() + "," + cluster.getSource10());
 
+			analysisModel.setGloal1(cluster.getGloalNum1() + "," + cluster.getGloal1());
+			analysisModel.setGloal2(cluster.getGloalNum2() + "," + cluster.getGloal2());
+			analysisModel.setGloal3(cluster.getGloalNum3() + "," + cluster.getGloal3());
+			analysisModel.setGloal4(cluster.getGloalNum4() + "," + cluster.getGloal4());
+			analysisModel.setGloal5(cluster.getGloalNum5() + "," + cluster.getGloal5());
+			analysisModel.setGloal6(cluster.getGloalNum6() + "," + cluster.getGloal6());
+			analysisModel.setGloal7(cluster.getGloalNum7() + "," + cluster.getGloal7());
+			analysisModel.setGloal8(cluster.getGloalNum8() + "," + cluster.getGloal8());
+			analysisModel.setGloal9(cluster.getGloalNum9() + "," + cluster.getGloal9());
+			analysisModel.setGloal10(cluster.getGloalNum10() + "," + cluster.getGloal10());
+			analysisModel.setMale(cluster.getMale());
+			analysisModel.setFemale(cluster.getFemale());
+			analysisModel.setAge1(cluster.getAge1());
+			analysisModel.setAge2(cluster.getAge2());
+			analysisModel.setAge3(cluster.getAge3());
+			analysisModel.setAge4(cluster.getAge4());
+			analysisModel.setAge5(cluster.getAge5());
+		}
+		return analysisModel;
+	}
+	@Override
+	public AnalysisModel queryGridWarnDataClusterNew(String region, String sdate) {
+		AnalysisModel analysisModel = new AnalysisModel();
+		analysisModel.setTime(sdate);
+		AnalysisCluster cluster=null;
+		
+		//获取所有的性别年龄 数量
+		cluster= bregionDao.queryGridWarnDataClusterAllNew(region, sdate);
+		if (cluster == null) {
+			return analysisModel;
+		}
+		
+		if (cluster != null) {
+			analysisModel.setSource1(cluster.getSourceNum1() + "," + cluster.getSource1());
+			analysisModel.setSource2(cluster.getSourceNum2() + "," + cluster.getSource2());
+			analysisModel.setSource3(cluster.getSourceNum3() + "," + cluster.getSource3());
+			analysisModel.setSource4(cluster.getSourceNum4() + "," + cluster.getSource4());
+			analysisModel.setSource5(cluster.getSourceNum5() + "," + cluster.getSource5());
+			analysisModel.setSource6(cluster.getSourceNum6() + "," + cluster.getSource6());
+			analysisModel.setSource7(cluster.getSourceNum7() + "," + cluster.getSource7());
+			analysisModel.setSource8(cluster.getSourceNum8() + "," + cluster.getSource8());
+			analysisModel.setSource9(cluster.getSourceNum9() + "," + cluster.getSource9());
+			analysisModel.setSource10(cluster.getSourceNum10() + "," + cluster.getSource10());
+			
 			analysisModel.setGloal1(cluster.getGloalNum1() + "," + cluster.getGloal1());
 			analysisModel.setGloal2(cluster.getGloalNum2() + "," + cluster.getGloal2());
 			analysisModel.setGloal3(cluster.getGloalNum3() + "," + cluster.getGloal3());

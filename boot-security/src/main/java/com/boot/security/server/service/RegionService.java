@@ -13,6 +13,7 @@ public interface RegionService {
 	public AnalysisModel queryGridWarnData(String region,String sdate);
 
 	public AnalysisModel queryGridWarnDataCluster(String region,String sdate);
+	public AnalysisModel queryGridWarnDataClusterNew(String region,String sdate);
 
 	public List<Map<String, Object>> queryDateForMinute(String beginDate, String endDate, String region);
 }

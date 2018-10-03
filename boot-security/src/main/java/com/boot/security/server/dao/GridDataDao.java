@@ -60,4 +60,7 @@ public interface GridDataDao {
 	// 接口2优化使用
 	public Double queryGridPeopleNumClusterNew(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
+
+	public List<String> queryHiDates(@Param("beginDate") String beginDateStr, @Param("endDate") String endDateStr,
+			@Param("region") String region);
 }

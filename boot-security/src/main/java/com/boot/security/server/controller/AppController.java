@@ -1,5 +1,6 @@
 package com.boot.security.server.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -42,6 +43,11 @@ public class AppController {
 			Arrays.asList("All", "1", "2", "3", "4.1", "4.2", "5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2",
 					"NH", "EH", "WH", "V1_1", "V1_2", "V1_3", "V1_4", "V2_1", "V2_2", "V2_3", "V3_1", "V3_2", "V3_3",
 					"V3_4", "V3_5", "V3_6", "V3_7", "V4_1", "V4_2", "V4_3", "V4_4", "V4_5", "V4_6", "V5"));
+	// 初始化场馆编号
+	public final static List<String> numListModel = new ArrayList<String>(
+			Arrays.asList("Indoor", "1", "2", "3", "4.1", "4.2", "5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2",
+					"NH", "EH", "WH", "Outdoor", "V1_1", "V1_2", "V1_3", "V1_4", "V2_1", "V2_2", "V2_3", "V3_1", "V3_2",
+					"V3_3", "V3_4", "V3_5", "V3_6", "V3_7", "V4_1", "V4_2", "V4_3", "V4_4", "V4_5", "V4_6", "V5"));
 
 	@Autowired
 	private GridDataService gridDataService;
@@ -76,6 +82,54 @@ public class AppController {
 				List<Map<String, Object>> listMaps = new ArrayList<>();
 				for (Date date : listDates) {
 					Map<String, Object> map2 = gridDataService.queryGridDataByTimeRegion(date, region, warnNum);
+					if (map2 != null) {
+						listMaps.add(map2);
+					}
+				}
+				map.put("gridHistoryParameterList", listMaps);
+			} else {
+				map.put("status", 1);
+				map.put("msg", "没有对应条件的数据！");
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyyMMddHHmmss");
+		}
+		return map;
+	}
+
+	/**
+	 * 五、定时优化使用： 接口5 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割
+	 * warnNum ：废弃
+	 */
+	@ApiOperation(value = "接口5:指定时间范围和场馆编号获取指定场馆的栅格数据", notes = "指定时间范围和场馆编号/时间范围根据指定的时间粒度切割")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "beginDateStr", value = "开始时间(格式20180909121212)", dataType = "string", required = true),
+			@ApiImplicitParam(name = "endDateStr", value = "结束时间(格式20180909121212)", dataType = "string", required = true),
+			@ApiImplicitParam(name = "minute", value = "时间颗粒", dataType = "int", required = true),
+			@ApiImplicitParam(name = "warnNum", value = "告警人数(废弃)", dataType = "int", required = false),
+			@ApiImplicitParam(name = "region", value = "场馆编号", dataType = "string", required = true) })
+	@RequestMapping(value = "/queryGridDataByTimeRegionYh", method = RequestMethod.GET)
+	public Map<String, Object> queryGridDataByTimeRegionYh(
+			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
+			@RequestParam(value = "endDateStr", required = true) String endDateStr,
+			@RequestParam(value = "minute", required = true) int minute,
+			@RequestParam(value = "warnNum", required = false) Double warnNum,
+			@RequestParam(value = "region", required = true) String region) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		map.put("gridHistoryParameterList", new ArrayList<>());
+		try {
+
+			List<String> hiDates = gridDataService.queryHiDates(beginDateStr, endDateStr, region);
+
+			List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
+			if (listDates.size() > 0) {
+				List<Map<String, Object>> listMaps = new ArrayList<>();
+				for (Date date : listDates) {
+					Map<String, Object> map2 = gridDataService.queryGridDataByTimeRegionYh(date, region, warnNum,
+							hiDates);
 					if (map2 != null) {
 						listMaps.add(map2);
 					}
@@ -272,10 +326,11 @@ public class AppController {
 				List<AnalysisModel> list = new ArrayList<AnalysisModel>();
 				for (int j = 0; j < numList.size(); j++) {
 					String key = numList.get(j);// region
-					if (j == 0) {
-						key = null;
+					if (("Outdoor").equals(key) || ("Indoor").equals(key)) {
+						list.add(regionService.queryGridWarnDataClusterNew(key, maxDate));
+					}else {
+						list.add(regionService.queryGridWarnDataCluster(key, maxDate));
 					}
-					list.add(regionService.queryGridWarnDataCluster(key, maxDate));
 				}
 				map.put("miscParameter", list);
 			}
@@ -469,6 +524,7 @@ public class AppController {
 		}
 		return map;
 	}
+
 	/**
 	 * 清除接口2的缓存
 	 */
@@ -488,17 +544,14 @@ public class AppController {
 
 	/**
 	 * 
-	* @Description: 接口5 缓存使用
-	* @author weichengz
-	* @date 2018年10月3日 下午6:55:04
+	 * @Description: 接口5 缓存使用
+	 * @author weichengz
+	 * @date 2018年10月3日 下午6:55:04
 	 */
-	public Map<String, Object> getHiMap(String region, Double warnNum, Map<String, Object> map, Double numPercent,
-			String dateNow) {
-		
-		return gridDataService.getHiMap(region, warnNum, map, numPercent, dateNow);
+	public Map<String, Object> getHiMap(String region, Double warnNum, Double numPercent, String dateNow) {
+		return gridDataService.getHiMap(region, warnNum, numPercent, dateNow);
 	}
 
-	
 	/**
 	 * 清除接口2的缓存
 	 */

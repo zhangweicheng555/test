@@ -15,6 +15,9 @@ public interface GridDataService {
 
 	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum);
 
+	public Map<String, Object> queryGridDataByTimeRegionYh(Date date, String region, Double warnNum,
+			List<String> dates);
+
 	public Double queryGridPeopleNumDataNew(String region, String maxDate);
 
 	public List<Map<String, Object>> queryGridWarnData(Double warnNum, String maxDate, String region);
@@ -38,8 +41,10 @@ public interface GridDataService {
 	public Double findNumByDate(String dateStr, String region, Double numPercent);
 
 	public void clearCache();
+
 	public void clearFiveCache();
 
-	public Map<String, Object> getHiMap(String region, Double warnNum, Map<String, Object> map, Double numPercent,
-			String dateNow);
+	public Map<String, Object> getHiMap(String region, Double warnNum, Double numPercent, String dateNow);
+
+	public List<String> queryHiDates(String beginDateStr, String endDateStr, String region);
 }

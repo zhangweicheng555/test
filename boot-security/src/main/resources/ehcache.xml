@@ -53,6 +53,20 @@
         <persistence strategy="localTempSwap"/>
     </cache>
      
+     
+     <!-- 接口5使用 -->
+    <cache name="queryHiDate"
+           eternal="true"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+           maxEntriesLocalHeap="60000"
+           maxEntriesLocalDisk="100000"
+           diskSpoolBufferSizeMB="600"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+        <persistence strategy="localTempSwap"/>
+    </cache>
+     
     
     <defaultCache
             maxEntriesLocalHeap="10000"
