@@ -105,7 +105,6 @@
 		
 		from B_REGION_CLUSTER d 
 		where 1=1
-		and d.area_type in ('Indoor','Outdoor')  
 		<if test="region != null">
 			and d.stadium_no=#{region} 
 		</if> 

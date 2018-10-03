@@ -42,11 +42,6 @@ public class AppController {
 			Arrays.asList("All", "1", "2", "3", "4.1", "4.2", "5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2",
 					"NH", "EH", "WH", "V1_1", "V1_2", "V1_3", "V1_4", "V2_1", "V2_2", "V2_3", "V3_1", "V3_2", "V3_3",
 					"V3_4", "V3_5", "V3_6", "V3_7", "V4_1", "V4_2", "V4_3", "V4_4", "V4_5", "V4_6", "V5"));
-	// 初始化场馆编号
-	public final static List<String> numListModel = new ArrayList<String>(
-			Arrays.asList("Indoor", "1", "2", "3", "4.1", "4.2", "5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2",
-					"NH", "EH", "WH", "Outdoor", "V1_1", "V1_2", "V1_3", "V1_4", "V2_1", "V2_2", "V2_3", "V3_1", "V3_2",
-					"V3_3", "V3_4", "V3_5", "V3_6", "V3_7", "V4_1", "V4_2", "V4_3", "V4_4", "V4_5", "V4_6", "V5"));
 
 	@Autowired
 	private GridDataService gridDataService;
@@ -326,11 +321,7 @@ public class AppController {
 				List<AnalysisModel> list = new ArrayList<AnalysisModel>();
 				for (int j = 0; j < numList.size(); j++) {
 					String key = numList.get(j);// region
-					if (("Outdoor").equals(key) || ("Indoor").equals(key)) {
-						list.add(regionService.queryGridWarnDataClusterNew(key, maxDate));
-					} else {
-						list.add(regionService.queryGridWarnDataCluster(key, maxDate));
-					}
+					list.add(regionService.queryGridWarnDataCluster(key, maxDate));
 				}
 				map.put("miscParameter", list);
 			}
