@@ -110,7 +110,7 @@
 			and d.stadium_no=#{region} 
 		</if> 
 		and d.sdate=#{sdate} 
-	</select> queryGridWarnDataClusterAll
+	</select> 
 	
 	<select id="queryGridWarnDataClusterAll" resultType="AnalysisCluster">
 	

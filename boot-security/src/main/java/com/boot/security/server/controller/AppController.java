@@ -485,4 +485,34 @@ public class AppController {
 		}
 		return map;
 	}
+
+	/**
+	 * 
+	* @Description: 接口5 缓存使用
+	* @author weichengz
+	* @date 2018年10月3日 下午6:55:04
+	 */
+	public Map<String, Object> getHiMap(String region, Double warnNum, Map<String, Object> map, Double numPercent,
+			String dateNow) {
+		
+		return gridDataService.getHiMap(region, warnNum, map, numPercent, dateNow);
+	}
+
+	
+	/**
+	 * 清除接口2的缓存
+	 */
+	@RequestMapping(value = "/clearFiveCache", method = RequestMethod.GET)
+	public Map<String, Object> clearFiveCache() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		try {
+			gridDataService.clearFiveCache();
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  ");
+		}
+		return map;
+	}
 }

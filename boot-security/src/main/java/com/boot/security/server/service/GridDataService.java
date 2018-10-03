@@ -38,4 +38,8 @@ public interface GridDataService {
 	public Double findNumByDate(String dateStr, String region, Double numPercent);
 
 	public void clearCache();
+	public void clearFiveCache();
+
+	public Map<String, Object> getHiMap(String region, Double warnNum, Map<String, Object> map, Double numPercent,
+			String dateNow);
 }

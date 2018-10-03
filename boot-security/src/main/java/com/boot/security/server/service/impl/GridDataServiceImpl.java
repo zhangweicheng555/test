@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.boot.security.server.common.BootConstant;
+import com.boot.security.server.controller.AppController;
 import com.boot.security.server.dao.GridDataDao;
 import com.boot.security.server.model.AnalysisModel;
 import com.boot.security.server.model.CommonModel;
@@ -93,33 +94,44 @@ public class GridDataServiceImpl implements GridDataService {
 				map = null;
 			}
 		} else {
-			// 查询这个馆这个时间的所有的人数的数量
-			Double total = gridDataDao.queryHiGridPeopleNum(dateNow, region, numPercent);
-			if (total > 0) {
-				map.put("date", dateNow);
-				map.put("total", total);
-				map.put("grids", new ArrayList<>());
-				map.put("misc", new AnalysisModel());
-				// 查询符合条件的数据
-				List<CommonModel> list = gridDataDao.queryHiGridDataByTimeRegion(dateNow, region, numPercent, warnNum);
-				if (list != null && list.size() > 0) {
-					List<Map<String, Object>> listMaps = new ArrayList<>();
-					for (CommonModel commonModel : list) {
-						Map<String, Object> mapM = new HashMap<>();
-						mapM.put("userCount", commonModel.getUserCount());
-						mapM.put("x", commonModel.getX());
-						mapM.put("y", commonModel.getY());
-						mapM.put("region", commonModel.getRegion());
-						listMaps.add(mapM);
-					}
-					map.put("grids", listMaps);
+			map = appController.getHiMap(region, warnNum, map, numPercent, dateNow);
+		}
+		return map;
+	}
+
+	@Autowired
+	private AppController appController;
+	
+	
+	@Cacheable(value = "queryGridHiData")
+	public Map<String, Object> getHiMap(String region, Double warnNum, Map<String, Object> map, Double numPercent,
+			String dateNow) {
+		// 查询这个馆这个时间的所有的人数的数量
+		Double total = gridDataDao.queryHiGridPeopleNum(dateNow, region, numPercent);
+		if (total > 0) {
+			map.put("date", dateNow);
+			map.put("total", total);
+			map.put("grids", new ArrayList<>());
+			map.put("misc", new AnalysisModel());
+			// 查询符合条件的数据
+			List<CommonModel> list = gridDataDao.queryHiGridDataByTimeRegion(dateNow, region, numPercent, warnNum);
+			if (list != null && list.size() > 0) {
+				List<Map<String, Object>> listMaps = new ArrayList<>();
+				for (CommonModel commonModel : list) {
+					Map<String, Object> mapM = new HashMap<>();
+					mapM.put("userCount", commonModel.getUserCount());
+					mapM.put("x", commonModel.getX());
+					mapM.put("y", commonModel.getY());
+					mapM.put("region", commonModel.getRegion());
+					listMaps.add(mapM);
 				}
-				// 查询b域
-				// dateNow=dateNow.substring(0, 12);
-				map.put("misc", regionService.queryGridWarnDataCluster(region, dateNow));
-			} else {
-				map = null;
+				map.put("grids", listMaps);
 			}
+			// 查询b域
+			// dateNow=dateNow.substring(0, 12);
+			map.put("misc", regionService.queryGridWarnDataCluster(region, dateNow));
+		} else {
+			map = null;
 		}
 		return map;
 	}
@@ -189,6 +201,11 @@ public class GridDataServiceImpl implements GridDataService {
 	@CacheEvict(value = "queryPeopleNumByTimeRange", allEntries = true)
 	@Override
 	public void clearCache() {
-		System.out.println("清除缓存操作。。。。");
+		System.out.println("清除缓存2操作。。。。");
+	}
+	@CacheEvict(value = "queryGridHiData", allEntries = true)
+	@Override
+	public void clearFiveCache() {
+		System.out.println("清除缓存5操作。。。。");
 	}
 }
