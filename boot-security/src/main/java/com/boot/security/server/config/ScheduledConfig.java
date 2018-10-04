@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.boot.security.server.controller.AppController;
+import com.boot.security.server.dao.GridDataDao;
 import com.boot.security.server.service.GridDataService;
 
 /** 定时器使用 */
@@ -22,6 +24,8 @@ import com.boot.security.server.service.GridDataService;
 @EnableScheduling
 public class ScheduledConfig {
 
+	@Autowired
+	private GridDataDao gridDataDao;
 	@Autowired
 	private GridDataService gridDataService;
 
@@ -96,7 +100,7 @@ public class ScheduledConfig {
 	 */
 	@Scheduled(cron = "0 10 0 * * ?")
 	public void execClearFiveCache() {
-		appController.clearFiveCache();
+		//appController.clearFiveCache();
 	}
 
 	public String getNowDate() {
@@ -106,5 +110,39 @@ public class ScheduledConfig {
 		rightNow.set(Calendar.MINUTE, minute);
 		rightNow.set(Calendar.SECOND, 0);
 		return sdf.format(rightNow.getTime());
+	}
+	
+	/**
+	 * 1点执行 缓存接口5
+	 * @throws ParseException 
+	 */
+	@Scheduled(cron = "0 0 1 * * ?")
+	public void execSetCache() throws ParseException {
+		String minDate=gridDataDao.queryMinDate();
+		String beginDate=getDateBeforSevenDay(-10)+"000000";
+		String endDate=dealMaxDate(minDate);
+	
+		List<String> regions=ScheduledConfig.numList1;
+		for (String region : regions) {
+			appController.queryGridDataByTimeRegionYh(beginDate, endDate, 5, 0.0, region);
+		}
+	}
+	
+	/**
+	 * 获取当前日期的前第几天的日期 格式为 yyyy-MM-dd 前一天 传入 -1 前七天 传入 -7 传入0代表当前的日期
+	 */
+	public static String getDateBeforSevenDay(int num) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.DATE, num);
+		Date monday = c.getTime();
+		String preMonday = sdf.format(monday);
+		return preMonday;
+	}
+	private String dealMaxDate(String beforeDate) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date date = sdf.parse(beforeDate);
+		Date afterDate = new Date(date.getTime() - 300000);
+		return sdf.format(afterDate);
 	}
 }

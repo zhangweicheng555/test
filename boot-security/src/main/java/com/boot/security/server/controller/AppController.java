@@ -71,6 +71,7 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		map.put("gridHistoryParameterList", new ArrayList<>());
 		try {
+			warnNum=0.0;
 			List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
 			if (listDates.size() > 0) {
 				List<Map<String, Object>> listMaps = new ArrayList<>();
@@ -115,7 +116,7 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		map.put("gridHistoryParameterList", new ArrayList<>());
 		try {
-
+			warnNum=0.0;
 			List<String> hiDates = gridDataService.queryHiDates(beginDateStr, endDateStr, region);
 
 			List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
