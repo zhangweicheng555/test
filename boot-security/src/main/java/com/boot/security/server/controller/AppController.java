@@ -72,11 +72,12 @@ public class AppController {
 		map.put("gridHistoryParameterList", new ArrayList<>());
 		try {
 			warnNum=0.0;
+			String minDate = gridDataDao.queryMinDate();
 			List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
 			if (listDates.size() > 0) {
 				List<Map<String, Object>> listMaps = new ArrayList<>();
 				for (Date date : listDates) {
-					Map<String, Object> map2 = gridDataService.queryGridDataByTimeRegion(date, region, warnNum);
+					Map<String, Object> map2 = gridDataService.queryGridDataByTimeRegion(date, region, warnNum,minDate);
 					if (map2 != null) {
 						listMaps.add(map2);
 					}
@@ -118,7 +119,6 @@ public class AppController {
 		try {
 			warnNum=0.0;
 			List<String> hiDates = gridDataService.queryHiDates(beginDateStr, endDateStr, region);
-
 			List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
 			if (listDates.size() > 0) {
 				List<Map<String, Object>> listMaps = new ArrayList<>();
@@ -147,14 +147,79 @@ public class AppController {
 	 */
 	@ApiOperation(value = "接口2:根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。", notes = "据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数")
 	@ApiImplicitParams({
+		@ApiImplicitParam(name = "beginDate", value = "开始时间(格式20180909121212)", dataType = "string", required = true),
+		@ApiImplicitParam(name = "endDate", value = "结束时间(格式20180909121212)", dataType = "string", required = true),
+		@ApiImplicitParam(name = "minute", value = "时间颗粒", dataType = "int", required = true),
+		@ApiImplicitParam(name = "regionStr", value = "场馆编号(多个以逗号分隔)", dataType = "string", required = true) })
+	@RequestMapping(value = "/queryPeopleNumByTimeRangeNew", method = RequestMethod.GET)
+	public Map<String, Object> queryPeopleNumByTimeRangeNew(
+			@RequestParam(value = "beginDate", required = true) String beginDateStr,
+			@RequestParam(value = "endDate", required = true) String endDateStr,
+			@RequestParam(value = "minute", required = true) int minute,
+			@RequestParam(value = "regionStr", required = true) String regionStr) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		map.put("item", new ArrayList<>());
+		try {
+			List<String> listDates = MyUtil.getDateStrList(beginDateStr, endDateStr, minute);
+			if (listDates.size() > 0) {
+				List<Map<String, Object>> listMaps = new ArrayList<>();
+				
+				String beginDate = listDates.get(0);
+				String endDate = listDates.get(listDates.size() - 1);
+				
+				Double numPercent = 0.0;
+				if (BootConstant.People_Num_Percent > 0) {
+					numPercent = BootConstant.People_Num_Percent;
+				} else {
+					numPercent = null;
+				}
+				if (StringUtils.isNoneBlank(regionStr)) {
+					String[] regionStrs = regionStr.trim().split(",");
+					for (int i = 0; i < regionStrs.length; i++) {
+						Map<String, Object> map1 = new HashMap<>();
+						map1.put("name", regionStrs[i]);
+						List<Double> listDouble = new ArrayList<>();
+						
+						/*** 查询这个场馆对应的所有的日期 */
+						List<String> datesStr = gridDataDao.findDatesStr(beginDate, endDate, regionStrs[i]);
+						for (String date : listDates) {
+							Double doubleNum = findGridPeopleNumClusterNew(datesStr, date, regionStrs[i], numPercent);
+							listDouble.add(doubleNum);
+						}
+						map1.put("item", listDouble);
+						listMaps.add(map1);
+					}
+				}
+				
+				if (listMaps != null && listMaps.size() > 0) {
+					// 处理总和
+					handleListMap(listMaps);
+					map.put("item", listMaps);
+				}
+			} else {
+				map.put("status", 1);
+				map.put("msg", "没有对应条件的数据！");
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyyMMddHHmmss");
+		}
+		return map;
+	}
+	/**
+	 * 2、接口2根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
+	 */
+	@ApiOperation(value = "接口2:根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。", notes = "据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数")
+	@ApiImplicitParams({
 			@ApiImplicitParam(name = "beginDate", value = "开始时间(格式20180909121212)", dataType = "string", required = true),
-			@ApiImplicitParam(name = "endDate", value = "结束时间(格式20180909121212)", dataType = "string", required = true),
 			@ApiImplicitParam(name = "minute", value = "时间颗粒", dataType = "int", required = true),
 			@ApiImplicitParam(name = "regionStr", value = "场馆编号(多个以逗号分隔)", dataType = "string", required = true) })
 	@RequestMapping(value = "/queryPeopleNumByTimeRange", method = RequestMethod.GET)
 	public Map<String, Object> queryPeopleNumByTimeRange(
 			@RequestParam(value = "beginDate", required = true) String beginDateStr,
-			@RequestParam(value = "endDate", required = true) String endDateStr,
 			@RequestParam(value = "minute", required = true) int minute,
 			@RequestParam(value = "regionStr", required = true) String regionStr) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -163,6 +228,7 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		map.put("item", new ArrayList<>());
 		try {
+			String endDateStr=gridDataService.queryMaxDate();
 			List<String> listDates = MyUtil.getDateStrList(beginDateStr, endDateStr, minute);
 			if (listDates.size() > 0) {
 				List<Map<String, Object>> listMaps = new ArrayList<>();

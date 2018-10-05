@@ -15,9 +15,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.controller.AppController;
 import com.boot.security.server.dao.GridDataDao;
 import com.boot.security.server.service.GridDataService;
+import com.boot.security.server.util.MyUtil;
 
 /** 定时器使用 */
 @Configuration
@@ -85,7 +87,7 @@ public class ScheduledConfig {
 			}
 		}
 		regionStrs = regionStrs.trim();
-		appController.queryPeopleNumByTimeRange(beginDate, endDate, 5, regionStrs);
+		appController.queryPeopleNumByTimeRangeNew(beginDate, endDate, 5, regionStrs);
 	}
 
 	/**
@@ -113,21 +115,28 @@ public class ScheduledConfig {
 	}
 	
 	/**
-	 * 1点执行 缓存接口5
-	 * @throws ParseException 
+	 * 整点执行 缓存接口5
+	 * @throws Exception 
 	 */
-	@Scheduled(cron = "0 0 1 * * ?")
-	public void execSetCache() throws ParseException {
-		String minDate=gridDataDao.queryMinDate();
-		String beginDate=getDateBeforSevenDay(-10)+"000000";
-		String endDate=dealMaxDate(minDate);
-	
+	@Scheduled(cron = "0 0 0/1 * * ?")
+	public void execSetCache() throws Exception {
+		String beginDate=null;
+		String endDate=null;
+		if (StringUtils.isBlank(BootConstant.RECORD_TIME_GRID_5)) {
+			String minDate=gridDataDao.queryMinDate();
+			endDate=dealMaxDate(minDate);
+		}else {
+			endDate=BootConstant.RECORD_TIME_GRID_5;
+		}
+		beginDate=MyUtil.getSomeDateByDay(endDate, -2);
+		BootConstant.RECORD_TIME_GRID_5=beginDate;
+		
 		List<String> regions=ScheduledConfig.numList1;
 		for (String region : regions) {
 			appController.queryGridDataByTimeRegionYh(beginDate, endDate, 5, 0.0, region);
 		}
+		
 	}
-	
 	/**
 	 * 获取当前日期的前第几天的日期 格式为 yyyy-MM-dd 前一天 传入 -1 前七天 传入 -7 传入0代表当前的日期
 	 */

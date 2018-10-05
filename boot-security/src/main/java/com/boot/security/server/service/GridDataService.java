@@ -13,7 +13,7 @@ public interface GridDataService {
 
 	public List<Map<String, Object>> querySingleGridData();
 
-	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum);
+	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum,String minDate);
 
 	public Map<String, Object> queryGridDataByTimeRegionYh(Date date, String region, Double warnNum,
 			List<String> dates);

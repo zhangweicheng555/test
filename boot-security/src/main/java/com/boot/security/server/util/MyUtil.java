@@ -271,13 +271,14 @@ public class MyUtil {
 	 * 1：代表表当前日期的退后一天 -1：代表当前日期的前一天
 	 */
 	public static String getSomeDateByDay(String dateStr, int num) throws Exception {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = sdf.parse(dateStr);
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		cal.add(Calendar.DAY_OF_MONTH, num);
 		return sdf.format(cal.getTime());
 	}
+	
 
 	/**
 	 * 根据开始日期、结束日期 计算包含的月份 返回 list<string>

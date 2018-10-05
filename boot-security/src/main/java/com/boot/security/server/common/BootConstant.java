@@ -10,4 +10,8 @@ public class BootConstant {
 	
 	public static Double People_Num_Percent=0.0;
 	
+	/***接口5 优化记录时间使用*/
+	public static String RECORD_TIME_GRID_5=null;
+	
+	
 }

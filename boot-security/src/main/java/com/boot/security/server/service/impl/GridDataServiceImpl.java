@@ -53,7 +53,7 @@ public class GridDataServiceImpl implements GridDataService {
 	 * 正式
 	 */
 	@Override
-	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum) {
+	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum,String minDate) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		Map<String, Object> map = new HashMap<>();
 
@@ -64,7 +64,6 @@ public class GridDataServiceImpl implements GridDataService {
 			numPercent = null;
 		}
 		String dateNow = sdf.format(date);
-		String minDate = gridDataDao.queryMinDate();
 		if (minDate.compareTo(dateNow) <= 0) {
 			// 查询这个馆这个时间的所有的人数的数量
 			Double total = gridDataDao.queryGridPeopleNum(dateNow, region, numPercent);
