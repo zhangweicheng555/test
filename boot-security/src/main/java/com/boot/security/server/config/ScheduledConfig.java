@@ -102,7 +102,7 @@ public class ScheduledConfig {
 	 */
 	@Scheduled(cron = "0 10 0 * * ?")
 	public void execClearFiveCache() {
-		//appController.clearFiveCache();
+		appController.clearFiveCache();
 	}
 
 	public String getNowDate() {
@@ -115,10 +115,10 @@ public class ScheduledConfig {
 	}
 	
 	/**
-	 * 整点执行 缓存接口5
+	 * 20分钟 缓存接口5
 	 * @throws Exception 
 	 */
-	@Scheduled(cron = "0 0 0/1 * * ?")
+	@Scheduled(cron = "0 0/30 * * * ?")
 	public void execSetCache() throws Exception {
 		String beginDate=null;
 		String endDate=null;
@@ -128,12 +128,15 @@ public class ScheduledConfig {
 		}else {
 			endDate=BootConstant.RECORD_TIME_GRID_5;
 		}
-		beginDate=MyUtil.getSomeDateByDay(endDate, -2);
-		BootConstant.RECORD_TIME_GRID_5=beginDate;
-		
-		List<String> regions=ScheduledConfig.numList1;
-		for (String region : regions) {
-			appController.queryGridDataByTimeRegionYh(beginDate, endDate, 5, 0.0, region);
+		String flagDate=MyUtil.getSomeDateByDay(sdf.format(new Date()),-10);
+		if (endDate.compareTo(flagDate) >0) {
+			beginDate=MyUtil.getSomeDateByDay(endDate, -1);
+			BootConstant.RECORD_TIME_GRID_5=beginDate;
+			
+			List<String> regions=ScheduledConfig.numList1;
+			for (String region : regions) {
+				appController.queryGridDataByTimeRegionYh(beginDate, endDate, 5, 0.0, region);
+			}
 		}
 		
 	}

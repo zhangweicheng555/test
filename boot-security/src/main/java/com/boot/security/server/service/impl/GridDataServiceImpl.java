@@ -234,6 +234,7 @@ public class GridDataServiceImpl implements GridDataService {
 	@CacheEvict(value = "queryGridHiData", allEntries = true)
 	@Override
 	public void clearFiveCache() {
+		BootConstant.RECORD_TIME_GRID_5=null;
 		System.out.println("清除缓存5操作。。。。");
 	}
 
