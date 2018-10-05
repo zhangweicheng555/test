@@ -204,9 +204,7 @@
 		select      statistics_time,area_type,stadium_no,gridx,gridy,longitude,latitude,imei_num,user_ratio,total_user_num,floor_no 
 		from Test_zwc where statistics_time = #{beforeDate}
 	</insert> 
-	<delete id="deleteBatch">
-		delete from LTE_GRID_USER_NUM where statistics_time &lt; #{beforeDate}
-	</delete> 
+	
 	<select id="findDatesStr" resultType="java.lang.String">
 		  select distinct d.statistics_time
 	       from LTE_GRID_USER_NUM_CLUSTER d 
@@ -228,5 +226,21 @@
         </if>
 		
 	</select>
+	 
+	
+	
+	
+	
+	<insert id="insertBatch">
+	    insert into
+	         HI_LTE_GRID_USER_NUM(statistics_time,area_type,stadium_no,gridx,gridy,longitude,latitude,imei_num,user_ratio,total_user_num,floor_no)
+	    select statistics_time,area_type,stadium_no,gridx,gridy,longitude,latitude,imei_num,user_ratio,total_user_num,floor_no 
+	         from LTE_GRID_USER_NUM where statistics_time &lt; #{beforeDate} 
+	 </insert>
+	
+	<delete id="deleteBatch">
+		delete from LTE_GRID_USER_NUM where statistics_time &lt; #{beforeDate}
+	</delete> 
+    
 	 
 </mapper>
