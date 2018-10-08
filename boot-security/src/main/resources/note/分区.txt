@@ -1,0 +1,67 @@
+
+
+
+分区介绍：
+https://www.cnblogs.com/lm970585581/p/7874139.html
+https://blog.csdn.net/rznice/article/details/55048876
+将已存在表建立分区
+https://blog.csdn.net/mmdfq/article/details/78708399
+
+
+表分区后查询操作：
+查看分区语法：
+    select * from user_tab_partitions;  --查询所有分区情况，可以接条件where table_name='sale'查看分区表结构
+
+    //就是在原来的基础上加上分区编号
+　　select * from sale partition(p1);  --查询某表的某一分区数据
+	//查询表有多少个分区
+	SELECT * FROM USER_TAB_PARTITIONS WHERE TABLE_NAME='tableName';  
+
+分区索引：
+分区之后虽然可以提高查询的效率，但也仅仅是提高了数据的范围，所以我们在有必要的情况下，需要建立分区索引，从而进一步提高效率。
+分区索引大体上分为两大类，一类叫做local，一类叫做global。
+local：在每个分区上建立索引（一般采用这种方式）
+global：一种在全局上建立索引，这种方式分不分区都一样，一般不使用
+下面进行语法演示：
+注意：分区上建立的索引一定是分区字段
+create index idx_count on sale(sale_count) local;--建立分区索引，在sale表的每个分区都建立了索引
+select * from user_ind_partitions;--查询所有分区索引情况
+全局索引global写法就是把上面的local替换成global，但不会使用
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+oracle函数介绍：
+numtodsinterval(<x>,<c>)
+,x是一个数字,c是一个字符串,
+表明x的单位,这个函数把x转为interval day to second数据类型
+常用的单位有 ('day','hour','minute','second')
+example
+SQL> select sysdate,sysdate+numtodsinterval(3,'hour') as res from dual;
+SYSDATE             RES
+------------------- -------------------
+2007-09-05 01:45:34 2007-09-05 04:45:34
+numtoyminterval  与numtodsinterval函数类似,将x转为interval year to month数据类型
+常用的单位有'year','month'
+example
+SQL> select sysdate,sysdate+numtoyminterval(3,'year') as res from dual;
+SYSDATE             RES
+------------------- -------------------
+2007-09-05 01:54:53 2010-09-05 01:54:53
+
+
