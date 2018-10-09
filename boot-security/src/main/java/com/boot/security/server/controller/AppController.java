@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.boot.security.server.common.BootConstant;
+import com.boot.security.server.config.ScheduledConfig;
 import com.boot.security.server.dao.GridDataDao;
 import com.boot.security.server.model.AnalysisModel;
 import com.boot.security.server.service.GridDataService;
@@ -42,6 +43,11 @@ public class AppController {
 			Arrays.asList("All", "1", "2", "3", "4.1", "4.2", "5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2",
 					"NH", "EH", "WH", "V1_1", "V1_2", "V1_3", "V1_4", "V2_1", "V2_2", "V2_3", "V3_1", "V3_2", "V3_3",
 					"V3_4", "V3_5", "V3_6", "V3_7", "V4_1", "V4_2", "V4_3", "V4_4", "V4_5", "V4_6", "V5"));
+
+	public final static List<String> numListN = new ArrayList<String>(
+			Arrays.asList("Indoor", "1", "2", "3", "4.1", "4.2", "5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2",
+					"NH", "EH", "WH", "Outdoor", "V1_1", "V1_2", "V1_3", "V1_4", "V2_1", "V2_2", "V2_3", "V3_1", "V3_2",
+					"V3_3", "V3_4", "V3_5", "V3_6", "V3_7", "V4_1", "V4_2", "V4_3", "V4_4", "V4_5", "V4_6", "V5"));
 
 	@Autowired
 	private GridDataService gridDataService;
@@ -71,13 +77,14 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		map.put("gridHistoryParameterList", new ArrayList<>());
 		try {
-			warnNum=0.0;
+			warnNum = 0.0;
 			String minDate = gridDataDao.queryMinDate();
 			List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
 			if (listDates.size() > 0) {
 				List<Map<String, Object>> listMaps = new ArrayList<>();
 				for (Date date : listDates) {
-					Map<String, Object> map2 = gridDataService.queryGridDataByTimeRegion(date, region, warnNum,minDate);
+					Map<String, Object> map2 = gridDataService.queryGridDataByTimeRegion(date, region, warnNum,
+							minDate);
 					if (map2 != null) {
 						listMaps.add(map2);
 					}
@@ -117,7 +124,7 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		map.put("gridHistoryParameterList", new ArrayList<>());
 		try {
-			warnNum=0.0;
+			warnNum = 0.0;
 			List<String> hiDates = gridDataService.queryHiDates(beginDateStr, endDateStr, region);
 			List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
 			if (listDates.size() > 0) {
@@ -147,10 +154,10 @@ public class AppController {
 	 */
 	@ApiOperation(value = "接口2:根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。", notes = "据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "beginDate", value = "开始时间(格式20180909121212)", dataType = "string", required = true),
-		@ApiImplicitParam(name = "endDate", value = "结束时间(格式20180909121212)", dataType = "string", required = true),
-		@ApiImplicitParam(name = "minute", value = "时间颗粒", dataType = "int", required = true),
-		@ApiImplicitParam(name = "regionStr", value = "场馆编号(多个以逗号分隔)", dataType = "string", required = true) })
+			@ApiImplicitParam(name = "beginDate", value = "开始时间(格式20180909121212)", dataType = "string", required = true),
+			@ApiImplicitParam(name = "endDate", value = "结束时间(格式20180909121212)", dataType = "string", required = true),
+			@ApiImplicitParam(name = "minute", value = "时间颗粒", dataType = "int", required = true),
+			@ApiImplicitParam(name = "regionStr", value = "场馆编号(多个以逗号分隔)", dataType = "string", required = true) })
 	@RequestMapping(value = "/queryPeopleNumByTimeRangeNew", method = RequestMethod.GET)
 	public Map<String, Object> queryPeopleNumByTimeRangeNew(
 			@RequestParam(value = "beginDate", required = true) String beginDateStr,
@@ -158,7 +165,7 @@ public class AppController {
 			@RequestParam(value = "minute", required = true) int minute,
 			@RequestParam(value = "regionStr", required = true) String regionStr) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
 		map.put("item", new ArrayList<>());
@@ -166,10 +173,10 @@ public class AppController {
 			List<String> listDates = MyUtil.getDateStrList(beginDateStr, endDateStr, minute);
 			if (listDates.size() > 0) {
 				List<Map<String, Object>> listMaps = new ArrayList<>();
-				
+
 				String beginDate = listDates.get(0);
 				String endDate = listDates.get(listDates.size() - 1);
-				
+
 				Double numPercent = 0.0;
 				if (BootConstant.People_Num_Percent > 0) {
 					numPercent = BootConstant.People_Num_Percent;
@@ -177,12 +184,23 @@ public class AppController {
 					numPercent = null;
 				}
 				if (StringUtils.isNoneBlank(regionStr)) {
+					if(("all").equals(regionStr)) {
+						String regionStrs = "";
+						for (String region : ScheduledConfig.numList1) {
+							if (StringUtils.isNoneBlank(regionStrs)) {
+								regionStrs = regionStrs + "," + region;
+							} else {
+								regionStrs = region;
+							}
+						}
+						regionStr=regionStrs;
+					}
 					String[] regionStrs = regionStr.trim().split(",");
 					for (int i = 0; i < regionStrs.length; i++) {
 						Map<String, Object> map1 = new HashMap<>();
 						map1.put("name", regionStrs[i]);
 						List<Double> listDouble = new ArrayList<>();
-						
+
 						/*** 查询这个场馆对应的所有的日期 */
 						List<String> datesStr = gridDataDao.findDatesStr(beginDate, endDate, regionStrs[i]);
 						for (String date : listDates) {
@@ -193,7 +211,7 @@ public class AppController {
 						listMaps.add(map1);
 					}
 				}
-				
+
 				if (listMaps != null && listMaps.size() > 0) {
 					// 处理总和
 					handleListMap(listMaps);
@@ -209,6 +227,7 @@ public class AppController {
 		}
 		return map;
 	}
+
 	/**
 	 * 2、接口2根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
 	 */
@@ -228,7 +247,7 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		map.put("item", new ArrayList<>());
 		try {
-			String endDateStr=gridDataService.queryMaxDate();
+			String endDateStr = gridDataService.queryMaxDate();
 			List<String> listDates = MyUtil.getDateStrList(beginDateStr, endDateStr, minute);
 			if (listDates.size() > 0) {
 				List<Map<String, Object>> listMaps = new ArrayList<>();
@@ -290,11 +309,12 @@ public class AppController {
 
 	@SuppressWarnings("unchecked")
 	private void handleListMap(List<Map<String, Object>> listMaps) {
+		
 		Map<String, Object> mapOne = new HashMap<>();
-		mapOne.put("name", "All");
+		mapOne.put("name", "Indoor");
 		List<Double> listNew = new ArrayList<Double>();
 
-		for (int i = 0; i < listMaps.size(); i++) {
+		for (int i = 0; i < 16; i++) {
 			Map<String, Object> map = listMaps.get(i);
 			List<Double> listM = (List<Double>) map.get("item");
 			if (i == 0) {
@@ -307,8 +327,29 @@ public class AppController {
 				listNew = list;
 			}
 		}
+		
+		Map<String, Object> mapTwo = new HashMap<>();
+		mapTwo.put("name", "Outdoor");
+		List<Double> listTwo = new ArrayList<Double>();
+
+		for (int i = 16; i < 37; i++) {
+			Map<String, Object> map = listMaps.get(i);
+			List<Double> listM = (List<Double>) map.get("item");
+			if (i == 0) {
+				listTwo = listM;
+			} else {
+				List<Double> list = new ArrayList<>();
+				for (int j = 0; j < listTwo.size(); j++) {
+					list.add(j, listTwo.get(j) + listM.get(j));
+				}
+				listTwo = list;
+			}
+		}
+		
 		mapOne.put("item", listNew);
 		listMaps.add(0, mapOne);
+		mapTwo.put("item", listTwo);
+		listMaps.add(17, mapTwo);	
 	}
 
 	/**
@@ -428,11 +469,17 @@ public class AppController {
 						String key = numList.get(j);// region
 						peopleParameterList.add(gridDataService.queryGridPeopleNumDataNew(key, maxDate));
 					}
-					Double countAll = 0.0;
-					for (Double num : peopleParameterList) {
-						countAll += num;
+					Double countIn = 0.0;
+					for (int i = 0; i < 16; i++) {
+						countIn += peopleParameterList.get(i);
 					}
-					peopleParameterList.add(0, countAll);
+					Double countOut = 0.0;
+					for (int j = 16; j < 37; j++) {
+						countOut += peopleParameterList.get(j);
+					}
+
+					peopleParameterList.add(0, countIn);
+					peopleParameterList.add(17, countOut);
 					map.put("peopleParameterList", peopleParameterList);
 				} else {// fasle
 					map.put("status", 2);
