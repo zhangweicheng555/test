@@ -28,7 +28,7 @@
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where  d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/#{numPercent}) > 0
+		             where  d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/#{numPercent}) &gt; 0
 		               and d.stadium_no in
 					        <foreach collection="regionArr" item="region" index="index"
 					            open="(" close=")" separator=",">
@@ -40,7 +40,7 @@
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where  d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/d.USER_RATIO) > 0
+		             where  d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/d.USER_RATIO) &gt; 0
         			   and  d.stadium_no in
 					        <foreach collection="regionArr" item="region" index="index"
 					            open="(" close=")" separator=",">
