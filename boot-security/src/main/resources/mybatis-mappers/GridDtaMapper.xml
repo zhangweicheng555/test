@@ -153,7 +153,7 @@
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/#{numPercent}) > #{warnNum}
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{warnNum}
        					order by d.stadium_no desc
         </if>
 		<if test="numPercent == null">
@@ -161,7 +161,7 @@
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/d.USER_RATIO) > #{warnNum}
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{warnNum}
         				order by d.stadium_no desc
         </if> 
 	</select>
