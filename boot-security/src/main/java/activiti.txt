@@ -1,0 +1,7 @@
+
+
+
+
+1.增加xml配置
+2.SecurityApplication.java   配置 乱码以及监听器
+3.增加com.boot.security.server.activiti  包的内容

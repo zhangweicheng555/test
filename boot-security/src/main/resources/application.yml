@@ -1,33 +1,17 @@
 spring:
-  datasource:
-    driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@120.26.128.114:1521:orcl
-    username: huelead
-    password: huelead 
-  cache:
-    type: ehcache
-    ehcache:
-      config: classpath:ehcache.xml
-   # driver-class-name: oracle.jdbc.driver.OracleDriver
-   # url: jdbc:oracle:thin:@localhost:1521:orcl
-   # username: system
-   # password: admin 
-    
-    # url: jdbc:oracle:thin:@localhost:1521:orcl
-    # username: system
-    # password: admin
-#    driver-class-name: com.mysql.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
-#    username: root
-#    password: root 
-    druid:
+  datasource: 
+     driver-class-name: com.mysql.jdbc.Driver
+     url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8
+     username: root
+     password: root 
+     druid:
       initialSize: 30
       minIdle: 30
       maxActive: 60
       maxWait: 120000
       timeBetweenEvictionRunsMillis: 60000
       minEvictableIdleTimeMillis: 300000
-      validationQuery: select 1 from dual
+      validationQuery: select 1 
       testWhileIdle: true
       testOnBorrow: true
       testOnReturn: false
@@ -37,6 +21,10 @@ spring:
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       stat-view-servlet:
         allow: 127.0.0.1
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:ehcache.xml
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     joda-date-time-format: yyyy-MM-dd HH:mm:ss
