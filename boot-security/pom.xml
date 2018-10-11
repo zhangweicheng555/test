@@ -45,9 +45,8 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
+			<version>3.7</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.projectlombok</groupId> <artifactId>lombok</artifactId> 
-			</dependency> -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -76,19 +75,13 @@
 			<version>${mybatis.version}</version>
 		</dependency>
 
-		<!-- oracle -->
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
-			<version>11.2.0.3</version>
-		</dependency>
-		
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
-		    <version>8.0.12</version>
+		    <version>5.1.38</version>
 		</dependency>
+
 				
 
 		<dependency>
@@ -118,10 +111,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -183,59 +172,10 @@
         
         
         <!-- 配置activiti -->
-
+		
 		<dependency>
 			<groupId>org.activiti</groupId>
 			<artifactId>activiti-spring-boot-starter-basic</artifactId>
-			<version>5.22.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-spring-boot-starter-jpa</artifactId>
-			<version>5.22.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-spring-boot-starter-rest-api</artifactId>
-			<version>5.22.0</version>
-		</dependency> 
-
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-explorer</artifactId>
-			<version>5.22.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-modeler</artifactId>
-			<version>5.22.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-diagram-rest</artifactId>
-			<version>5.22.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-rest</artifactId>
-			<version>5.22.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-jmx</artifactId>
-			<version>5.22.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-bpmn-model</artifactId>
-			<version>5.22.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-bpmn-layout</artifactId>
 			<version>5.22.0</version>
 		</dependency>
 		
