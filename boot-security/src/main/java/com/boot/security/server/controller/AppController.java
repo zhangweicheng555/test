@@ -333,24 +333,12 @@ public class AppController {
 					map.put("status", 2);
 					map.put("msg", "请传入37个场馆对应的告警数量");
 				} else {
-					List<Map<String, Object>> listDatas = new ArrayList<>();
 					String maxDate = gridDataService.queryMaxDate();
 					if (StringUtils.isBlank(maxDate)) {
 						map.put("status", 2);
 						map.put("msg", "数据库中日期不存在");
 					} else {
-						for (int i = 1; i < numList.size(); i++) {
-							Double dVal = Double.valueOf(warnNums[i - 1]);
-							if (dVal != -1) {
-								List<Map<String, Object>> listRegionDatas = gridDataService.queryGridWarnData(dVal,
-										maxDate, numList.get(i));
-								if (listRegionDatas != null && listRegionDatas.size() > 0) {
-									for (Map<String, Object> map2 : listRegionDatas) {
-										listDatas.add(map2);
-									}
-								}
-							}
-						}
+						List<Map<String, Object>> listDatas = gridDataService.queryGridWarnData(warnNum,maxDate);
 						if (listDatas.size() > 0) {
 							map.put("warningParameter", listDatas);
 						} else {

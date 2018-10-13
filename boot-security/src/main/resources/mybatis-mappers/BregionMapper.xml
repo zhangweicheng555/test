@@ -562,4 +562,17 @@
 		select max(d.sdate) from B_REGION_CLUSTER d where  d.area_type in ('Indoor','Outdoor')   
 	</select> 
 	 
+	 
+	 <select id="updateDate">
+		update B_REGION1 t set
+		t.sdate=#{nowDate},t.imei_num=ceil(DBMS_RANDOM.value(6,43))
+	</select>
+	<insert id="insertNewData">
+		insert into
+		B_REGION(SDATE,ECI,GENDER,AGE,SOURCETYPE,SOURCE,IMEI_NUM,AREA_TYPE,FLOOR_NO,STADIUM_NO)
+		select
+		SDATE,ECI,GENDER,AGE,SOURCETYPE,SOURCE,IMEI_NUM,AREA_TYPE,FLOOR_NO,STADIUM_NO
+		from B_REGION1 where SDATE = #{beforeDate}
+	</insert>
+	 
 </mapper>

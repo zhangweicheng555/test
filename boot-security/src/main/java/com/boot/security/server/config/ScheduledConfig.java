@@ -19,6 +19,7 @@ import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.controller.AppController;
 import com.boot.security.server.dao.GridDataDao;
 import com.boot.security.server.service.GridDataService;
+import com.boot.security.server.service.RegionService;
 import com.boot.security.server.util.MyUtil;
 
 /** 定时器使用 */
@@ -31,6 +32,9 @@ public class ScheduledConfig {
 	@Autowired
 	private GridDataService gridDataService;
 
+	@Autowired
+	private RegionService regionService;
+	
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 
 	/**
@@ -72,7 +76,7 @@ public class ScheduledConfig {
 					"V3_4", "V3_5", "V3_6", "V3_7", "V4_1", "V4_2", "V4_3", "V4_4", "V4_5", "V4_6", "V5"));
 
 	/**
-	 * 每10分钟执行一次 测试服 接口2 优化
+	 * 每10分钟执行一次  正式服   接口2 优化
 	 */
 	@Scheduled(cron = "0 0/10 * * * ?")
 	public void execByFiveMinFor2() throws ParseException {
@@ -157,4 +161,36 @@ public class ScheduledConfig {
 		Date afterDate = new Date(date.getTime() - 300000);
 		return sdf.format(afterDate);
 	}
+	
+	/**
+	 * 
+	 * =============================测试服========================================================
+	 * 每五分钟执行一次 测试服 栅格定时
+	 */
+	@Transactional
+	@Scheduled(cron = "0 0/5 * * * ?")
+	public void execByFiveMin() throws ParseException {
+		String setTime = BootConstant.Back_Send_Time;
+		String nowDate = null;
+		if (("0").equals(setTime)) {
+			nowDate = getNowDate();
+		} else {
+			nowDate = setTime;
+		}
+		// 更新表中的所有时间和所有人数
+		gridDataService.updateDate(nowDate);
+		// 插入到新表中
+		gridDataService.insertNewData(nowDate);
+		
+		// 处理时间
+		String bdate = nowDate.substring(0, 12);
+		regionService.updateDate(bdate);
+		regionService.insertNewData(bdate);
+		
+		if (!("0").equals(setTime)) {
+			BootConstant.Back_Send_Time = dealMaxDate(setTime);
+		}
+	}
+	
+	
 }
