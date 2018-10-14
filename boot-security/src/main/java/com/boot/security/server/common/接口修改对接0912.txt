@@ -46,3 +46,223 @@ substr(id,instr(id,'_',-1,1)+1)  as gridy,
 hand as entityHand
 from testm
 order by hand asc;
+
+
+
+
+
+
+
+
+
+select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/d.USER_RATIO) as "userCount",d.stadium_no as "region" ,d.statistics_time as "times" 
+		       from LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{maxDate} and ceil(d.IMEI_NUM/d.USER_RATIO) >= #{warnNum}
+
+
+
+
+==================================================
+
+					
+
+select  m.NEWIDX as "x",m.NEWIDY as "y",ceil(f.IMEI_NUM/f.USER_RATIO) as "userCount",f.stadium_no as "region" ,f.statistics_time as "times" 
+from (
+	
+	select * 
+	from LTE_GRID_USER_NUM d  
+	where 
+	d.area_type in ('Indoor','Outdoor') 
+	and d.statistics_time='20181013113500' 
+	and (
+	(
+	d.stadium_no='1' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='2' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='3' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='4.1' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='4.2' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='5.1' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='5.2' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='6.1' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='6.2' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='7.1' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='7.2' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='8.1' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='8.2' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='NH' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='EH' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='WH' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V1_1' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V1_2' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V1_3' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V1_4' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V2_1' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V2_2' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V2_3' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V3_1' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V3_2' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V3_3' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V3_4' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V3_5' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V3_6' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V3_7' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V4_1' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V4_2' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V4_3' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V4_4' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V4_5' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V4_6' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	or
+	(
+	d.stadium_no='V5' 
+	and ceil(d.IMEI_NUM/d.USER_RATIO) >= 2
+	)
+	)
+) f inner join GRIDMAPPER m
+    on f.GRIDX=m.GRIDX and f.GRIDY=m.GRIDY 
+
+order  by f.stadium_no

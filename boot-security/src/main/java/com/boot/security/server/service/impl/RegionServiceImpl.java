@@ -406,4 +406,14 @@ public class RegionServiceImpl implements RegionService {
 		return bregionDao.queryMaxDateClus();
 	}
 	
+	
+	@Override
+	public void updateDate(String nowDate) {
+		bregionDao.updateDate(nowDate);
+	}
+
+	@Override
+	public void insertNewData(String beforeDate) {
+		bregionDao.insertNewData(beforeDate);
+	}
 }

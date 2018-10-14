@@ -20,7 +20,7 @@ public interface GridDataService {
 
 	public Double queryGridPeopleNumDataNew(String region, String maxDate);
 
-	public List<Map<String, Object>> queryGridWarnData(Double warnNum, String maxDate, String region);
+	public List<Map<String, Object>> queryGridWarnData(String warnNum,String maxDate);
 
 	public String queryMaxDate();
 

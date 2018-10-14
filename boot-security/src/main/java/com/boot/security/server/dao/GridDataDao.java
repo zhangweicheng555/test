@@ -29,8 +29,21 @@ public interface GridDataDao {
 
 	public String queryMaxDate();
 
-	public List<Map<String, Object>> queryGridWarnData(@Param("warnNum") Double warnNum,
-			@Param("maxDate") String maxDate, @Param("region") String region, @Param("numPercent") Double numPercent);
+
+	public List<Map<String, Object>> queryGridWarnData(@Param("flag1") Double flag1, @Param("flag2") Double flag2,
+			@Param("flag3") Double flag3, @Param("flag4") Double flag4, @Param("flag5") Double flag5,
+			@Param("flag6") Double flag6, @Param("flag7") Double flag7, @Param("flag8") Double flag8,
+			@Param("flag9") Double flag9, @Param("flag10") Double flag10, @Param("flag11") Double flag11,
+			@Param("flag12") Double flag12, @Param("flag13") Double flag13, @Param("flag14") Double flag14,
+			@Param("flag15") Double flag15, @Param("flag16") Double flag16, @Param("flag17") Double flag17,
+			@Param("flag18") Double flag18, @Param("flag19") Double flag19, @Param("flag20") Double flag20,
+			@Param("flag21") Double flag21, @Param("flag22") Double flag22, @Param("flag23") Double flag23,
+			@Param("flag24") Double flag24, @Param("flag25") Double flag25, @Param("flag26") Double flag26,
+			@Param("flag27") Double flag27, @Param("flag28") Double flag28, @Param("flag29") Double flag29,
+			@Param("flag30") Double flag30, @Param("flag31") Double flag31, @Param("flag32") Double flag32,
+			@Param("flag33") Double flag33, @Param("flag34") Double flag34, @Param("flag35") Double flag35,
+			@Param("flag36") Double flag36, @Param("flag37") Double flag37, @Param("maxDate") String maxDate,
+			@Param("numPercent") Double numPercent);
 
 	// 0918
 	public String queryBeforeDate();
@@ -63,4 +76,5 @@ public interface GridDataDao {
 
 	public List<String> queryHiDates(@Param("beginDate") String beginDateStr, @Param("endDate") String endDateStr,
 			@Param("region") String region);
+
 }

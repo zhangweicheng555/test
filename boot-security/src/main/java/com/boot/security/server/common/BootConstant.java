@@ -14,4 +14,6 @@ public class BootConstant {
 	public static String RECORD_TIME_GRID_5=null;
 	
 	
+	public static String Back_Send_Time="0";
+	
 }

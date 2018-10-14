@@ -16,4 +16,7 @@ public interface RegionService {
 	public AnalysisModel queryGridWarnDataClusterNew(String region,String sdate);
 
 	public List<Map<String, Object>> queryDateForMinute(String beginDate, String endDate, String region);
+	
+	public void updateDate(String nowDate);
+	public void insertNewData(String beforeDate);
 }
