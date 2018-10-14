@@ -50,7 +50,6 @@
 		
 	</select>
 	
-	
 	<select id="queryGridDataByTimeRegion" resultType="CommonModel">
 		<if test="numPercent != null">
 			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/#{numPercent}) as "userCount",d.stadium_no as "region"

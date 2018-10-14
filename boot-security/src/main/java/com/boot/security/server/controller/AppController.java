@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -184,7 +186,7 @@ public class AppController {
 					numPercent = null;
 				}
 				if (StringUtils.isNoneBlank(regionStr)) {
-					if(("all").equals(regionStr)) {
+					if (("all").equals(regionStr)) {
 						String regionStrs = "";
 						for (String region : ScheduledConfig.numList1) {
 							if (StringUtils.isNoneBlank(regionStrs)) {
@@ -193,7 +195,7 @@ public class AppController {
 								regionStrs = region;
 							}
 						}
-						regionStr=regionStrs;
+						regionStr = regionStrs;
 					}
 					String[] regionStrs = regionStr.trim().split(",");
 					for (int i = 0; i < regionStrs.length; i++) {
@@ -309,7 +311,7 @@ public class AppController {
 
 	@SuppressWarnings("unchecked")
 	private void handleListMap(List<Map<String, Object>> listMaps) {
-		
+
 		Map<String, Object> mapOne = new HashMap<>();
 		mapOne.put("name", "Indoor");
 		List<Double> listNew = new ArrayList<Double>();
@@ -327,7 +329,7 @@ public class AppController {
 				listNew = list;
 			}
 		}
-		
+
 		Map<String, Object> mapTwo = new HashMap<>();
 		mapTwo.put("name", "Outdoor");
 		List<Double> listTwo = new ArrayList<Double>();
@@ -345,11 +347,11 @@ public class AppController {
 				listTwo = list;
 			}
 		}
-		
+
 		mapOne.put("item", listNew);
 		listMaps.add(0, mapOne);
 		mapTwo.put("item", listTwo);
-		listMaps.add(17, mapTwo);	
+		listMaps.add(17, mapTwo);
 	}
 
 	/**
@@ -379,7 +381,7 @@ public class AppController {
 						map.put("status", 2);
 						map.put("msg", "数据库中日期不存在");
 					} else {
-						List<Map<String, Object>> listDatas = gridDataService.queryGridWarnData(warnNum,maxDate);
+						List<Map<String, Object>> listDatas = gridDataService.queryGridWarnData(warnNum, maxDate);
 						if (listDatas.size() > 0) {
 							map.put("warningParameter", listDatas);
 						} else {
