@@ -1,5 +1,6 @@
 package com.boot.security.server.util;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -278,7 +279,6 @@ public class MyUtil {
 		cal.add(Calendar.DAY_OF_MONTH, num);
 		return sdf.format(cal.getTime());
 	}
-	
 
 	/**
 	 * 根据开始日期、结束日期 计算包含的月份 返回 list<string>
@@ -534,10 +534,8 @@ public class MyUtil {
 		Date afterDate = new Date(beginDate.getTime() - 60 * minute * 1000);
 		return sdf.format(afterDate);
 	}
-	
-	
-	public static List<String> getDateStrY(String beginDateStr, String endDateStr, int minute)
-			throws ParseException {
+
+	public static List<String> getDateStrY(String beginDateStr, String endDateStr, int minute) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date beginDate = sdf.parse(beginDateStr);
 		Date endDate = sdf.parse(endDateStr);
@@ -552,6 +550,15 @@ public class MyUtil {
 		}
 		return list;
 	}
-	
 
+	public static String getIsoDate(String dateStr) {
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		DateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			return sdf.format(sd.parse(dateStr));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
