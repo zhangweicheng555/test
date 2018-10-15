@@ -156,7 +156,7 @@
 			from LTE_GRID_USER_NUM d  
 			where 
 			d.area_type in ('Indoor','Outdoor') 
-			and d.statistics_time='20181013113500' 
+			and d.statistics_time=#{maxDate} 
 			and (
 			(
 			d.statistics_time >'28881014113500'
@@ -203,217 +203,217 @@
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag6}
 			)
 			</if>
-			<if test="flag7= null and flag7=-1">
+			<if test="flag7 != null and flag7 !=-1">
 			or
 			(
 			d.stadium_no='5.2' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag7}
 			)
 			</if>
-			<if test="flag8= null and flag8=-1">
+			<if test="flag8 != null and flag8 !=-1">
 			or
 			(
 			d.stadium_no='6.1' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag8}
 			)
 			</if>
-			<if test="flag9= null and flag9=-1">
+			<if test="flag9 != null and flag9 !=-1">
 			or
 			(
 			d.stadium_no='6.2' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag9}
 			)
 			</if>
-			<if test="flag10= null and flag10=-1">
+			<if test="flag10 != null and flag10 !=-1">
 			or
 			(
 			d.stadium_no='7.1' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag10}
 			)
 			</if>
-			<if test="flag11= null and flag11=-1">
+			<if test="flag11 != null and flag11 !=-1">
 			or
 			(
 			d.stadium_no='7.2' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag11}
 			)
 			</if>
-			<if test="flag12= null and flag12=-1">
+			<if test="flag12 != null and flag12 !=-1">
 			or
 			(
 			d.stadium_no='8.1' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag12}
 			)
 			</if>
-			<if test="flag13= null and flag13=-1">
+			<if test="flag13 != null and flag13 !=-1">
 			or
 			(
 			d.stadium_no='8.2' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag13}
 			)
 			</if>
-			<if test="flag14= null and flag14=-1">
+			<if test="flag14 != null and flag14 !=-1">
 			or
 			(
 			d.stadium_no='NH' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag14}
 			)
 			</if>
-			<if test="flag15= null and flag15=-1">
+			<if test="flag15 != null and flag15 !=-1">
 			or
 			(
 			d.stadium_no='EH' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag15}
 			)
 			</if>
-			<if test="flag16= null and flag16=-1">
+			<if test="flag16 != null and flag16 !=-1">
 			or
 			(
 			d.stadium_no='WH' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag16}
 			)
 			</if>
-			<if test="flag17= null and flag17=-1">
+			<if test="flag17 != null and flag17 !=-1">
 			or
 			(
 			d.stadium_no='V1_1' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag17}
 			)
 			</if>
-			<if test="flag18= null and flag18=-1">
+			<if test="flag18 != null and flag18 !=-1">
 			or
 			(
 			d.stadium_no='V1_2' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag18}
 			)
 			</if>
-			<if test="flag19= null and flag19=-1">
+			<if test="flag19 != null and flag19 !=-1">
 			or
 			(
 			d.stadium_no='V1_3' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag19}
 			)
 			</if>
-			<if test="flag20= null and flag20=-1">
+			<if test="flag20 != null and flag20 !=-1">
 			or
 			(
 			d.stadium_no='V1_4' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;= #{flag20}
 			)
 			</if>
-			<if test="flag21= null and flag21=-1">
+			<if test="flag21 != null and flag21 !=-1">
 			or
 			(
 			d.stadium_no='V2_1' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag21}
 			)
 			</if>
-			<if test="flag22= null and flag22=-1">
+			<if test="flag22 != null and flag22 !=-1">
 			or
 			(
 			d.stadium_no='V2_2' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag22}
 			)
 			</if>
-			<if test="flag23= null and flag23=-1">
+			<if test="flag23 != null and flag23 !=-1">
 			or
 			(
 			d.stadium_no='V2_3' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag23}
 			)
 			</if>
-			<if test="flag24= null and flag24=-1">
+			<if test="flag24 != null and flag24 !=-1">
 			or
 			(
 			d.stadium_no='V3_1' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag24}
 			)
 			</if>
-			<if test="flag25= null and flag25=-1">
+			<if test="flag25 != null and flag25 !=-1">
 			or
 			(
 			d.stadium_no='V3_2' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag25}
 			)
 			</if>
-			<if test="flag26= null and flag26=-1">
+			<if test="flag26 != null and flag26 !=-1">
 			or
 			(
 			d.stadium_no='V3_3' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag26}
 			)
 			</if>
-			<if test="flag27= null and flag27=-1">
+			<if test="flag27 != null and flag27 !=-1">
 			or
 			(
 			d.stadium_no='V3_4' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag27}
 			)
 			</if>
-			<if test="flag28= null and flag28=-1">
+			<if test="flag28 != null and flag28 !=-1">
 			or
 			(
 			d.stadium_no='V3_5' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag28}
 			)
 			</if>
-			<if test="flag29= null and flag29=-1">
+			<if test="flag29 != null and flag29 !=-1">
 			or
 			(
 			d.stadium_no='V3_6' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag29}
 			)
 			</if>
-			<if test="flag30= null and flag30=-1">
+			<if test="flag30 != null and flag30 !=-1">
 			or
 			(
 			d.stadium_no='V3_7' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag30}
 			)
 			</if>
-			<if test="flag31= null and flag31=-1">
+			<if test="flag31 != null and flag31 !=-1">
 			or
 			(
 			d.stadium_no='V4_1' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag31}
 			)
 			</if>
-			<if test="flag32= null and flag32=-1">
+			<if test="flag32 != null and flag32 !=-1">
 			or
 			(
 			d.stadium_no='V4_2' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag32}
 			)
 			</if>
-			<if test="flag33= null and flag33=-1">
+			<if test="flag33 != null and flag33 !=-1">
 			or
 			(
 			d.stadium_no='V4_3' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag33}
 			)
 			</if>
-			<if test="flag34= null and flag34=-1">
+			<if test="flag34 != null and flag34 !=-1">
 			or
 			(
 			d.stadium_no='V4_4' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag34}
 			)
 			</if>
-			<if test="flag35= null and flag35=-1">
+			<if test="flag35 != null and flag35 !=-1">
 			or
 			(
 			d.stadium_no='V4_5' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag35}
 			)
 			</if>
-			<if test="flag36= null and flag36=-1">
+			<if test="flag36 != null and flag36 !=-1">
 			or
 			(
 			d.stadium_no='V4_6' 
 			and ceil(d.IMEI_NUM/#{numPercent}) &gt;=  #{flag36}
 			)
 			</if>
-			<if test="flag37= null and flag37=-1">
+			<if test="flag37 != null and flag37 !=-1">
 			or
 			(
 			d.stadium_no='V5' 
@@ -435,7 +435,7 @@
 			from LTE_GRID_USER_NUM d  
 			where 
 			d.area_type in ('Indoor','Outdoor') 
-			and d.statistics_time='20181013113500' 
+			and d.statistics_time=#{maxDate} 
 			and (
 			(
 			d.statistics_time >'28881014113500'
@@ -482,217 +482,217 @@
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag6}
 			)
 			</if>
-			<if test="flag7= null and flag7=-1">
+			<if test="flag7 != null and flag7 !=-1">
 			or
 			(
 			d.stadium_no='5.2' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag7}
 			)
 			</if>
-			<if test="flag8= null and flag8=-1">
+			<if test="flag8 != null and flag8 !=-1">
 			or
 			(
 			d.stadium_no='6.1' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag8}
 			)
 			</if>
-			<if test="flag9= null and flag9=-1">
+			<if test="flag9 != null and flag9 !=-1">
 			or
 			(
 			d.stadium_no='6.2' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag9}
 			)
 			</if>
-			<if test="flag10= null and flag10=-1">
+			<if test="flag10 != null and flag10 !=-1">
 			or
 			(
 			d.stadium_no='7.1' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag10}
 			)
 			</if>
-			<if test="flag11= null and flag11=-1">
+			<if test="flag11 != null and flag11 !=-1">
 			or
 			(
 			d.stadium_no='7.2' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag11}
 			)
 			</if>
-			<if test="flag12= null and flag12=-1">
+			<if test="flag12 != null and flag12 !=-1">
 			or
 			(
 			d.stadium_no='8.1' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag12}
 			)
 			</if>
-			<if test="flag13= null and flag13=-1">
+			<if test="flag13 != null and flag13 !=-1">
 			or
 			(
 			d.stadium_no='8.2' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag13}
 			)
 			</if>
-			<if test="flag14= null and flag14=-1">
+			<if test="flag14 != null and flag14 !=-1">
 			or
 			(
 			d.stadium_no='NH' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag14}
 			)
 			</if>
-			<if test="flag15= null and flag15=-1">
+			<if test="flag15 != null and flag15 !=-1">
 			or
 			(
 			d.stadium_no='EH' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag15}
 			)
 			</if>
-			<if test="flag16= null and flag16=-1">
+			<if test="flag16 != null and flag16 !=-1">
 			or
 			(
 			d.stadium_no='WH' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag16}
 			)
 			</if>
-			<if test="flag17= null and flag17=-1">
+			<if test="flag17 != null and flag17 !=-1">
 			or
 			(
 			d.stadium_no='V1_1' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag17}
 			)
 			</if>
-			<if test="flag18= null and flag18=-1">
+			<if test="flag18 != null and flag18 !=-1">
 			or
 			(
 			d.stadium_no='V1_2' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag18}
 			)
 			</if>
-			<if test="flag19= null and flag19=-1">
+			<if test="flag19 != null and flag19 !=-1">
 			or
 			(
 			d.stadium_no='V1_3' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag19}
 			)
 			</if>
-			<if test="flag20= null and flag20=-1">
+			<if test="flag20 != null and flag20 !=-1">
 			or
 			(
 			d.stadium_no='V1_4' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;= #{flag20}
 			)
 			</if>
-			<if test="flag21= null and flag21=-1">
+			<if test="flag21 != null and flag21 !=-1">
 			or
 			(
 			d.stadium_no='V2_1' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag21}
 			)
 			</if>
-			<if test="flag22= null and flag22=-1">
+			<if test="flag22 != null and flag22 !=-1">
 			or
 			(
 			d.stadium_no='V2_2' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag22}
 			)
 			</if>
-			<if test="flag23= null and flag23=-1">
+			<if test="flag23 != null and flag23 !=-1">
 			or
 			(
 			d.stadium_no='V2_3' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag23}
 			)
 			</if>
-			<if test="flag24= null and flag24=-1">
+			<if test="flag24 != null and flag24 !=-1">
 			or
 			(
 			d.stadium_no='V3_1' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag24}
 			)
 			</if>
-			<if test="flag25= null and flag25=-1">
+			<if test="flag25 != null and flag25 !=-1">
 			or
 			(
 			d.stadium_no='V3_2' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag25}
 			)
 			</if>
-			<if test="flag26= null and flag26=-1">
+			<if test="flag26 != null and flag26 !=-1">
 			or
 			(
 			d.stadium_no='V3_3' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag26}
 			)
 			</if>
-			<if test="flag27= null and flag27=-1">
+			<if test="flag27 != null and flag27 !=-1">
 			or
 			(
 			d.stadium_no='V3_4' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag27}
 			)
 			</if>
-			<if test="flag28= null and flag28=-1">
+			<if test="flag28 != null and flag28 !=-1">
 			or
 			(
 			d.stadium_no='V3_5' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag28}
 			)
 			</if>
-			<if test="flag29= null and flag29=-1">
+			<if test="flag29 != null and flag29 !=-1">
 			or
 			(
 			d.stadium_no='V3_6' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag29}
 			)
 			</if>
-			<if test="flag30= null and flag30=-1">
+			<if test="flag30 != null and flag30 !=-1">
 			or
 			(
 			d.stadium_no='V3_7' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag30}
 			)
 			</if>
-			<if test="flag31= null and flag31=-1">
+			<if test="flag31 != null and flag31 !=-1">
 			or
 			(
 			d.stadium_no='V4_1' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag31}
 			)
 			</if>
-			<if test="flag32= null and flag32=-1">
+			<if test="flag32 != null and flag32 !=-1">
 			or
 			(
 			d.stadium_no='V4_2' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag32}
 			)
 			</if>
-			<if test="flag33= null and flag33=-1">
+			<if test="flag33 != null and flag33 !=-1">
 			or
 			(
 			d.stadium_no='V4_3' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag33}
 			)
 			</if>
-			<if test="flag34= null and flag34=-1">
+			<if test="flag34 != null and flag34 !=-1">
 			or
 			(
 			d.stadium_no='V4_4' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag34}
 			)
 			</if>
-			<if test="flag35= null and flag35=-1">
+			<if test="flag35 != null and flag35 !=-1">
 			or
 			(
 			d.stadium_no='V4_5' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag35}
 			)
 			</if>
-			<if test="flag36= null and flag36=-1">
+			<if test="flag36 != null and flag36 !=-1">
 			or
 			(
 			d.stadium_no='V4_6' 
 			and ceil(d.IMEI_NUM/d.USER_RATIO) &gt;=  #{flag36}
 			)
 			</if>
-			<if test="flag37= null and flag37=-1">
+			<if test="flag37 != null and flag37 !=-1">
 			or
 			(
 			d.stadium_no='V5' 
