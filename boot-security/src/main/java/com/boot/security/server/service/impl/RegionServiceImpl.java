@@ -94,6 +94,7 @@ public class RegionServiceImpl implements RegionService {
 			analysisModel.setAge3(cluster.getAge3());
 			analysisModel.setAge4(cluster.getAge4());
 			analysisModel.setAge5(cluster.getAge5());
+			analysisModel.setImei(cluster.getImei());
 		}
 		return analysisModel;
 	}

@@ -12,7 +12,10 @@ public class AnalysisModel implements Serializable {
 	private Long age3=0l;
 	private Long age4=0l;
 	private Long age5=0l;
-
+	
+	private Long imei=0l;
+	
+	
 	private String source1="0,无";
 	private String source2="0,无";
 	private String source3="0,无";
@@ -36,6 +39,18 @@ public class AnalysisModel implements Serializable {
 	private String gloal10="0,无";
 
 	private String time;
+
+	
+	
+	
+	
+	public Long getImei() {
+		return imei;
+	}
+
+	public void setImei(Long imei) {
+		this.imei = imei;
+	}
 
 	public Long getMale() {
 		return male;

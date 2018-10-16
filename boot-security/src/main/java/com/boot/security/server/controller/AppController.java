@@ -152,7 +152,7 @@ public class AppController {
 	}
 
 	/**
-	 * 2、接口2根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
+	 * 2、优化使用  接口2根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
 	 */
 	@ApiOperation(value = "接口2:根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。", notes = "据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数")
 	@ApiImplicitParams({
@@ -186,17 +186,8 @@ public class AppController {
 					numPercent = null;
 				}
 				if (StringUtils.isNoneBlank(regionStr)) {
-					if (("all").equals(regionStr)) {
-						String regionStrs = "";
-						for (String region : ScheduledConfig.numList1) {
-							if (StringUtils.isNoneBlank(regionStrs)) {
-								regionStrs = regionStrs + "," + region;
-							} else {
-								regionStrs = region;
-							}
-						}
-						regionStr = regionStrs;
-					}
+					
+					
 					String[] regionStrs = regionStr.trim().split(",");
 					for (int i = 0; i < regionStrs.length; i++) {
 						Map<String, Object> map1 = new HashMap<>();
@@ -264,6 +255,17 @@ public class AppController {
 					numPercent = null;
 				}
 				if (StringUtils.isNoneBlank(regionStr)) {
+					if (("all").equals(regionStr)) {
+						String regionStrs = "";
+						for (String region : ScheduledConfig.numList1) {
+							if (StringUtils.isNoneBlank(regionStrs)) {
+								regionStrs = regionStrs + "," + region;
+							} else {
+								regionStrs = region;
+							}
+						}
+						regionStr = regionStrs;
+					}
 					String[] regionStrs = regionStr.trim().split(",");
 					for (int i = 0; i < regionStrs.length; i++) {
 						Map<String, Object> map1 = new HashMap<>();

@@ -13,6 +13,8 @@ public class AnalysisCluster implements Serializable {
 	private Long age4 = 0l;
 	private Long age5 = 0l;
 
+	private Long imei = 0l;
+	
 	private String source1 = "无";
 	private String sourceNum1 = "0";
 	private String source2 = "无";
@@ -58,6 +60,17 @@ public class AnalysisCluster implements Serializable {
 	public Long getMale() {
 		return male;
 	}
+
+	
+	public Long getImei() {
+		return imei;
+	}
+
+
+	public void setImei(Long imei) {
+		this.imei = imei;
+	}
+
 
 	public void setMale(Long male) {
 		this.male = male;

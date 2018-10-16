@@ -132,7 +132,7 @@ public class ScheduledConfig {
 		}else {
 			endDate=BootConstant.RECORD_TIME_GRID_5;
 		}
-		String flagDate=MyUtil.getSomeDateByDay(sdf.format(new Date()),-10);
+		String flagDate=MyUtil.getSomeDateByDay(sdf.format(new Date()),-5);
 		if (endDate.compareTo(flagDate) >0) {
 			beginDate=MyUtil.getSomeDateByDay(endDate, -1);
 			BootConstant.RECORD_TIME_GRID_5=beginDate;
@@ -161,12 +161,18 @@ public class ScheduledConfig {
 		Date afterDate = new Date(date.getTime() - 300000);
 		return sdf.format(afterDate);
 	}
+	private String dealAddDate(String beforeDate) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date date = sdf.parse(beforeDate);
+		Date afterDate = new Date(date.getTime() - 300000);
+		return sdf.format(afterDate);
+	}
 	
 	/**
 	 * 
 	 * =============================测试服========================================================
 	 * 每五分钟执行一次 测试服 栅格定时
-	 
+	 */
 	@Transactional
 	@Scheduled(cron = "0 0/5 * * * ?")
 	public void execByFiveMin() throws ParseException {
@@ -188,8 +194,8 @@ public class ScheduledConfig {
 		regionService.insertNewData(bdate);
 		
 		if (!("0").equals(setTime)) {
-			BootConstant.Back_Send_Time = dealMaxDate(setTime);
+			BootConstant.Back_Send_Time = dealAddDate(setTime);
 		}
-	}*/
+	}
 	
 }

@@ -61,6 +61,8 @@
 		,age_65_num as "age4"
 		,age_200_num as "age5"
 		
+		,imei_num as "imei"
+		
 		,source_in_1 as "source1"
 		,source_in_1_num as "sourceNum1"
 		,source_in_2 as "source2"
@@ -122,6 +124,8 @@
 		,age_50_num as "age3"
 		,age_65_num as "age4"
 		,age_200_num as "age5"
+		
+		,imei_num as "imei"
 		
 		,source_in_1 as "source1"
 		,source_in_1_num as "sourceNum1"
@@ -200,6 +204,8 @@
 		,age_50_num as "age3"
 		,age_65_num as "age4"
 		,age_200_num as "age5"
+		
+		,imei_num as "imei"
 		
 		,source_in_1 as "source1"
 		,source_in_1_num as "sourceNum1"
