@@ -73,4 +73,6 @@ public interface BregionDao {
 	public Map<String, Object> gloal9(@Param("beginDate") String sdate);
 
 	public Map<String, Object> gloal10(@Param("beginDate") String sdate);
+
+	public Long querySwitchInfo(@Param("maxDate") String maxDate);
 }

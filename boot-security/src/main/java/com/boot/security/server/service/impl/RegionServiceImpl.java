@@ -417,4 +417,9 @@ public class RegionServiceImpl implements RegionService {
 	public void insertNewData(String beforeDate) {
 		bregionDao.insertNewData(beforeDate);
 	}
+
+	@Override
+	public Long querySwitchInfo(String maxDate) {
+		return bregionDao.querySwitchInfo(maxDate);
+	}
 }

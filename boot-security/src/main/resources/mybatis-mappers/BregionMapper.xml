@@ -288,19 +288,6 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<select id="querySource1" resultType="java.util.Map">
 		select t.* from (
 			select 
@@ -580,5 +567,13 @@
 		SDATE,ECI,GENDER,AGE,SOURCETYPE,SOURCE,IMEI_NUM,AREA_TYPE,FLOOR_NO,STADIUM_NO
 		from B_REGION1 where SDATE = #{beforeDate}
 	</insert>
+	 
+	<select id="querySwitchInfo" resultType="java.lang.Long">
+		select nvl(sum(d.imei_num),0) 
+		from B_REGION d 
+		where 1=1
+		and d.stadium_no  is null
+		and d.sdate=#{maxDate} 
+	</select> 
 	 
 </mapper>

@@ -152,7 +152,7 @@ public class AppController {
 	}
 
 	/**
-	 * 2、优化使用  接口2根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
+	 * 2、优化使用 接口2根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
 	 */
 	@ApiOperation(value = "接口2:根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。", notes = "据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数")
 	@ApiImplicitParams({
@@ -186,8 +186,7 @@ public class AppController {
 					numPercent = null;
 				}
 				if (StringUtils.isNoneBlank(regionStr)) {
-					
-					
+
 					String[] regionStrs = regionStr.trim().split(",");
 					for (int i = 0; i < regionStrs.length; i++) {
 						Map<String, Object> map1 = new HashMap<>();
@@ -339,7 +338,7 @@ public class AppController {
 		for (int i = 16; i < 37; i++) {
 			Map<String, Object> map = listMaps.get(i);
 			List<Double> listM = (List<Double>) map.get("item");
-			if (i == 0) {
+			if (i == 16) {
 				listTwo = listM;
 			} else {
 				List<Double> list = new ArrayList<>();
@@ -659,6 +658,30 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		try {
 			gridDataService.clearFiveCache();
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  ");
+		}
+		return map;
+	}
+
+	/**
+	 * 
+	 * 设置管外的所有暗门
+	 * 
+	 */
+	@RequestMapping(value = "/querySwitchInfo", method = RequestMethod.GET)
+	public Map<String, Object> querySwitchInf() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		map.put("count", 0);
+		try {
+			String maxDate = regionService.queryMaxDate();
+			Long num = regionService.querySwitchInfo(maxDate);
+			if (num != null && num > 0) {
+				map.put("count", num);
+			}
 		} catch (Exception e) {
 			map.put("status", 2);
 			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  ");
