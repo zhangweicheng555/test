@@ -172,7 +172,7 @@ public class ScheduledConfig {
 	 * 
 	 * =============================测试服========================================================
 	 * 每五分钟执行一次 测试服 栅格定时
-	 */
+	
 	@Transactional
 	@Scheduled(cron = "0 0/5 * * * ?")
 	public void execByFiveMin() throws ParseException {
@@ -196,6 +196,6 @@ public class ScheduledConfig {
 		if (!("0").equals(setTime)) {
 			BootConstant.Back_Send_Time = dealAddDate(setTime);
 		}
-	}
+	} */
 	
 }

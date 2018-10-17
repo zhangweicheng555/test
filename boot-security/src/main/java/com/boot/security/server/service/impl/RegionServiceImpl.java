@@ -52,14 +52,14 @@ public class RegionServiceImpl implements RegionService {
 	public AnalysisModel queryGridWarnDataCluster(String region, String sdate) {
 		AnalysisModel analysisModel = new AnalysisModel();
 		analysisModel.setTime(sdate);
-		AnalysisCluster cluster=null;
+		AnalysisCluster cluster = null;
 		if (region == null) {
-			//获取所有的性别年龄 数量
-			cluster= bregionDao.queryGridWarnDataClusterAll(region, sdate);
+			// 获取所有的性别年龄 数量
+			cluster = bregionDao.queryGridWarnDataClusterAll(region, sdate);
 			if (cluster == null) {
 				return analysisModel;
 			}
-		}else {
+		} else {
 			cluster = bregionDao.queryGridWarnDataCluster(region, sdate);
 			if (cluster == null) {
 				return analysisModel;
@@ -98,18 +98,19 @@ public class RegionServiceImpl implements RegionService {
 		}
 		return analysisModel;
 	}
+
 	@Override
 	public AnalysisModel queryGridWarnDataClusterNew(String region, String sdate) {
 		AnalysisModel analysisModel = new AnalysisModel();
 		analysisModel.setTime(sdate);
-		AnalysisCluster cluster=null;
-		
-		//获取所有的性别年龄 数量
-		cluster= bregionDao.queryGridWarnDataClusterAllNew(region, sdate);
+		AnalysisCluster cluster = null;
+
+		// 获取所有的性别年龄 数量
+		cluster = bregionDao.queryGridWarnDataClusterAllNew(region, sdate);
 		if (cluster == null) {
 			return analysisModel;
 		}
-		
+
 		if (cluster != null) {
 			analysisModel.setSource1(cluster.getSourceNum1() + "," + cluster.getSource1());
 			analysisModel.setSource2(cluster.getSourceNum2() + "," + cluster.getSource2());
@@ -121,7 +122,7 @@ public class RegionServiceImpl implements RegionService {
 			analysisModel.setSource8(cluster.getSourceNum8() + "," + cluster.getSource8());
 			analysisModel.setSource9(cluster.getSourceNum9() + "," + cluster.getSource9());
 			analysisModel.setSource10(cluster.getSourceNum10() + "," + cluster.getSource10());
-			
+
 			analysisModel.setGloal1(cluster.getGloalNum1() + "," + cluster.getGloal1());
 			analysisModel.setGloal2(cluster.getGloalNum2() + "," + cluster.getGloal2());
 			analysisModel.setGloal3(cluster.getGloalNum3() + "," + cluster.getGloal3());
@@ -297,86 +298,84 @@ public class RegionServiceImpl implements RegionService {
 	}
 
 	@Override
-	public List<Map<String, Object>> queryDateForMinute(String beginDate, String endDate, String region)  {
-		
+	public List<Map<String, Object>> queryDateForMinute(String beginDate, String endDate, String region) {
+
 		Double numPercent = 0.0;
 		if (BootConstant.People_Num_Percent > 0) {
 			numPercent = BootConstant.People_Num_Percent;
 		} else {
 			numPercent = null;
 		}
-		
-		List<Map<String,Object>> datas = bregionDao.queryDateForMinute(beginDate,endDate,region,numPercent);
-		
-		List<Map<String, Object>> list=new ArrayList<>();
-		
-		
-		
-		if (datas != null && datas.size()>0) {
-			Map<String, String> entity=handleDatas(datas);
+
+		List<Map<String, Object>> datas = bregionDao.queryDateForMinute(beginDate, endDate, region, numPercent);
+
+		List<Map<String, Object>> list = new ArrayList<>();
+
+		if (datas != null && datas.size() > 0) {
+			Map<String, String> entity = handleDatas(datas);
 			for (Map<String, Object> map : datas) {
-				
-				String date=(String) map.get("date");
-				
+
+				String date = (String) map.get("date");
+
 				try {
-					String before=MyUtil.getFiveDate(date,5);
+					String before = MyUtil.getFiveDate(date, 5);
 					if (entity.containsKey(before)) {
-						//list.add(model);
-						Integer beforeNum=Integer.valueOf(entity.get(before).split("_")[1]);
-						Integer nowNum=Integer.valueOf(entity.get(date).split("_")[1]);
-						
-						Integer cha=nowNum-beforeNum;
-						Integer js=cha/5;
-						Integer dan=cha-js*4;
-						
+						// list.add(model);
+						Integer beforeNum = Integer.valueOf(entity.get(before).split("_")[1]);
+						Integer nowNum = Integer.valueOf(entity.get(date).split("_")[1]);
+
+						Integer cha = nowNum - beforeNum;
+						Integer js = cha / 5;
+						Integer dan = cha - js * 4;
+
 						Random rand = new Random();
-						Integer sj=rand.nextInt(5) + 1;
-						
-						Integer num1=0;
-						Integer num2=0;
-						Integer num3=0;
-						Integer num4=0;
-						
-						Integer num=beforeNum+js-sj;
-						//产生 没有前后的4个数字
-						List<String> dates=MyUtil.getDateStrY(before, date, 1);
-						if (num>0) {
-							num1=num;
-							num2=num+js;
-							num3=num+js+js+sj;
-							num4=num+js+js+dan;
-						}else {
-							num=beforeNum+js+sj;
-							num1=num;
-							num2=beforeNum+js;
-							num3=beforeNum+js-sj;
-							num4=dan;
+						Integer sj = rand.nextInt(5) + 1;
+
+						Integer num1 = 0;
+						Integer num2 = 0;
+						Integer num3 = 0;
+						Integer num4 = 0;
+
+						Integer num = beforeNum + js - sj;
+						// 产生 没有前后的4个数字
+						List<String> dates = MyUtil.getDateStrY(before, date, 1);
+						if (num > 0) {
+							num1 = num;
+							num2 = num + js;
+							num3 = num + js + js + sj;
+							num4 = (num + js + js + dan) > 0 ? (num + js + js + dan) : 0;
+						} else {
+							num = beforeNum + js + sj;
+							num1 = num;
+							num2 = beforeNum + js;
+							num3 = (beforeNum + js - sj) > 0 ? (beforeNum + js - sj) : 0;
+							num4 = dan > 0 ? dan : 0;
 						}
 						for (int i = 0; i < 4; i++) {
-							Map<String, Object> model=new HashMap<>();
-							if (i==0) {
+							Map<String, Object> model = new HashMap<>();
+							if (i == 0) {
 								model.put("date", dates.get(i));
-								model.put("total",num1);
+								model.put("total", num1);
 								list.add(model);
 							}
-							if (i==1) {
+							if (i == 1) {
 								model.put("date", dates.get(i));
-								model.put("total",num2);
+								model.put("total", num2);
 								list.add(model);
 							}
-							if (i==2) {
+							if (i == 2) {
 								model.put("date", dates.get(i));
-								model.put("total",num3);
+								model.put("total", num3);
 								list.add(model);
 							}
-							if (i==3) {
+							if (i == 3) {
 								model.put("date", dates.get(i));
-								model.put("total",num4);
+								model.put("total", num4);
 								list.add(model);
 							}
 						}
 					}
-					Map<String, Object> model=new HashMap<>();
+					Map<String, Object> model = new HashMap<>();
 					model.put("date", date);
 					model.put("total", entity.get(date).split("_")[1]);
 					list.add(model);
@@ -389,14 +388,14 @@ public class RegionServiceImpl implements RegionService {
 	}
 
 	private Map<String, String> handleDatas(List<Map<String, Object>> datas) {
-		Map<String, String> map=new HashMap<>();
+		Map<String, String> map = new HashMap<>();
 		for (Map<String, Object> map1 : datas) {
-			String date=(String) map1.get("date");
-			String num=map1.get("num").toString();
+			String date = (String) map1.get("date");
+			String num = map1.get("num").toString();
 			if (num.contains(".")) {
-				map.put(date, date+"_"+num.substring(0, num.indexOf(".")));
-			}else {
-				map.put(date, date+"_"+num);
+				map.put(date, date + "_" + num.substring(0, num.indexOf(".")));
+			} else {
+				map.put(date, date + "_" + num);
 			}
 		}
 		return map;
@@ -406,8 +405,7 @@ public class RegionServiceImpl implements RegionService {
 	public String queryMaxDateClus() {
 		return bregionDao.queryMaxDateClus();
 	}
-	
-	
+
 	@Override
 	public void updateDate(String nowDate) {
 		bregionDao.updateDate(nowDate);
