@@ -128,6 +128,7 @@
 		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{dateStr} 
         </if> 
 		<if test="numPercent == null">
+			
 			select nvl(sum(ceil(d.IMEI_NUM/d.USER_RATIO)),0)  
 		       from LTE_GRID_USER_NUM d 
 		         inner join GRIDMAPPER m
@@ -136,6 +137,47 @@
         </if>
 		
 	</select>
+	
+	
+	<select id="queryGridPeopleNumquick" resultType="java.util.Map">
+		 <if test="numPercent != null">
+		 
+		 select 
+			d.stadium_no as "region"
+			,d.statistics_time as "times"
+			,nvl(sum(ceil(d.IMEI_NUM/#{numPercent})),0)  as "num"
+			from LTE_GRID_USER_NUM d 
+			inner join GRIDMAPPER m on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+			where d.stadium_no in(	
+			 '1', '2', '3', '4.1', '4.2', '5.1', '5.2', '6.1', '6.2', '7.1', '7.2', '8.1', '8.2','NH', 'EH', 'WH', 'V1_1', 'V1_2', 'V1_3', 'V1_4', 'V2_1', 'V2_2', 'V2_3', 'V3_1', 'V3_2', 'V3_3',
+			 'V3_4', 'V3_5', 'V3_6', 'V3_7', 'V4_1', 'V4_2', 'V4_3', 'V4_4', 'V4_5', 'V4_6', 'V5'
+			)
+			and d.area_type in ('Indoor','Outdoor') 
+			and d.statistics_time=(select max(d.statistics_time) from LTE_GRID_USER_NUM d where  d.area_type in ('Indoor','Outdoor'))
+			group by d.stadium_no,d.statistics_time
+
+        </if> 
+		<if test="numPercent == null">
+					
+			select 
+			d.stadium_no as "region"
+			,d.statistics_time as "times"
+			,nvl(sum(ceil(d.IMEI_NUM/d.USER_RATIO)),0)  as "num"
+			from LTE_GRID_USER_NUM d 
+			inner join GRIDMAPPER m on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+			where d.stadium_no in(	
+			 '1', '2', '3', '4.1', '4.2', '5.1', '5.2', '6.1', '6.2', '7.1', '7.2', '8.1', '8.2','NH', 'EH', 'WH', 'V1_1', 'V1_2', 'V1_3', 'V1_4', 'V2_1', 'V2_2', 'V2_3', 'V3_1', 'V3_2', 'V3_3',
+			 'V3_4', 'V3_5', 'V3_6', 'V3_7', 'V4_1', 'V4_2', 'V4_3', 'V4_4', 'V4_5', 'V4_6', 'V5'
+			)
+			and d.area_type in ('Indoor','Outdoor') 
+			and d.statistics_time=(select max(d.statistics_time) from LTE_GRID_USER_NUM d where  d.area_type in ('Indoor','Outdoor'))
+			group by d.stadium_no,d.statistics_time
+			
+        </if>
+		
+	</select>
+	
+	
 	<select id="queryGridPeopleNumAll" resultType="java.lang.Double">
 		 <if test="numPercent != null">
 		  select nvl(sum(ceil(d.IMEI_NUM/#{numPercent})),0) 

@@ -21,11 +21,14 @@ public interface GridDataDao {
 	public List<CommonModel> queryGridDataByTimeRegion(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent, @Param("warnNum") Double warnNum);
 
-	public List<CommonModel> queryGridDataByTimeRegionAll(@Param("dateStr") String dateStr, @Param("region") String region,
-			@Param("numPercent") Double numPercent);
+	public List<CommonModel> queryGridDataByTimeRegionAll(@Param("dateStr") String dateStr,
+			@Param("region") String region, @Param("numPercent") Double numPercent);
 
 	public Double queryGridPeopleNum(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
+
+	public List<Map<String, Object>> queryGridPeopleNumquick(@Param("numPercent") Double numPercent);
+
 	public Double queryGridPeopleNumAll(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
 
@@ -33,7 +36,6 @@ public interface GridDataDao {
 			@Param("maxDate") String maxDate);
 
 	public String queryMaxDate();
-
 
 	public List<Map<String, Object>> queryGridWarnData(@Param("flag1") Double flag1, @Param("flag2") Double flag2,
 			@Param("flag3") Double flag3, @Param("flag4") Double flag4, @Param("flag5") Double flag5,
@@ -63,6 +65,7 @@ public interface GridDataDao {
 
 	public Double queryHiGridPeopleNum(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
+
 	public Double queryHiGridPeopleNumAll(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
 
@@ -71,6 +74,7 @@ public interface GridDataDao {
 
 	public List<CommonModel> queryHiGridDataByTimeRegion(@Param("dateStr") String dateStr,
 			@Param("region") String region, @Param("numPercent") Double numPercent, @Param("warnNum") Double warnNum);
+
 	public List<CommonModel> queryHiGridDataByTimeRegionAll(@Param("dateStr") String dateStr,
 			@Param("region") String region, @Param("numPercent") Double numPercent);
 

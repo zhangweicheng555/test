@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -102,16 +103,16 @@ public class AppController {
 		}
 		return map;
 	}
-	
+
 	/**
 	 * 五、接口16 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割 warnNum ：废弃
 	 */
 	@ApiOperation(value = "接口16:指定时间范围和场馆编号获取指定场馆的栅格数据", notes = "指定时间范围和场馆编号/时间范围根据指定的时间粒度切割")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "beginDateStr", value = "开始时间(格式20180909121212)", dataType = "string", required = true),
-		@ApiImplicitParam(name = "endDateStr", value = "结束时间(格式20180909121212)", dataType = "string", required = true),
-		@ApiImplicitParam(name = "minute", value = "时间颗粒", dataType = "int", required = true),
-		@ApiImplicitParam(name = "region", value = "场馆编号indoor outdoor", dataType = "string", required = true) })
+			@ApiImplicitParam(name = "beginDateStr", value = "开始时间(格式20180909121212)", dataType = "string", required = true),
+			@ApiImplicitParam(name = "endDateStr", value = "结束时间(格式20180909121212)", dataType = "string", required = true),
+			@ApiImplicitParam(name = "minute", value = "时间颗粒", dataType = "int", required = true),
+			@ApiImplicitParam(name = "region", value = "场馆编号indoor outdoor", dataType = "string", required = true) })
 	@RequestMapping(value = "/queryGridDataAll", method = RequestMethod.GET)
 	public Map<String, Object> queryGridDataAll(
 			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
@@ -129,7 +130,7 @@ public class AppController {
 				if (listDates.size() > 0) {
 					List<Map<String, Object>> listMaps = new ArrayList<>();
 					for (Date date : listDates) {
-						Map<String, Object> map2 = gridDataService.queryGridDataAll(date, region,minDate);
+						Map<String, Object> map2 = gridDataService.queryGridDataAll(date, region, minDate);
 						if (map2 != null) {
 							listMaps.add(map2);
 						}
@@ -139,11 +140,11 @@ public class AppController {
 					map.put("status", 1);
 					map.put("msg", "没有对应条件的数据！");
 				}
-			}else {
+			} else {
 				map.put("status", 2);
 				map.put("msg", "region值未Indoor 或  Outdoor");
 			}
-			
+
 		} catch (Exception e) {
 			map.put("status", 2);
 			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyyMMddHHmmss");
@@ -495,19 +496,30 @@ public class AppController {
 		map.put("time", "");
 		map.put("peopleParameterList", "");
 		String maxDate = null;
-		reqDate = gridDataService.queryMaxDate();
 		try {
 			if (StringUtils.isBlank(reqDate)) {
 				map.put("status", 2);
 				map.put("msg", "未传入请求的参数:reqDate:格式(20180824234600)");
 			} else {
-				maxDate = reqDate;
-				if (StringUtils.isNoneBlank(maxDate)) {
-					List<Double> peopleParameterList = new ArrayList<Double>();
-					for (int j = 1; j < numList.size(); j++) {
-						String key = numList.get(j);// region
-						peopleParameterList.add(gridDataService.queryGridPeopleNumDataNew(key, maxDate));
+				List<Double> peopleParameterList = new ArrayList<Double>();
+				List<Map<String, Object>> gridMap = gridDataService.queryGridPeopleNumquick();
+
+				if (gridMap != null && gridMap.size() > 0) {
+					Map<String, Object> map3 = gridMap.get(0);
+					maxDate = (String) map3.get("times");
+
+					List<String> list = ScheduledConfig.numList1;
+					for (String region : list) {
+						for (Map<String, Object> map2 : gridMap) {
+							String key = String.valueOf(map2.get("region"));
+							if (region.equals(key)) {
+								Double num = Double.valueOf(map2.get("num").toString());
+								peopleParameterList.add(num);
+								break;
+							}
+						}
 					}
+
 					Double countIn = 0.0;
 					for (int i = 0; i < 16; i++) {
 						countIn += peopleParameterList.get(i);
@@ -519,17 +531,59 @@ public class AppController {
 
 					peopleParameterList.add(0, countIn);
 					peopleParameterList.add(17, countOut);
-					map.put("peopleParameterList", peopleParameterList);
-				} else {// fasle
-					map.put("status", 2);
-					map.put("msg", "传入请求的参数:reqDate格式不正确(20180824234600)");
+
+				} else {// 全部0
+					peopleParameterList = new ArrayList<Double>() {
+						{
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+							add(0.0);
+						}
+					};
 				}
+				map.put("peopleParameterList", peopleParameterList);
 			}
 		} catch (Exception e) {
 			map.put("status", 2);
 			map.put("msg", "系统异常:" + e.getLocalizedMessage());
 		}
-		map.put("time", reqDate);
+		map.put("time", maxDate);
 		return map;
 	}
 
@@ -668,11 +722,13 @@ public class AppController {
 		}
 		return map;
 	}
+
 	/**
 	 * 17、接口17根据指定时间范围和场馆编号获取指定场馆的人数数据。
 	 */
 	@RequestMapping(value = "/queryDateForMinuteAll", method = RequestMethod.GET)
-	public Map<String, Object> queryDateForMinuteAll(@RequestParam(value = "beginDate", required = true) String beginDate,
+	public Map<String, Object> queryDateForMinuteAll(
+			@RequestParam(value = "beginDate", required = true) String beginDate,
 			@RequestParam(value = "endDate", required = true) String endDate,
 			@RequestParam(value = "region", required = true) String region) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -688,7 +744,7 @@ public class AppController {
 					map.put("status", 1);
 					map.put("msg", "没有对应条件的数据！");
 				}
-			}else {
+			} else {
 				map.put("status", 2);
 				map.put("msg", "场馆编号只能为Indoor、Outdoor");
 			}
@@ -725,6 +781,7 @@ public class AppController {
 	public Map<String, Object> getHiMap(String region, Double warnNum, Double numPercent, String dateNow) {
 		return gridDataService.getHiMap(region, warnNum, numPercent, dateNow);
 	}
+
 	/**
 	 * 
 	 * @Description: 接口16 缓存使用

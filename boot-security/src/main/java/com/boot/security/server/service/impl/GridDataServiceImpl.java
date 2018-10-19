@@ -255,6 +255,17 @@ public class GridDataServiceImpl implements GridDataService {
 		}
 		return gridDataDao.queryGridPeopleNum(maxDate, region, numPercent);
 	}
+	
+	@Override
+	public List<Map<String, Object>> queryGridPeopleNumquick() {
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+		return gridDataDao.queryGridPeopleNumquick(numPercent);
+	}
 
 	@Override
 	public List<Map<String, Object>> queryGridWarnData(String warnNum, String maxDate) {
