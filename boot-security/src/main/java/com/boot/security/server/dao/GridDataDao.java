@@ -21,7 +21,12 @@ public interface GridDataDao {
 	public List<CommonModel> queryGridDataByTimeRegion(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent, @Param("warnNum") Double warnNum);
 
+	public List<CommonModel> queryGridDataByTimeRegionAll(@Param("dateStr") String dateStr, @Param("region") String region,
+			@Param("numPercent") Double numPercent);
+
 	public Double queryGridPeopleNum(@Param("dateStr") String dateStr, @Param("region") String region,
+			@Param("numPercent") Double numPercent);
+	public Double queryGridPeopleNumAll(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
 
 	public List<CommonModel> queryGridPeopleNumDataNew(@Param("region") String region,
@@ -58,12 +63,16 @@ public interface GridDataDao {
 
 	public Double queryHiGridPeopleNum(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
+	public Double queryHiGridPeopleNumAll(@Param("dateStr") String dateStr, @Param("region") String region,
+			@Param("numPercent") Double numPercent);
 
 	public Double queryGridPeopleNumCluster(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
 
 	public List<CommonModel> queryHiGridDataByTimeRegion(@Param("dateStr") String dateStr,
 			@Param("region") String region, @Param("numPercent") Double numPercent, @Param("warnNum") Double warnNum);
+	public List<CommonModel> queryHiGridDataByTimeRegionAll(@Param("dateStr") String dateStr,
+			@Param("region") String region, @Param("numPercent") Double numPercent);
 
 	public void updateDate(@Param("nowDate") String nowDate);
 

@@ -33,6 +33,8 @@ public interface BregionDao {
 
 	public List<Map<String, Object>> queryDateForMinute(@Param("beginDate") String beginDate,
 			@Param("endDate") String endDate, @Param("region") String region,@Param("numPercent") Double numPercent);
+	public List<Map<String, Object>> queryDateForMinuteAll(@Param("beginDate") String beginDate,
+			@Param("endDate") String endDate, @Param("region") String region,@Param("numPercent") Double numPercent);
 
 	public Map<String, Object> querySource1(@Param("beginDate") String sdate);
 

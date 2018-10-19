@@ -386,6 +386,95 @@ public class RegionServiceImpl implements RegionService {
 		}
 		return list;
 	}
+	@Override
+	public List<Map<String, Object>> queryDateForMinuteAll(String beginDate, String endDate, String region) {
+		
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+		
+		List<Map<String, Object>> datas = bregionDao.queryDateForMinuteAll(beginDate, endDate, region, numPercent);
+		
+		List<Map<String, Object>> list = new ArrayList<>();
+		
+		if (datas != null && datas.size() > 0) {
+			Map<String, String> entity = handleDatas(datas);
+			for (Map<String, Object> map : datas) {
+				
+				String date = (String) map.get("date");
+				
+				try {
+					String before = MyUtil.getFiveDate(date, 5);
+					if (entity.containsKey(before)) {
+						// list.add(model);
+						Integer beforeNum = Integer.valueOf(entity.get(before).split("_")[1]);
+						Integer nowNum = Integer.valueOf(entity.get(date).split("_")[1]);
+						
+						Integer cha = nowNum - beforeNum;
+						Integer js = cha / 5;
+						Integer dan = cha - js * 4;
+						
+						Random rand = new Random();
+						Integer sj = rand.nextInt(5) + 1;
+						
+						Integer num1 = 0;
+						Integer num2 = 0;
+						Integer num3 = 0;
+						Integer num4 = 0;
+						
+						Integer num = beforeNum + js - sj;
+						// 产生 没有前后的4个数字
+						List<String> dates = MyUtil.getDateStrY(before, date, 1);
+						if (num > 0) {
+							num1 = num;
+							num2 = num + js;
+							num3 = num + js + js + sj;
+							num4 = (num + js + js + dan) > 0 ? (num + js + js + dan) : 0;
+						} else {
+							num = beforeNum + js + sj;
+							num1 = num;
+							num2 = beforeNum + js;
+							num3 = (beforeNum + js - sj) > 0 ? (beforeNum + js - sj) : 0;
+							num4 = dan > 0 ? dan : 0;
+						}
+						for (int i = 0; i < 4; i++) {
+							Map<String, Object> model = new HashMap<>();
+							if (i == 0) {
+								model.put("date", dates.get(i));
+								model.put("total", num1);
+								list.add(model);
+							}
+							if (i == 1) {
+								model.put("date", dates.get(i));
+								model.put("total", num2);
+								list.add(model);
+							}
+							if (i == 2) {
+								model.put("date", dates.get(i));
+								model.put("total", num3);
+								list.add(model);
+							}
+							if (i == 3) {
+								model.put("date", dates.get(i));
+								model.put("total", num4);
+								list.add(model);
+							}
+						}
+					}
+					Map<String, Object> model = new HashMap<>();
+					model.put("date", date);
+					model.put("total", entity.get(date).split("_")[1]);
+					list.add(model);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
 
 	private Map<String, String> handleDatas(List<Map<String, Object>> datas) {
 		Map<String, String> map = new HashMap<>();

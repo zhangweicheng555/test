@@ -67,6 +67,23 @@
         </if> 
 		
 	</select>
+	<select id="queryGridDataByTimeRegionAll" resultType="CommonModel">
+		<if test="numPercent != null">
+			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/#{numPercent}) as "userCount",d.stadium_no as "region"
+		       from LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.stadium_no is not null and d.area_type =#{region} and d.statistics_time=#{dateStr} and ceil(d.IMEI_NUM/#{numPercent}) >0
+        </if>
+		<if test="numPercent == null">
+			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/d.USER_RATIO) as "userCount",d.stadium_no as "region"
+		       from LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.stadium_no is not null and d.area_type  =#{region} and d.statistics_time=#{dateStr} and ceil(d.IMEI_NUM/d.USER_RATIO) >0
+        </if> 
+		
+	</select>
 	<select id="queryHiGridDataByTimeRegion" resultType="CommonModel">
 		<if test="numPercent != null">
 			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/#{numPercent}) as "userCount",d.stadium_no as "region"
@@ -81,6 +98,23 @@
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
 		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{dateStr} and ceil(d.IMEI_NUM/d.USER_RATIO) >0
+        </if> 
+		
+	</select>
+	<select id="queryHiGridDataByTimeRegionAll" resultType="CommonModel">
+		<if test="numPercent != null">
+			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/#{numPercent}) as "userCount",d.stadium_no as "region"
+		       from HI_LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.stadium_no is not null and d.area_type =#{region} and d.statistics_time=#{dateStr} and ceil(d.IMEI_NUM/#{numPercent}) >0
+        </if>
+		<if test="numPercent == null">
+			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/d.USER_RATIO) as "userCount",d.stadium_no as "region"
+		       from HI_LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.stadium_no is not null and d.area_type  =#{region} and d.statistics_time=#{dateStr} and ceil(d.IMEI_NUM/d.USER_RATIO) >0
         </if> 
 		
 	</select>
@@ -102,6 +136,23 @@
         </if>
 		
 	</select>
+	<select id="queryGridPeopleNumAll" resultType="java.lang.Double">
+		 <if test="numPercent != null">
+		  select nvl(sum(ceil(d.IMEI_NUM/#{numPercent})),0) 
+		       from LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.stadium_no is not null and d.area_type  =#{region} and d.statistics_time=#{dateStr} 
+        </if> 
+		<if test="numPercent == null">
+			select nvl(sum(ceil(d.IMEI_NUM/d.USER_RATIO)),0)  
+		       from LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.stadium_no is not null and d.area_type =#{region} and d.statistics_time=#{dateStr} 
+        </if>
+		
+	</select>
 	
 	
 	<select id="queryHiGridPeopleNum" resultType="java.lang.Double">
@@ -118,6 +169,23 @@
 		         inner join GRIDMAPPER m
 		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
 		             where d.stadium_no=#{region} and d.area_type in ('Indoor','Outdoor') and d.statistics_time=#{dateStr} 
+        </if>
+		
+	</select>
+	<select id="queryHiGridPeopleNumAll" resultType="java.lang.Double">
+		 <if test="numPercent != null">
+		  select nvl(sum(ceil(d.IMEI_NUM/#{numPercent})),0) 
+		       from HI_LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.stadium_no is not null and d.area_type =#{region} and d.statistics_time=#{dateStr} 
+        </if> 
+		<if test="numPercent == null">
+			select nvl(sum(ceil(d.IMEI_NUM/d.USER_RATIO)),0)  
+		       from HI_LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.stadium_no is not null and d.area_type =#{region} and d.statistics_time=#{dateStr} 
         </if>
 		
 	</select>

@@ -102,6 +102,54 @@ public class AppController {
 		}
 		return map;
 	}
+	
+	/**
+	 * 五、接口16 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割 warnNum ：废弃
+	 */
+	@ApiOperation(value = "接口16:指定时间范围和场馆编号获取指定场馆的栅格数据", notes = "指定时间范围和场馆编号/时间范围根据指定的时间粒度切割")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "beginDateStr", value = "开始时间(格式20180909121212)", dataType = "string", required = true),
+		@ApiImplicitParam(name = "endDateStr", value = "结束时间(格式20180909121212)", dataType = "string", required = true),
+		@ApiImplicitParam(name = "minute", value = "时间颗粒", dataType = "int", required = true),
+		@ApiImplicitParam(name = "region", value = "场馆编号indoor outdoor", dataType = "string", required = true) })
+	@RequestMapping(value = "/queryGridDataAll", method = RequestMethod.GET)
+	public Map<String, Object> queryGridDataAll(
+			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
+			@RequestParam(value = "endDateStr", required = true) String endDateStr,
+			@RequestParam(value = "minute", required = true) int minute,
+			@RequestParam(value = "region", required = true) String region) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		map.put("gridHistoryParameterList", new ArrayList<>());
+		try {
+			if (("Indoor").equals(region) || ("Outdoor").equals(region)) {
+				String minDate = gridDataDao.queryMinDate();
+				List<Date> listDates = MyUtil.getDateList(beginDateStr, endDateStr, minute);
+				if (listDates.size() > 0) {
+					List<Map<String, Object>> listMaps = new ArrayList<>();
+					for (Date date : listDates) {
+						Map<String, Object> map2 = gridDataService.queryGridDataAll(date, region,minDate);
+						if (map2 != null) {
+							listMaps.add(map2);
+						}
+					}
+					map.put("gridHistoryParameterList", listMaps);
+				} else {
+					map.put("status", 1);
+					map.put("msg", "没有对应条件的数据！");
+				}
+			}else {
+				map.put("status", 2);
+				map.put("msg", "region值未Indoor 或  Outdoor");
+			}
+			
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyyMMddHHmmss");
+		}
+		return map;
+	}
 
 	/**
 	 * 五、定时优化使用： 接口5 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割
@@ -620,6 +668,36 @@ public class AppController {
 		}
 		return map;
 	}
+	/**
+	 * 17、接口17根据指定时间范围和场馆编号获取指定场馆的人数数据。
+	 */
+	@RequestMapping(value = "/queryDateForMinuteAll", method = RequestMethod.GET)
+	public Map<String, Object> queryDateForMinuteAll(@RequestParam(value = "beginDate", required = true) String beginDate,
+			@RequestParam(value = "endDate", required = true) String endDate,
+			@RequestParam(value = "region", required = true) String region) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		map.put("peopleHistoryParameterList", new ArrayList<>());
+		try {
+			if (("Indoor").equals(region) || ("Outdoor").equals(region)) {
+				List<Map<String, Object>> list = regionService.queryDateForMinuteAll(beginDate, endDate, region);
+				if (list.size() > 0) {
+					map.put("peopleHistoryParameterList", list);
+				} else {
+					map.put("status", 1);
+					map.put("msg", "没有对应条件的数据！");
+				}
+			}else {
+				map.put("status", 2);
+				map.put("msg", "场馆编号只能为Indoor、Outdoor");
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyyMMddHHmmss");
+		}
+		return map;
+	}
 
 	/**
 	 * 清除接口2的缓存
@@ -646,6 +724,15 @@ public class AppController {
 	 */
 	public Map<String, Object> getHiMap(String region, Double warnNum, Double numPercent, String dateNow) {
 		return gridDataService.getHiMap(region, warnNum, numPercent, dateNow);
+	}
+	/**
+	 * 
+	 * @Description: 接口16 缓存使用
+	 * @author weichengz
+	 * @date 2018年10月3日 下午6:55:04
+	 */
+	public Map<String, Object> getHiMapAll(String region, Double numPercent, String dateNow) {
+		return gridDataService.getHiMapAll(region, numPercent, dateNow);
 	}
 
 	/**

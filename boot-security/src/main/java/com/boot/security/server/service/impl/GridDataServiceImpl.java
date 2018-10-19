@@ -102,6 +102,55 @@ public class GridDataServiceImpl implements GridDataService {
 	 * 正式
 	 */
 	@Override
+	public Map<String, Object> queryGridDataAll(Date date, String region, String minDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		Map<String, Object> map = new HashMap<>();
+
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+		String dateNow = sdf.format(date);
+		if (minDate.compareTo(dateNow) <= 0) {
+			// 查询这个馆这个时间的所有的人数的数量
+			Double total = gridDataDao.queryGridPeopleNumAll(dateNow, region, numPercent);
+			if (total > 0) {
+				map.put("date", dateNow);
+				map.put("total", total);
+				map.put("grids", new ArrayList<>());
+				map.put("misc", new AnalysisModel());
+				// 查询符合条件的数据
+				List<CommonModel> list = gridDataDao.queryGridDataByTimeRegionAll(dateNow, region, numPercent);
+				if (list != null && list.size() > 0) {
+					List<Map<String, Object>> listMaps = new ArrayList<>();
+					for (CommonModel commonModel : list) {
+						Map<String, Object> mapM = new HashMap<>();
+						mapM.put("userCount", commonModel.getUserCount());
+						mapM.put("x", commonModel.getX());
+						mapM.put("y", commonModel.getY());
+						mapM.put("region", commonModel.getRegion());
+						listMaps.add(mapM);
+					}
+					map.put("grids", listMaps);
+				}
+				// 查询b域
+				// dateNow=dateNow.substring(0, 12);
+				map.put("misc", regionService.queryGridWarnDataCluster("All", dateNow));
+			} else {
+				map = null;
+			}
+		} else {
+			map = appController.getHiMapAll(region, numPercent, dateNow);
+		}
+		return map;
+	}
+
+	/**
+	 * 正式
+	 */
+	@Override
 	public Map<String, Object> queryGridDataByTimeRegionYh(Date date, String region, Double warnNum,
 			List<String> dates) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -157,6 +206,39 @@ public class GridDataServiceImpl implements GridDataService {
 			// 查询b域
 			// dateNow=dateNow.substring(0, 12);
 			map.put("misc", regionService.queryGridWarnDataCluster(region, dateNow));
+		} else {
+			map = null;
+		}
+		return map;
+	}
+	
+	
+	public Map<String, Object> getHiMapAll(String region, Double numPercent, String dateNow) {
+		Map<String, Object> map = new HashMap<>();
+		// 查询这个馆这个时间的所有的人数的数量
+		Double total = gridDataDao.queryHiGridPeopleNumAll(dateNow, region, numPercent);
+		if (total > 0) {
+			map.put("date", dateNow);
+			map.put("total", total);
+			map.put("grids", new ArrayList<>());
+			map.put("misc", new AnalysisModel());
+			// 查询符合条件的数据
+			List<CommonModel> list = gridDataDao.queryHiGridDataByTimeRegionAll(dateNow, region, numPercent);
+			if (list != null && list.size() > 0) {
+				List<Map<String, Object>> listMaps = new ArrayList<>();
+				for (CommonModel commonModel : list) {
+					Map<String, Object> mapM = new HashMap<>();
+					mapM.put("userCount", commonModel.getUserCount());
+					mapM.put("x", commonModel.getX());
+					mapM.put("y", commonModel.getY());
+					mapM.put("region", commonModel.getRegion());
+					listMaps.add(mapM);
+				}
+				map.put("grids", listMaps);
+			}
+			// 查询b域
+			// dateNow=dateNow.substring(0, 12);
+			map.put("misc", regionService.queryGridWarnDataCluster("All", dateNow));
 		} else {
 			map = null;
 		}
