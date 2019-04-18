@@ -7,14 +7,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.controller.AppController;
 import com.boot.security.server.dao.GridDataDao;
@@ -23,8 +17,8 @@ import com.boot.security.server.service.RegionService;
 import com.boot.security.server.util.MyUtil;
 
 /** 定时器使用 */
-@Configuration
-@EnableScheduling
+//@Configuration
+//@EnableScheduling
 public class ScheduledConfig {
 
 	@Autowired
@@ -40,8 +34,8 @@ public class ScheduledConfig {
 	/**
 	 * 0点三分执行 确认入库的时间 正式服
 	 */
-	@Transactional
-	@Scheduled(cron = "0 3 0 * * ?")
+//	@Transactional
+	//@Scheduled(cron = "0 3 0 * * ?")
 	public void execByThirtyMin() {
 		// 查询表中最大时间
 		String beforeDate = gridDataService.queryMaxDate();
@@ -78,7 +72,7 @@ public class ScheduledConfig {
 	/**
 	 * 每10分钟执行一次  正式服   接口2 优化
 	 */
-	@Scheduled(cron = "0 0/10 * * * ?")
+	//@Scheduled(cron = "0 0/10 * * * ?")
 	public void execByFiveMinFor2() throws ParseException {
 		String endDate = getNowDate();
 		String beginDate = endDate.substring(0, 8) + "000000";
@@ -97,14 +91,14 @@ public class ScheduledConfig {
 	/**
 	 * 0点10分执行 清除接口2缓存
 	 */
-	@Scheduled(cron = "0 10 0 * * ?")
+	//@Scheduled(cron = "0 10 0 * * ?")
 	public void execClearCache() {
 		appController.clearCache();
 	}
 	/**
 	 * 0点10分执行 清除接口5缓存
 	 */
-	@Scheduled(cron = "0 10 0 * * ?")
+	//@Scheduled(cron = "0 10 0 * * ?")
 	public void execClearFiveCache() {
 		appController.clearFiveCache();
 	}
@@ -122,7 +116,7 @@ public class ScheduledConfig {
 	 * 20分钟 缓存接口5
 	 * @throws Exception 
 	 */
-	@Scheduled(cron = "0 0/30 * * * ?")
+	//@Scheduled(cron = "0 0/30 * * * ?")
 	public void execSetCache() throws Exception {
 		String beginDate=null;
 		String endDate=null;
@@ -168,34 +162,6 @@ public class ScheduledConfig {
 		return sdf.format(afterDate);
 	}
 	
-	/**
-	 * 
-	 * =============================测试服========================================================
-	 * 每五分钟执行一次 测试服 栅格定时
 	
-	@Transactional
-	@Scheduled(cron = "0 0/5 * * * ?")
-	public void execByFiveMin() throws ParseException {
-		String setTime = BootConstant.Back_Send_Time;
-		String nowDate = null;
-		if (("0").equals(setTime)) {
-			nowDate = getNowDate();
-		} else {
-			nowDate = setTime;
-		}
-		// 更新表中的所有时间和所有人数
-		gridDataService.updateDate(nowDate);
-		// 插入到新表中
-		gridDataService.insertNewData(nowDate);
-		
-		// 处理时间
-		String bdate = nowDate.substring(0, 12);
-		regionService.updateDate(bdate);
-		regionService.insertNewData(bdate);
-		
-		if (!("0").equals(setTime)) {
-			BootConstant.Back_Send_Time = dealAddDate(setTime);
-		}
-	} */
 	
 }

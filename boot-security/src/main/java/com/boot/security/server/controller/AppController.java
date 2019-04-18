@@ -36,7 +36,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class AppController {
 
 	
-	//ALL  ZGG_B1 ,ZGG_F1,ZGG_F2  都是indoor
+	//ALL  ZGG_B1 ,ZGG_1F,ZGG_2F  都是indoor
 	
 	// 初始化场馆编号
 	public final static List<String> numList = new ArrayList<String>(
@@ -585,7 +585,8 @@ public class AppController {
 	}
 
 	/**
-	 * 传入场馆编号，返回栅格集合 对接接口 接口4 获取指定场馆的栅格数据。 返回各个长场馆 最新的数据 x y 并且 用户大于0
+	 * 传入场馆编号，返回栅格集合 对接接口 
+	 * 接口4 获取指定场馆的栅格数据。 返回各个长场馆 最新的数据 x y 并且 用户大于0
 	 */
 	@ApiOperation(value = "接口4:获取指定场馆的栅格数据", notes = "获取指定场馆的栅格数据，多个以逗号分割")
 	@ApiImplicitParams({
