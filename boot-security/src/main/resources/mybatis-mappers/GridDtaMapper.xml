@@ -5,7 +5,7 @@
 
 	<insert id="save" parameterType="GridData">
 		insert into LTE_GRID_USER_NUM
-		(SDATE,REGIONTYPE,REGION,GRIDX,GRIDY,LONGITUDE,LATITUDE,IMEI_NUM,USER_RATIO,TOTALUSERS,RATIO_MR)
+		(SDATE,REGIONTYPE,REGION,GRIDX,GRIDY,LONGITUDE,LATITUDE,IMEI_NUM,USER_RATIO,TOTALUSERS)
 		values (#{sdate,jdbcType=VARCHAR},
 		#{regiontype,jdbcType=VARCHAR},
 		#{region,jdbcType=VARCHAR},
@@ -15,8 +15,7 @@
 		#{latitude,jdbcType=DOUBLE},
 		#{imsi_num,jdbcType=DOUBLE},
 		#{ratio,jdbcType=DOUBLE},
-		#{totalusers,jdbcType=DOUBLE},
-		#{ratio_mr,jdbcType=DOUBLE}
+		#{totalusers,jdbcType=DOUBLE}
 		)
 	</insert>
 

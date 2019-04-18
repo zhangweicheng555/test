@@ -5,17 +5,19 @@ package com.boot.security.server.model;
  */
 public class GridData {
 
-	private String sdate;// 日期
-	private String regiontype;// 区域
-	private String region;// 场馆编号
-	private double gridx;// 栅格坐标x
-	private double gridy;// 栅格坐标y
 	private double longitude;// 经度
 	private double latitude;// 纬度
+	private String regiontype;// 区域 Indoor Outdoor
+	private String floorno;//
+	private String region;// 场馆编号
 	private double imsi_num;// 该栅格内终端IMEI号个数
-	private double ratio_mr;// 
 	private double ratio;// 移动用户占比
 	private double totalusers;// 总用户数
+	private String sdate;// 日期
+	private double gridx;// 栅格坐标x
+	private double gridy;// 栅格坐标y
+	private String scenario;//
+	private String city;//
 
 	public String getSdate() {
 		return sdate;
@@ -81,14 +83,6 @@ public class GridData {
 		this.imsi_num = imsi_num;
 	}
 
-	public double getRatio_mr() {
-		return ratio_mr;
-	}
-
-	public void setRatio_mr(double ratio_mr) {
-		this.ratio_mr = ratio_mr;
-	}
-
 	public double getRatio() {
 		return ratio;
 	}
@@ -105,20 +99,47 @@ public class GridData {
 		this.totalusers = totalusers;
 	}
 
-	public GridData(String sdate, String regiontype, String region, double gridx, double gridy, double longitude,
-			double latitude, double imsi_num, double ratio_mr, double ratio, double totalusers) {
+	public String getScenario() {
+		return scenario;
+	}
+
+	public void setScenario(String scenario) {
+		this.scenario = scenario;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getFloorno() {
+		return floorno;
+	}
+
+	public void setFloorno(String floorno) {
+		this.floorno = floorno;
+	}
+
+	public GridData(double longitude, double latitude, String regiontype, String floorno, String region,
+			double imsi_num, double ratio, double totalusers, String sdate, double gridx, double gridy, String scenario,
+			String city) {
 		super();
-		this.sdate = sdate;
-		this.regiontype = regiontype;
-		this.region = region;
-		this.gridx = gridx;
-		this.gridy = gridy;
 		this.longitude = longitude;
 		this.latitude = latitude;
+		this.regiontype = regiontype;
+		this.floorno = floorno;
+		this.region = region;
 		this.imsi_num = imsi_num;
-		this.ratio_mr = ratio_mr;
 		this.ratio = ratio;
 		this.totalusers = totalusers;
+		this.sdate = sdate;
+		this.gridx = gridx;
+		this.gridy = gridy;
+		this.scenario = scenario;
+		this.city = city;
 	}
 
 	public GridData() {

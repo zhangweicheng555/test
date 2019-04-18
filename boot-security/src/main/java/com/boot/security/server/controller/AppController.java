@@ -4,14 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.config.ScheduledConfig;
 import com.boot.security.server.dao.GridDataDao;
@@ -41,6 +35,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @RequestMapping("/app")
 public class AppController {
 
+	
+	//ALL  ZGG_B1 ,ZGG_F1,ZGG_F2  都是indoor
+	
 	// 初始化场馆编号
 	public final static List<String> numList = new ArrayList<String>(
 			Arrays.asList("All", "1", "2", "3", "4.1", "4.2", "5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2",
