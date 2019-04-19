@@ -35,9 +35,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @RequestMapping("/app")
 public class AppController {
 
-	
-	//ALL  ZGG_B1 ,ZGG_1F,ZGG_2F  都是indoor
-	
+	// ALL ZGG_B1,ZGG_1F,ZGG_2F 都是indoor
+
 	// 初始化场馆编号
 	public final static List<String> numList = new ArrayList<String>(
 			Arrays.asList("All", "1", "2", "3", "4.1", "4.2", "5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2",
@@ -48,6 +47,10 @@ public class AppController {
 			Arrays.asList("Indoor", "1", "2", "3", "4.1", "4.2", "5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2",
 					"NH", "EH", "WH", "Outdoor", "V1_1", "V1_2", "V1_3", "V1_4", "V2_1", "V2_2", "V2_3", "V3_1", "V3_2",
 					"V3_3", "V3_4", "V3_5", "V3_6", "V3_7", "V4_1", "V4_2", "V4_3", "V4_4", "V4_5", "V4_6", "V5"));
+
+	public final static List<String> numListNew = new ArrayList<String>(Arrays.asList("ZGG_B1", "ZGG_1F", "ZGG_2F"));
+	public final static List<String> numListNew1 = new ArrayList<String>(
+			Arrays.asList("ZGG_B11", "ZGG_1F1", "ZGG_2F1"));
 
 	@Autowired
 	private GridDataService gridDataService;
@@ -198,7 +201,7 @@ public class AppController {
 	}
 
 	/**
-	 * 2、优化使用 接口2根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
+	 * 先不使用这个 2、优化使用 接口2根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
 	 */
 	@ApiOperation(value = "接口2:根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。", notes = "据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数")
 	@ApiImplicitParams({
@@ -267,7 +270,7 @@ public class AppController {
 	}
 
 	/**
-	 * 2、接口2根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。
+	 * 使用这个 2、接口2根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 结束时间是数据库的最大时间
 	 */
 	@ApiOperation(value = "接口2:根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。", notes = "据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数")
 	@ApiImplicitParams({
@@ -276,8 +279,9 @@ public class AppController {
 			@ApiImplicitParam(name = "regionStr", value = "场馆编号(多个以逗号分隔)", dataType = "string", required = true) })
 	@RequestMapping(value = "/queryPeopleNumByTimeRange", method = RequestMethod.GET)
 	public Map<String, Object> queryPeopleNumByTimeRange(
-			@RequestParam(value = "beginDate", required = true) String beginDateStr,
+			@RequestParam(value = "beginDate", required = true) String beginDate,
 			@RequestParam(value = "minute", required = true) int minute,
+			@RequestParam(value = "endDate", required = false) String endDate,
 			@RequestParam(value = "regionStr", required = true) String regionStr) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -285,52 +289,92 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		map.put("item", new ArrayList<>());
 		try {
-			String endDateStr = gridDataService.queryMaxDate();
-			List<String> listDates = MyUtil.getDateStrList(beginDateStr, endDateStr, minute);
+			if (StringUtils.isBlank(endDate)) {
+				endDate = gridDataService.queryMaxDate();
+			}
+			List<String> listDates = MyUtil.getDateStrList(beginDate, endDate, minute);
+
 			if (listDates.size() > 0) {
-				List<Map<String, Object>> listMaps = new ArrayList<>();
-
-				String beginDate = listDates.get(0);
-				String endDate = listDates.get(listDates.size() - 1);
-
 				Double numPercent = 0.0;
 				if (BootConstant.People_Num_Percent > 0) {
 					numPercent = BootConstant.People_Num_Percent;
 				} else {
 					numPercent = null;
 				}
-				if (StringUtils.isNoneBlank(regionStr)) {
-					if (("all").equals(regionStr)) {
-						String regionStrs = "";
-						for (String region : ScheduledConfig.numList1) {
-							if (StringUtils.isNoneBlank(regionStrs)) {
-								regionStrs = regionStrs + "," + region;
-							} else {
-								regionStrs = region;
-							}
-						}
-						regionStr = regionStrs;
-					}
-					String[] regionStrs = regionStr.trim().split(",");
-					for (int i = 0; i < regionStrs.length; i++) {
-						Map<String, Object> map1 = new HashMap<>();
-						map1.put("name", regionStrs[i]);
-						List<Double> listDouble = new ArrayList<>();
-
-						/*** 查询这个场馆对应的所有的日期 */
-						List<String> datesStr = gridDataDao.findDatesStr(beginDate, endDate, regionStrs[i]);
-						for (String date : listDates) {
-							Double doubleNum = findGridPeopleNumClusterNew(datesStr, date, regionStrs[i], numPercent);
-							listDouble.add(doubleNum);
-						}
-						map1.put("item", listDouble);
-						listMaps.add(map1);
-					}
-				}
-
+				List<Map<String, Object>> listMaps = gridDataService.queryGridNumBetData(regionStr.split(","),
+						beginDate,endDate, numPercent);
 				if (listMaps != null && listMaps.size() > 0) {
-					// 处理总和
-					handleListMap(listMaps);
+					// ZGG_B1,ZGG_1F,ZGG_2F
+					Map<String, Integer> zgb1Map = new HashMap<>();
+					Map<String, Integer> zg1fMap = new HashMap<>();
+					Map<String, Integer> zg2fMap = new HashMap<>();// 将相同场馆号的数据 化为一个map
+
+					for (Map<String, Object> modelMap : listMaps) {
+						String region = modelMap.get("region").toString();
+						String date = modelMap.get("date").toString();
+						Integer userCount = Integer.valueOf(modelMap.get("userCount").toString());
+						if (("ZGG_B1").equals(region)) {
+							zgb1Map.put(date, userCount);
+						}
+						if (("ZGG_1F").equals(region)) {
+							zg1fMap.put(date, userCount);
+						}
+						if (("ZGG_2F").equals(region)) {
+							zg2fMap.put(date, userCount);
+						}
+					}
+
+					List<Integer> zbOne = new ArrayList<>();
+					List<Integer> zfOne = new ArrayList<>();
+					List<Integer> zfTwo = new ArrayList<>();
+					List<Integer> indoorAll = new ArrayList<>();
+
+					// 每个场馆处理json格式
+					for (String dateKey : listDates) {
+						int numAll = 0;
+						if (!zgb1Map.containsKey(dateKey)) {
+							zbOne.add(0);
+						} else {
+							zbOne.add(zgb1Map.get(dateKey));
+							numAll += zgb1Map.get(dateKey);
+						}
+
+						if (!zg1fMap.containsKey(dateKey)) {
+							zfOne.add(0);
+						} else {
+							zfOne.add(zg1fMap.get(dateKey));
+							numAll += zg1fMap.get(dateKey);
+						}
+
+						if (!zg2fMap.containsKey(dateKey)) {
+							zfTwo.add(0);
+						} else {
+							zfTwo.add(zg2fMap.get(dateKey));
+							numAll += zg2fMap.get(dateKey);
+						}
+						indoorAll.add(numAll);
+					}
+
+					listMaps.clear();
+					Map<String, Object> jsonMap1 = new HashMap<>();
+					jsonMap1.put("name", "Indoor");
+					jsonMap1.put("item", indoorAll);
+					listMaps.add(jsonMap1);
+					
+					Map<String, Object> jsonMap2 = new HashMap<>();
+					jsonMap2.put("name", "ZGG_B1");
+					jsonMap2.put("item", zbOne);
+					listMaps.add(jsonMap2);
+					
+					Map<String, Object> jsonMap3 = new HashMap<>();
+					jsonMap3.put("name", "ZGG_1F");
+					jsonMap3.put("item", zfOne);
+					listMaps.add(jsonMap3);
+					
+					Map<String, Object> jsonMap4 = new HashMap<>();
+					jsonMap4.put("name", "ZGG_2F");
+					jsonMap4.put("item", zfTwo);
+					listMaps.add(jsonMap4);
 					map.put("item", listMaps);
 				}
 			} else {
@@ -358,47 +402,25 @@ public class AppController {
 
 	@SuppressWarnings("unchecked")
 	private void handleListMap(List<Map<String, Object>> listMaps) {
-
 		Map<String, Object> mapOne = new HashMap<>();
 		mapOne.put("name", "Indoor");
-		List<Double> listNew = new ArrayList<Double>();
+		List<Integer> listNew = new ArrayList<Integer>();
 
 		for (int i = 0; i < 16; i++) {
 			Map<String, Object> map = listMaps.get(i);
-			List<Double> listM = (List<Double>) map.get("item");
+			List<Integer> listM = (List<Integer>) map.get("userCount");
 			if (i == 0) {
 				listNew = listM;
 			} else {
-				List<Double> list = new ArrayList<>();
+				List<Integer> list = new ArrayList<>();
 				for (int j = 0; j < listNew.size(); j++) {
 					list.add(j, listNew.get(j) + listM.get(j));
 				}
 				listNew = list;
 			}
 		}
-
-		Map<String, Object> mapTwo = new HashMap<>();
-		mapTwo.put("name", "Outdoor");
-		List<Double> listTwo = new ArrayList<Double>();
-
-		for (int i = 16; i < 37; i++) {
-			Map<String, Object> map = listMaps.get(i);
-			List<Double> listM = (List<Double>) map.get("item");
-			if (i == 16) {
-				listTwo = listM;
-			} else {
-				List<Double> list = new ArrayList<>();
-				for (int j = 0; j < listTwo.size(); j++) {
-					list.add(j, listTwo.get(j) + listM.get(j));
-				}
-				listTwo = list;
-			}
-		}
-
 		mapOne.put("item", listNew);
 		listMaps.add(0, mapOne);
-		mapTwo.put("item", listTwo);
-		listMaps.add(17, mapTwo);
 	}
 
 	/**
@@ -478,15 +500,15 @@ public class AppController {
 	}
 
 	/**
-	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数。 各个场馆最新的总人数 这里面有个问题 就是场馆的时间可能不一致
-	 * 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间 reqDate 没用 正式服
+	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间
+	 * reqDate 最大时间可传入可不传入 默认是最大时间
 	 */
 	@ApiOperation(value = "接口1:获取所有场馆的各自在馆人数和所有场馆总人数", notes = "所有场馆最后时间的各自在馆人数和所有场馆总人数")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "reqDate", value = "时间(正式服无效(随意指定),但未必传参数)", dataType = "string", required = true) })
+			@ApiImplicitParam(name = "reqDate", value = "时间(非必填，默认最大时间)", dataType = "string", required = false) })
 	@RequestMapping(value = "/queryGridPeopleNumData", method = RequestMethod.GET)
 	public Map<String, Object> queryGridPeopleNumData(
-			@RequestParam(value = "reqDate", required = true) String reqDate) {
+			@RequestParam(value = "reqDate", required = false) String reqDate) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
@@ -495,87 +517,45 @@ public class AppController {
 		String maxDate = null;
 		try {
 			if (StringUtils.isBlank(reqDate)) {
-				map.put("status", 2);
-				map.put("msg", "未传入请求的参数:reqDate:格式(20180824234600)");
-			} else {
-				List<Double> peopleParameterList = new ArrayList<Double>();
-				List<Map<String, Object>> gridMap = gridDataService.queryGridPeopleNumquick();
-
-				if (gridMap != null && gridMap.size() > 0) {
-					Map<String, Object> map3 = gridMap.get(0);
-					maxDate = (String) map3.get("times");
-
-					List<String> list = ScheduledConfig.numList1;
-					for (String region : list) {
-						for (Map<String, Object> map2 : gridMap) {
-							String key = String.valueOf(map2.get("region"));
-							if (region.equals(key)) {
-								Double num = Double.valueOf(map2.get("num").toString());
-								peopleParameterList.add(num);
-								break;
-							}
-						}
-					}
-
-					Double countIn = 0.0;
-					for (int i = 0; i < 16; i++) {
-						countIn += peopleParameterList.get(i);
-					}
-					Double countOut = 0.0;
-					for (int j = 16; j < 37; j++) {
-						countOut += peopleParameterList.get(j);
-					}
-
-					peopleParameterList.add(0, countIn);
-					peopleParameterList.add(17, countOut);
-
-				} else {// 全部0
-					peopleParameterList = new ArrayList<Double>() {
-						{
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-							add(0.0);
-						}
-					};
-				}
-				map.put("peopleParameterList", peopleParameterList);
+				maxDate = gridDataService.queryMaxDate();
 			}
+			List<Integer> peopleParameterList = new ArrayList<Integer>();
+			List<Map<String, Object>> gridMap = gridDataService
+					.queryGridPeopleNumquick(numListNew.toArray(new String[numListNew.size()]), maxDate);
+			List<String> list = AppController.numListNew;
+			if (gridMap != null && gridMap.size() > 0) {
+				Map<String, Object> map3 = gridMap.get(0);
+				maxDate = map3.get("times").toString();
+
+				boolean flag = true;
+				for (String region : list) {
+					for (Map<String, Object> map2 : gridMap) {
+						String key = map2.get("region").toString();
+						if (region.equals(key)) {
+							Integer num = Integer.valueOf(map2.get("num").toString());
+							peopleParameterList.add(num);
+							flag = false;
+							break;
+						}
+					}
+					if (flag) {
+						peopleParameterList.add(0);
+						flag = false;
+					}
+				}
+
+				Integer countAll = 0;
+				for (Integer eveNum : peopleParameterList) {
+					countAll += eveNum;
+				}
+				peopleParameterList.add(0, countAll);
+			} else {// 全部0
+				for (String region : list) {
+					peopleParameterList.add(0);
+				}
+				peopleParameterList.add(0);
+			}
+			map.put("peopleParameterList", peopleParameterList);
 		} catch (Exception e) {
 			map.put("status", 2);
 			map.put("msg", "系统异常:" + e.getLocalizedMessage());
@@ -585,8 +565,7 @@ public class AppController {
 	}
 
 	/**
-	 * 传入场馆编号，返回栅格集合 对接接口 
-	 * 接口4 获取指定场馆的栅格数据。 返回各个长场馆 最新的数据 x y 并且 用户大于0
+	 * 传入场馆编号，返回栅格集合 对接接口 接口4 获取指定场馆的栅格数据。 返回各个长场馆 最新的数据 x y 并且 用户大于0
 	 */
 	@ApiOperation(value = "接口4:获取指定场馆的栅格数据", notes = "获取指定场馆的栅格数据，多个以逗号分割")
 	@ApiImplicitParams({

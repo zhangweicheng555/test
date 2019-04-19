@@ -13,10 +13,6 @@ public class GridMapperServiceImpl implements GridMapperService {
 	@Autowired
 	private GridMapperDao gridMapperDao;
 
-	@Override
-	public void save(GridMapper gridMapper) {
-		gridMapperDao.save(gridMapper);
-	}
 
 	@Override
 	public void changeData(int x, int y, String id) {

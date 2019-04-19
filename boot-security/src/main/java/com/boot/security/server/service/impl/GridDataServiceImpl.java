@@ -257,14 +257,14 @@ public class GridDataServiceImpl implements GridDataService {
 	}
 	
 	@Override
-	public List<Map<String, Object>> queryGridPeopleNumquick() {
+	public List<Map<String, Object>> queryGridPeopleNumquick(String[] regionArr,String maxDate) {
 		Double numPercent = 0.0;
 		if (BootConstant.People_Num_Percent > 0) {
 			numPercent = BootConstant.People_Num_Percent;
 		} else {
 			numPercent = null;
 		}
-		return gridDataDao.queryGridPeopleNumquick(numPercent);
+		return gridDataDao.queryGridPeopleNumquick(numPercent,regionArr,maxDate);
 	}
 
 	@Override
@@ -377,5 +377,13 @@ public class GridDataServiceImpl implements GridDataService {
 	public List<String> queryHiDates(String beginDateStr, String endDateStr, String region) {
 
 		return gridDataDao.queryHiDates(beginDateStr, endDateStr, region);
+	}
+
+	/**
+	 * 接口2最新方法
+	 */
+	@Override
+	public List<Map<String, Object>> queryGridNumBetData(String[] regionArr, String beginDate,String endDate,Double numPercent) {
+		return gridDataDao.queryGridNumBetData(regionArr,beginDate,endDate,numPercent);
 	}
 }

@@ -10,7 +10,6 @@ import com.boot.security.server.model.GridMapper;
 @Mapper
 public interface GridMapperDao {
 
-	public void save(GridMapper gridMapper);
 
 	public void changeData(@Param("indexx") int x, @Param("indexy") int y, @Param("id") String id);
 

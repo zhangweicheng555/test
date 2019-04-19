@@ -21,7 +21,7 @@ public interface GridDataService {
 
 	public Double queryGridPeopleNumDataNew(String region, String maxDate);
 	
-	public List<Map<String, Object>> queryGridPeopleNumquick();
+	public List<Map<String, Object>> queryGridPeopleNumquick(String[] regionArr,String maxDate);
 
 	public List<Map<String, Object>> queryGridWarnData(String warnNum,String maxDate);
 
@@ -51,4 +51,12 @@ public interface GridDataService {
 	public Map<String, Object> getHiMapAll(String region, Double numPercent, String dateNow);
 
 	public List<String> queryHiDates(String beginDateStr, String endDateStr, String region);
+
+	
+	/**
+	* @Description: 接口2最新方法
+	* @author weichengz
+	* @date 2019年4月19日 上午10:01:30
+	 */
+	public List<Map<String, Object>> queryGridNumBetData(String[] split, String beginDate,String endDate,Double numPercent);
 }

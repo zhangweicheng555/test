@@ -49,6 +49,49 @@
 		
 	</select>
 	
+	
+	
+	<select id="queryGridNumBetData" resultType="java.util.Map">
+		<if test="numPercent != null">
+			select 
+			    d.stadium_no as "region"
+			    ,d.statistics_time as "date"
+			    ,nvl(sum(ceil(d.IMEI_NUM/#{numPercent})),0)  as "userCount"
+		    from LTE_GRID_USER_NUM d 
+		    inner join GRIDMAPPER m on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		    where  
+               d.area_type in ('Indoor','Outdoor') 
+               and d.statistics_time between #{beginDate}  and  #{endDate}
+      		   and  d.stadium_no in
+			        <foreach collection="regionArr" item="region" index="index"
+			            open="(" close=")" separator=",">
+			            #{region}
+			        </foreach>
+			   and ceil(d.IMEI_NUM/d.USER_RATIO) &gt; 0
+			group by d.stadium_no,d.statistics_time
+        </if>
+        
+		<if test="numPercent == null">
+			
+			select 
+			    d.stadium_no as "region" 
+			     ,d.statistics_time as "date"
+			      ,nvl(sum(ceil(d.IMEI_NUM/d.USER_RATIO)),0) as "userCount"
+			       from LTE_GRID_USER_NUM d inner join GRIDMAPPER m on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY 
+			       where d.area_type in ('Indoor','Outdoor') 
+			             and d.statistics_time between #{beginDate}  and  #{endDate}
+			             and d.stadium_no in 
+			             	<foreach collection="regionArr" item="region" index="index"
+					            open="(" close=")" separator=",">
+					            #{region}
+					        </foreach>
+			             and ceil(d.IMEI_NUM/d.USER_RATIO) &gt; 0 
+			group by d.stadium_no,d.statistics_time
+			
+        </if> 
+		
+	</select>
+	
 	<select id="queryGridDataByTimeRegion" resultType="CommonModel">
 		<if test="numPercent != null">
 			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/#{numPercent}) as "userCount",d.stadium_no as "region"
@@ -147,29 +190,35 @@
 			,nvl(sum(ceil(d.IMEI_NUM/#{numPercent})),0)  as "num"
 			from LTE_GRID_USER_NUM d 
 			inner join GRIDMAPPER m on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-			where d.stadium_no in(	
-			 '1', '2', '3', '4.1', '4.2', '5.1', '5.2', '6.1', '6.2', '7.1', '7.2', '8.1', '8.2','NH', 'EH', 'WH', 'V1_1', 'V1_2', 'V1_3', 'V1_4', 'V2_1', 'V2_2', 'V2_3', 'V3_1', 'V3_2', 'V3_3',
-			 'V3_4', 'V3_5', 'V3_6', 'V3_7', 'V4_1', 'V4_2', 'V4_3', 'V4_4', 'V4_5', 'V4_6', 'V5'
-			)
+			where d.stadium_no in
+			
+			 <foreach collection="regionArr" item="region" index="index"
+	            open="(" close=")" separator=",">
+	            #{region}
+	        </foreach>
+			
 			and d.area_type in ('Indoor','Outdoor') 
-			and d.statistics_time=(select max(d.statistics_time) from LTE_GRID_USER_NUM d where  d.area_type in ('Indoor','Outdoor'))
+			and d.statistics_time=#{maxDate}
 			group by d.stadium_no,d.statistics_time
 
         </if> 
+        
 		<if test="numPercent == null">
-					
 			select 
 			d.stadium_no as "region"
 			,d.statistics_time as "times"
 			,nvl(sum(ceil(d.IMEI_NUM/d.USER_RATIO)),0)  as "num"
 			from LTE_GRID_USER_NUM d 
 			inner join GRIDMAPPER m on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
-			where d.stadium_no in(	
-			 '1', '2', '3', '4.1', '4.2', '5.1', '5.2', '6.1', '6.2', '7.1', '7.2', '8.1', '8.2','NH', 'EH', 'WH', 'V1_1', 'V1_2', 'V1_3', 'V1_4', 'V2_1', 'V2_2', 'V2_3', 'V3_1', 'V3_2', 'V3_3',
-			 'V3_4', 'V3_5', 'V3_6', 'V3_7', 'V4_1', 'V4_2', 'V4_3', 'V4_4', 'V4_5', 'V4_6', 'V5'
-			)
+			where d.stadium_no in
+			
+			 <foreach collection="regionArr" item="region" index="index"
+	            open="(" close=")" separator=",">
+	            #{region}
+	        </foreach>
+			
 			and d.area_type in ('Indoor','Outdoor') 
-			and d.statistics_time=(select max(d.statistics_time) from LTE_GRID_USER_NUM d where  d.area_type in ('Indoor','Outdoor'))
+			and d.statistics_time=#{maxDate}
 			group by d.stadium_no,d.statistics_time
 			
         </if>

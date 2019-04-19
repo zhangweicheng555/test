@@ -27,7 +27,7 @@ public interface GridDataDao {
 	public Double queryGridPeopleNum(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
 
-	public List<Map<String, Object>> queryGridPeopleNumquick(@Param("numPercent") Double numPercent);
+	public List<Map<String, Object>> queryGridPeopleNumquick(@Param("numPercent") Double numPercent, @Param("regionArr") String[] regionArr,@Param("maxDate") String maxDate);
 
 	public Double queryGridPeopleNumAll(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
@@ -89,5 +89,7 @@ public interface GridDataDao {
 
 	public List<String> queryHiDates(@Param("beginDate") String beginDateStr, @Param("endDate") String endDateStr,
 			@Param("region") String region);
+
+	public List<Map<String, Object>> queryGridNumBetData(@Param("regionArr") String[] regionArr,@Param("beginDate")  String beginDate,@Param("endDate") String endDate,@Param("numPercent")   Double numPercent);
 
 }
