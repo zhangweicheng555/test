@@ -273,50 +273,13 @@ public class GridDataServiceImpl implements GridDataService {
 		Double flag1 = Double.valueOf(warnNums[0]);
 		Double flag2 = Double.valueOf(warnNums[1]);
 		Double flag3 = Double.valueOf(warnNums[2]);
-		Double flag4 = Double.valueOf(warnNums[3]);
-		Double flag5 = Double.valueOf(warnNums[4]);
-		Double flag6 = Double.valueOf(warnNums[5]);
-		Double flag7 = Double.valueOf(warnNums[6]);
-		Double flag8 = Double.valueOf(warnNums[7]);
-		Double flag9 = Double.valueOf(warnNums[8]);
-		Double flag10 = Double.valueOf(warnNums[9]);
-		Double flag11 = Double.valueOf(warnNums[10]);
-		Double flag12 = Double.valueOf(warnNums[11]);
-		Double flag13 = Double.valueOf(warnNums[12]);
-		Double flag14 = Double.valueOf(warnNums[13]);
-		Double flag15 = Double.valueOf(warnNums[14]);
-		Double flag16 = Double.valueOf(warnNums[15]);
-		Double flag17 = Double.valueOf(warnNums[16]);
-		Double flag18 = Double.valueOf(warnNums[17]);
-		Double flag19 = Double.valueOf(warnNums[18]);
-		Double flag20 = Double.valueOf(warnNums[19]);
-		Double flag21 = Double.valueOf(warnNums[20]);
-		Double flag22 = Double.valueOf(warnNums[21]);
-		Double flag23 = Double.valueOf(warnNums[22]);
-		Double flag24 = Double.valueOf(warnNums[23]);
-		Double flag25 = Double.valueOf(warnNums[24]);
-		Double flag26 = Double.valueOf(warnNums[25]);
-		Double flag27 = Double.valueOf(warnNums[26]);
-		Double flag28 = Double.valueOf(warnNums[27]);
-		Double flag29 = Double.valueOf(warnNums[28]);
-		Double flag30 = Double.valueOf(warnNums[29]);
-		Double flag31 = Double.valueOf(warnNums[30]);
-		Double flag32 = Double.valueOf(warnNums[31]);
-		Double flag33 = Double.valueOf(warnNums[32]);
-		Double flag34 = Double.valueOf(warnNums[33]);
-		Double flag35 = Double.valueOf(warnNums[34]);
-		Double flag36 = Double.valueOf(warnNums[35]);
-		Double flag37 = Double.valueOf(warnNums[36]);
 		Double numPercent = 0.0;
 		if (BootConstant.People_Num_Percent > 0) {
 			numPercent = BootConstant.People_Num_Percent;
 		} else {
 			numPercent = null;
 		}
-		return gridDataDao.queryGridWarnData(flag1, flag2, flag3, flag4, flag5, flag6, flag7, flag8, flag9, flag10,
-				flag11, flag12, flag13, flag14, flag15, flag16, flag17, flag18, flag19, flag20, flag21, flag22, flag23,
-				flag24, flag25, flag26, flag27, flag28, flag29, flag30, flag31, flag32, flag33, flag34, flag35, flag36,
-				flag37, maxDate, numPercent);
+		return gridDataDao.queryGridWarnData(flag1, flag2, flag3,  maxDate, numPercent);
 	}
 
 	@Override
@@ -385,5 +348,10 @@ public class GridDataServiceImpl implements GridDataService {
 	@Override
 	public List<Map<String, Object>> queryGridNumBetData(String[] regionArr, String beginDate,String endDate,Double numPercent) {
 		return gridDataDao.queryGridNumBetData(regionArr,beginDate,endDate,numPercent);
+	}
+
+	@Override
+	public List<String> testQueryDbTime() {
+		return gridDataDao.testQueryDbTime();
 	}
 }

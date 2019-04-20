@@ -59,4 +59,6 @@ public interface GridDataService {
 	* @date 2019年4月19日 上午10:01:30
 	 */
 	public List<Map<String, Object>> queryGridNumBetData(String[] split, String beginDate,String endDate,Double numPercent);
+	
+	public List<String> testQueryDbTime();
 }

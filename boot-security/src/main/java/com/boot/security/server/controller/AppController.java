@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.boot.security.server.common.BootConstant;
-import com.boot.security.server.config.ScheduledConfig;
 import com.boot.security.server.dao.GridDataDao;
 import com.boot.security.server.model.AnalysisModel;
 import com.boot.security.server.service.GridDataService;
@@ -49,8 +48,7 @@ public class AppController {
 					"V3_3", "V3_4", "V3_5", "V3_6", "V3_7", "V4_1", "V4_2", "V4_3", "V4_4", "V4_5", "V4_6", "V5"));
 
 	public final static List<String> numListNew = new ArrayList<String>(Arrays.asList("ZGG_B1", "ZGG_1F", "ZGG_2F"));
-	public final static List<String> numListNew1 = new ArrayList<String>(
-			Arrays.asList("ZGG_B11", "ZGG_1F1", "ZGG_2F1"));
+	public final static List<String> numListNew1 = new ArrayList<String>(Arrays.asList("ZGG_B11", "ZGG_1F1", "ZGG_2F1"));
 
 	@Autowired
 	private GridDataService gridDataService;
@@ -426,7 +424,7 @@ public class AppController {
 	/**
 	 * 接口8 获取当前所有场馆的告警信息。 根据传入的告警数量 获取所有的栅格数据 最大时间的
 	 */
-	@ApiOperation(value = "接口8:获取当前所有场馆的告警信息", notes = "根据传入的告警数量(37个, 获取对应栅格最大时间的数据")
+	@ApiOperation(value = "接口8:获取当前所有场馆的告警信息", notes = "根据传入的告警数量(3个, 获取对应栅格最大时间的数据")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "warnNum", value = "告警人数多个以逗号分割", dataType = "string", required = true) })
 	@RequestMapping(value = "/queryGridWarnData", method = RequestMethod.GET)
@@ -441,9 +439,9 @@ public class AppController {
 				map.put("msg", "未传入告警数量字符串warnNum");
 			} else {
 				String[] warnNums = warnNum.split(",");
-				if (warnNums.length != 37) {
+				if (warnNums.length != 3) {
 					map.put("status", 2);
-					map.put("msg", "请传入37个场馆对应的告警数量");
+					map.put("msg", "请传入3个场馆对应的告警数量");
 				} else {
 					String maxDate = gridDataService.queryMaxDate();
 					if (StringUtils.isBlank(maxDate)) {
@@ -505,27 +503,30 @@ public class AppController {
 	 */
 	@ApiOperation(value = "接口1:获取所有场馆的各自在馆人数和所有场馆总人数", notes = "所有场馆最后时间的各自在馆人数和所有场馆总人数")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "reqDate", value = "时间(非必填，默认最大时间)", dataType = "string", required = false) })
+			@ApiImplicitParam(name = "reqDate", value = "时间(非必填，默认最大时间)", dataType = "string", required = true) })
 	@RequestMapping(value = "/queryGridPeopleNumData", method = RequestMethod.GET)
 	public Map<String, Object> queryGridPeopleNumData(
-			@RequestParam(value = "reqDate", required = false) String reqDate) {
+			@RequestParam(value = "reqDate", required = true) String reqDate) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
 		map.put("time", "");
 		map.put("peopleParameterList", "");
-		String maxDate = null;
 		try {
 			if (StringUtils.isBlank(reqDate)) {
-				maxDate = gridDataService.queryMaxDate();
+				map.put("status", 2);
+				map.put("msg", "未传入日期参数：reqDate");
+			}
+			if (("00000000000000").equals(reqDate)) {
+				reqDate = gridDataService.queryMaxDate();
 			}
 			List<Integer> peopleParameterList = new ArrayList<Integer>();
 			List<Map<String, Object>> gridMap = gridDataService
-					.queryGridPeopleNumquick(numListNew.toArray(new String[numListNew.size()]), maxDate);
+					.queryGridPeopleNumquick(numListNew.toArray(new String[numListNew.size()]), reqDate);
 			List<String> list = AppController.numListNew;
 			if (gridMap != null && gridMap.size() > 0) {
 				Map<String, Object> map3 = gridMap.get(0);
-				maxDate = map3.get("times").toString();
+				reqDate = map3.get("times").toString();
 
 				boolean flag = true;
 				for (String region : list) {
@@ -560,7 +561,7 @@ public class AppController {
 			map.put("status", 2);
 			map.put("msg", "系统异常:" + e.getLocalizedMessage());
 		}
-		map.put("time", maxDate);
+		map.put("time", reqDate);
 		return map;
 	}
 
@@ -808,5 +809,16 @@ public class AppController {
 			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  ");
 		}
 		return map;
+	}
+	
+	
+	/**
+	 * 
+	 * 实测查询数据库的所有时间
+	 * 
+	 */
+	@RequestMapping(value = "/testQueryDbTime", method = RequestMethod.GET)
+	public  List<String> testQueryDbTime() {
+		return gridDataService.testQueryDbTime();
 	}
 }
