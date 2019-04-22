@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.dao.GridDataDao;
 import com.boot.security.server.model.AnalysisModel;
+import com.boot.security.server.model.CommonModel;
 import com.boot.security.server.service.GridDataService;
 import com.boot.security.server.service.RegionService;
 import com.boot.security.server.util.MyUtil;
@@ -48,7 +49,8 @@ public class AppController {
 					"V3_3", "V3_4", "V3_5", "V3_6", "V3_7", "V4_1", "V4_2", "V4_3", "V4_4", "V4_5", "V4_6", "V5"));
 
 	public final static List<String> numListNew = new ArrayList<String>(Arrays.asList("ZGG_B1", "ZGG_1F", "ZGG_2F"));
-	public final static List<String> numListNew1 = new ArrayList<String>(Arrays.asList("ZGG_B11", "ZGG_1F1", "ZGG_2F1"));
+	public final static List<String> numListNew1 = new ArrayList<String>(
+			Arrays.asList("ZGG_2F", "ZGG_1F","ZGG_B1"));
 
 	@Autowired
 	private GridDataService gridDataService;
@@ -57,7 +59,7 @@ public class AppController {
 	private GridDataDao gridDataDao;
 
 	/**
-	 * 五、接口5 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割 warnNum ：废弃
+	 * 五、接口5 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割 warnNum
 	 */
 	@ApiOperation(value = "接口5:指定时间范围和场馆编号获取指定场馆的栅格数据", notes = "指定时间范围和场馆编号/时间范围根据指定的时间粒度切割")
 	@ApiImplicitParams({
@@ -66,8 +68,8 @@ public class AppController {
 			@ApiImplicitParam(name = "minute", value = "时间颗粒", dataType = "int", required = true),
 			@ApiImplicitParam(name = "warnNum", value = "告警人数(废弃)", dataType = "int", required = false),
 			@ApiImplicitParam(name = "region", value = "场馆编号", dataType = "string", required = true) })
-	@RequestMapping(value = "/queryGridDataByTimeRegion", method = RequestMethod.GET)
-	public Map<String, Object> queryGridDataByTimeRegion(
+	@RequestMapping(value = "/queryGridDataByTimeRegionNew", method = RequestMethod.GET)
+	public Map<String, Object> queryGridDataByTimeRegionNew(
 			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
 			@RequestParam(value = "endDateStr", required = true) String endDateStr,
 			@RequestParam(value = "minute", required = true) int minute,
@@ -91,6 +93,81 @@ public class AppController {
 					}
 				}
 				map.put("gridHistoryParameterList", listMaps);
+			} else {
+				map.put("status", 1);
+				map.put("msg", "没有对应条件的数据！");
+			}
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyyMMddHHmmss");
+		}
+		return map;
+	}
+
+	/**
+	 * 五、接口5 最新 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割 warnNum
+	 */
+	@ApiOperation(value = "接口5:指定时间范围和场馆编号获取指定场馆的栅格数据", notes = "指定时间范围和场馆编号/时间范围根据指定的时间粒度切割")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "beginDateStr", value = "开始时间(格式20180909121212)", dataType = "string", required = true),
+			@ApiImplicitParam(name = "endDateStr", value = "结束时间(格式20180909121212)", dataType = "string", required = true),
+			@ApiImplicitParam(name = "minute", value = "时间颗粒", dataType = "int", required = true),
+			@ApiImplicitParam(name = "warnNum", value = "告警人数(废弃)", dataType = "int", required = false),
+			@ApiImplicitParam(name = "region", value = "场馆编号", dataType = "string", required = true) })
+	@RequestMapping(value = "/queryGridDataByTimeRegion", method = RequestMethod.GET)
+	public Map<String, Object> queryGridDataByTimeRegion(
+			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
+			@RequestParam(value = "endDateStr", required = true) String endDateStr,
+			@RequestParam(value = "minute", required = true) int minute,
+			@RequestParam(value = "warnNum", required = false) Double warnNum,
+			@RequestParam(value = "region", required = true) String region) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		map.put("gridHistoryParameterList", new ArrayList<>());
+		try {
+			warnNum = 0.0;
+			List<String> listDates = MyUtil.getDateStrList(beginDateStr, endDateStr, minute);
+			if (listDates.size() > 0) {
+				List<Map<String, Object>> datas = gridDataService.queryGridDataByTimeRegionNew(beginDateStr, endDateStr,
+						region, warnNum);
+				Map<String, List<Map<String, Object>>> beginMaps = new HashMap<>();
+				if (datas != null && datas.size() > 0) {
+					for (Map<String, Object> model : datas) {
+						String dateModel=model.get("date").toString();
+						if (beginMaps.containsKey(dateModel)) {
+							List<Map<String, Object>> dataList = beginMaps.get(dateModel);
+							model.remove("date");
+							dataList.add(model);
+						} else {
+							List<Map<String, Object>> dataList = new ArrayList<>();
+							model.remove("date");
+							dataList.add(model);
+							beginMaps.put(dateModel, dataList);
+						}
+					}
+					List<Map<String, Object>> finalMap=new ArrayList<>();
+					//填充不存在的日期
+					for (String ergodicDate : listDates) {
+						Map<String, Object> mapData=new HashMap<>();
+						if (beginMaps.containsKey(ergodicDate)) {
+							List<Map<String, Object>> list = beginMaps.get(ergodicDate);
+							mapData.put("date", ergodicDate);
+							mapData.put("total", list.size());
+							mapData.put("grids", list);
+						}else {
+							mapData.put("date", ergodicDate);
+							mapData.put("total", 0);
+							mapData.put("grids", new ArrayList<>());
+						}
+						finalMap.add(mapData);
+					}
+					map.put("gridHistoryParameterList", finalMap);
+				} else {
+					map.put("status", 1);
+					map.put("msg", "没有对应条件的数据！");
+				}
+				// map.put("gridHistoryParameterList", listMaps);
 			} else {
 				map.put("status", 1);
 				map.put("msg", "没有对应条件的数据！");
@@ -300,7 +377,7 @@ public class AppController {
 					numPercent = null;
 				}
 				List<Map<String, Object>> listMaps = gridDataService.queryGridNumBetData(regionStr.split(","),
-						beginDate,endDate, numPercent);
+						beginDate, endDate, numPercent);
 				if (listMaps != null && listMaps.size() > 0) {
 					// ZGG_B1,ZGG_1F,ZGG_2F
 					Map<String, Integer> zgb1Map = new HashMap<>();
@@ -358,17 +435,17 @@ public class AppController {
 					jsonMap1.put("name", "Indoor");
 					jsonMap1.put("item", indoorAll);
 					listMaps.add(jsonMap1);
-					
+
 					Map<String, Object> jsonMap2 = new HashMap<>();
 					jsonMap2.put("name", "ZGG_B1");
 					jsonMap2.put("item", zbOne);
 					listMaps.add(jsonMap2);
-					
+
 					Map<String, Object> jsonMap3 = new HashMap<>();
 					jsonMap3.put("name", "ZGG_1F");
 					jsonMap3.put("item", zfOne);
 					listMaps.add(jsonMap3);
-					
+
 					Map<String, Object> jsonMap4 = new HashMap<>();
 					jsonMap4.put("name", "ZGG_2F");
 					jsonMap4.put("item", zfTwo);
@@ -687,9 +764,30 @@ public class AppController {
 		map.put("msg", "操作成功！");
 		map.put("peopleHistoryParameterList", new ArrayList<>());
 		try {
-			List<Map<String, Object>> list = regionService.queryDateForMinute(beginDate, endDate, region);
-			if (list.size() > 0) {
-				map.put("peopleHistoryParameterList", list);
+			List<String> listDates = MyUtil.getDateStrList(beginDate, endDate, 1);
+			List<Map<String, Object>> list = regionService.queryDateForMinuteNew(beginDate, endDate, region);
+			List<Map<String, Object>> finalDatas = new ArrayList<>();
+			if (list != null && list.size() > 0) {
+				if (listDates.size() == list.size()) {
+					map.put("peopleHistoryParameterList", list);
+				} else {
+					for (String dateKey : listDates) {
+						for (Map<String, Object> dataMap : list) {
+							String date = dataMap.get("date").toString();
+							if (dateKey.equals(date)) {
+								finalDatas.add(dataMap);
+							}
+							if (dateKey.compareTo(date) < 0) {
+								Map<String, Object> zeroMap = new HashMap<>();
+								zeroMap.put("date", dateKey);
+								zeroMap.put("total", 0);
+								finalDatas.add(zeroMap);
+								break;
+							}
+						}
+					}
+					map.put("peopleHistoryParameterList", finalDatas);
+				}
 			} else {
 				map.put("status", 1);
 				map.put("msg", "没有对应条件的数据！");
@@ -810,15 +908,14 @@ public class AppController {
 		}
 		return map;
 	}
-	
-	
+
 	/**
 	 * 
 	 * 实测查询数据库的所有时间
 	 * 
 	 */
 	@RequestMapping(value = "/testQueryDbTime", method = RequestMethod.GET)
-	public  List<String> testQueryDbTime() {
+	public List<String> testQueryDbTime() {
 		return gridDataService.testQueryDbTime();
 	}
 }

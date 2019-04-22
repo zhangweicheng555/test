@@ -20,6 +20,10 @@ public interface GridDataDao {
 
 	public List<CommonModel> queryGridDataByTimeRegion(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent, @Param("warnNum") Double warnNum);
+	
+	public List<Map<String, Object>> queryGridDataByTimeRegionNew(@Param("minDate") String minDate,@Param("maxDate") String maxDate, @Param("region") String region,
+			@Param("numPercent") Double numPercent, @Param("warnNum") Double warnNum);
+	
 
 	public List<CommonModel> queryGridDataByTimeRegionAll(@Param("dateStr") String dateStr,
 			@Param("region") String region, @Param("numPercent") Double numPercent);
@@ -82,5 +86,9 @@ public interface GridDataDao {
 	public List<String> testQueryDbTime();
 
 	public List<Map<String, Object>> queryGridNumBetData(@Param("regionArr") String[] regionArr,@Param("beginDate")  String beginDate,@Param("endDate") String endDate,@Param("numPercent")   Double numPercent);
+
+	
+	public List<Map<String, Object>> queryDateForMinuteNew(@Param("beginDate") String beginDate,@Param("endDate")  String endDate,@Param("region")   String region,
+			@Param("numPercent")   Double numPercent);
 
 }

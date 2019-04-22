@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.dao.BregionDao;
+import com.boot.security.server.dao.GridDataDao;
 import com.boot.security.server.model.AnalysisCluster;
 import com.boot.security.server.model.AnalysisModel;
 import com.boot.security.server.model.BregionModel;
@@ -24,6 +25,8 @@ public class RegionServiceImpl implements RegionService {
 
 	@Autowired
 	private BregionDao bregionDao;
+	@Autowired
+	private GridDataDao gridDataDao;
 
 	@Override
 	public String queryMaxDate() {
@@ -297,6 +300,18 @@ public class RegionServiceImpl implements RegionService {
 		analysisModel.setGloal10("0,无");
 	}
 
+	
+	@Override
+	public List<Map<String, Object>> queryDateForMinuteNew(String beginDate, String endDate, String region) {
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+		return  gridDataDao.queryDateForMinuteNew(beginDate, endDate, region, numPercent);
+	}
+	
 	@Override
 	public List<Map<String, Object>> queryDateForMinute(String beginDate, String endDate, String region) {
 

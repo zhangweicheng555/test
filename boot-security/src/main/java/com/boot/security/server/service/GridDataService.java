@@ -3,6 +3,8 @@ package com.boot.security.server.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import com.boot.security.server.model.CommonModel;
 import com.boot.security.server.model.GridData;
 
 public interface GridDataService {
@@ -14,6 +16,9 @@ public interface GridDataService {
 	public List<Map<String, Object>> querySingleGridData();
 
 	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum,String minDate);
+	
+	public List<Map<String, Object>> queryGridDataByTimeRegionNew(String minDate,String maxDate, String region, Double warnNum);
+	
 	public Map<String, Object> queryGridDataAll(Date date, String region, String minDate);
 
 	public Map<String, Object> queryGridDataByTimeRegionYh(Date date, String region, Double warnNum,

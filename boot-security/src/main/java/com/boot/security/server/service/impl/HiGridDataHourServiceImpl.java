@@ -37,7 +37,7 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 
 	@Override
 	public long queryCount(HttpSession session) {
-		long countNum=hiGridDataHourDao.queryCount();
+		/*long countNum=hiGridDataHourDao.queryCount();
 		if (session.getAttribute(BootConstant.LTE_Region_NUM_HOUR) != null) {
 			Long beforeNum=(Long) session.getAttribute(BootConstant.LTE_Region_NUM_HOUR);
 			if (countNum > beforeNum) {
@@ -49,7 +49,7 @@ public class HiGridDataHourServiceImpl implements HiGridDataHourService {
 			}
 		}else{
 			session.setAttribute(BootConstant.LTE_Region_NUM_HOUR, countNum);
-		}
+		}*/
 		return 1l;
 	}
 

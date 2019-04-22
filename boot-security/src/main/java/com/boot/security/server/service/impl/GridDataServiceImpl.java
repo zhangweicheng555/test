@@ -97,6 +97,20 @@ public class GridDataServiceImpl implements GridDataService {
 		}
 		return map;
 	}
+	
+	/**
+	 * 正式
+	 */
+	@Override
+	public List<Map<String, Object>> queryGridDataByTimeRegionNew(String minDate,String maxDate, String region, Double warnNum) {
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+		return gridDataDao.queryGridDataByTimeRegionNew(minDate, maxDate, region, numPercent, warnNum);
+	}
 
 	/**
 	 * 正式
