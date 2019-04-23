@@ -20,10 +20,10 @@ public interface GridDataDao {
 
 	public List<CommonModel> queryGridDataByTimeRegion(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent, @Param("warnNum") Double warnNum);
-	
-	public List<Map<String, Object>> queryGridDataByTimeRegionNew(@Param("minDate") String minDate,@Param("maxDate") String maxDate, @Param("region") String region,
-			@Param("numPercent") Double numPercent, @Param("warnNum") Double warnNum);
-	
+
+	public List<Map<String, Object>> queryGridDataByTimeRegionNew(@Param("minDate") String minDate,
+			@Param("maxDate") String maxDate, @Param("region") String region, @Param("numPercent") Double numPercent,
+			@Param("warnNum") Double warnNum);
 
 	public List<CommonModel> queryGridDataByTimeRegionAll(@Param("dateStr") String dateStr,
 			@Param("region") String region, @Param("numPercent") Double numPercent);
@@ -31,7 +31,8 @@ public interface GridDataDao {
 	public Double queryGridPeopleNum(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
 
-	public List<Map<String, Object>> queryGridPeopleNumquick(@Param("numPercent") Double numPercent, @Param("regionArr") String[] regionArr,@Param("maxDate") String maxDate);
+	public List<Map<String, Object>> queryGridPeopleNumquick(@Param("numPercent") Double numPercent,
+			@Param("regionArr") String[] regionArr, @Param("maxDate") String maxDate);
 
 	public Double queryGridPeopleNumAll(@Param("dateStr") String dateStr, @Param("region") String region,
 			@Param("numPercent") Double numPercent);
@@ -42,8 +43,7 @@ public interface GridDataDao {
 	public String queryMaxDate();
 
 	public List<Map<String, Object>> queryGridWarnData(@Param("flag1") Double flag1, @Param("flag2") Double flag2,
-			@Param("flag3") Double flag3, @Param("maxDate") String maxDate,
-			@Param("numPercent") Double numPercent);
+			@Param("flag3") Double flag3, @Param("maxDate") String maxDate, @Param("numPercent") Double numPercent);
 
 	// 0918
 	public String queryBeforeDate();
@@ -82,13 +82,17 @@ public interface GridDataDao {
 
 	public List<String> queryHiDates(@Param("beginDate") String beginDateStr, @Param("endDate") String endDateStr,
 			@Param("region") String region);
-	
+
 	public List<String> testQueryDbTime();
 
-	public List<Map<String, Object>> queryGridNumBetData(@Param("regionArr") String[] regionArr,@Param("beginDate")  String beginDate,@Param("endDate") String endDate,@Param("numPercent")   Double numPercent);
+	public List<Map<String, Object>> queryGridNumBetData(@Param("regionArr") String[] regionArr,
+			@Param("beginDate") String beginDate, @Param("endDate") String endDate,
+			@Param("numPercent") Double numPercent);
 
-	
-	public List<Map<String, Object>> queryDateForMinuteNew(@Param("beginDate") String beginDate,@Param("endDate")  String endDate,@Param("region")   String region,
-			@Param("numPercent")   Double numPercent);
+	public List<Map<String, Object>> queryDateForMinuteNew(@Param("beginDate") String beginDate,
+			@Param("endDate") String endDate, @Param("region") String region, @Param("numPercent") Double numPercent);
+
+	public List<Map<String, Object>> queryDateForMinuteIndoor(@Param("beginDate") String beginDate,
+			@Param("endDate") String endDate, @Param("numPercent") Double numPercent);
 
 }

@@ -300,7 +300,6 @@ public class RegionServiceImpl implements RegionService {
 		analysisModel.setGloal10("0,无");
 	}
 
-	
 	@Override
 	public List<Map<String, Object>> queryDateForMinuteNew(String beginDate, String endDate, String region) {
 		Double numPercent = 0.0;
@@ -309,9 +308,20 @@ public class RegionServiceImpl implements RegionService {
 		} else {
 			numPercent = null;
 		}
-		return  gridDataDao.queryDateForMinuteNew(beginDate, endDate, region, numPercent);
+		return gridDataDao.queryDateForMinuteNew(beginDate, endDate, region, numPercent);
 	}
-	
+
+	@Override
+	public List<Map<String, Object>> queryDateForMinuteIndoor(String beginDate, String endDate) {
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+		return gridDataDao.queryDateForMinuteIndoor(beginDate, endDate, numPercent);
+	}
+
 	@Override
 	public List<Map<String, Object>> queryDateForMinute(String beginDate, String endDate, String region) {
 
@@ -401,45 +411,46 @@ public class RegionServiceImpl implements RegionService {
 		}
 		return list;
 	}
+
 	@Override
 	public List<Map<String, Object>> queryDateForMinuteAll(String beginDate, String endDate, String region) {
-		
+
 		Double numPercent = 0.0;
 		if (BootConstant.People_Num_Percent > 0) {
 			numPercent = BootConstant.People_Num_Percent;
 		} else {
 			numPercent = null;
 		}
-		
+
 		List<Map<String, Object>> datas = bregionDao.queryDateForMinuteAll(beginDate, endDate, region, numPercent);
-		
+
 		List<Map<String, Object>> list = new ArrayList<>();
-		
+
 		if (datas != null && datas.size() > 0) {
 			Map<String, String> entity = handleDatas(datas);
 			for (Map<String, Object> map : datas) {
-				
+
 				String date = (String) map.get("date");
-				
+
 				try {
 					String before = MyUtil.getFiveDate(date, 5);
 					if (entity.containsKey(before)) {
 						// list.add(model);
 						Integer beforeNum = Integer.valueOf(entity.get(before).split("_")[1]);
 						Integer nowNum = Integer.valueOf(entity.get(date).split("_")[1]);
-						
+
 						Integer cha = nowNum - beforeNum;
 						Integer js = cha / 5;
 						Integer dan = cha - js * 4;
-						
+
 						Random rand = new Random();
 						Integer sj = rand.nextInt(5) + 1;
-						
+
 						Integer num1 = 0;
 						Integer num2 = 0;
 						Integer num3 = 0;
 						Integer num4 = 0;
-						
+
 						Integer num = beforeNum + js - sj;
 						// 产生 没有前后的4个数字
 						List<String> dates = MyUtil.getDateStrY(before, date, 1);
