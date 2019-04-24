@@ -186,8 +186,8 @@ public class AppController {
 			@ApiImplicitParam(name = "endDateStr", value = "结束时间(格式20180909121212)", dataType = "string", required = true),
 			@ApiImplicitParam(name = "minute", value = "时间颗粒", dataType = "int", required = true),
 			@ApiImplicitParam(name = "region", value = "场馆编号indoor outdoor", dataType = "string", required = true) })
-	@RequestMapping(value = "/queryGridDataAll", method = RequestMethod.GET)
-	public Map<String, Object> queryGridDataAll(
+	@RequestMapping(value = "/queryGridDataAllOld", method = RequestMethod.GET)
+	public Map<String, Object> queryGridDataAllOld(
 			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
 			@RequestParam(value = "endDateStr", required = true) String endDateStr,
 			@RequestParam(value = "minute", required = true) int minute,
@@ -216,6 +216,89 @@ public class AppController {
 			} else {
 				map.put("status", 2);
 				map.put("msg", "region值未Indoor 或  Outdoor");
+			}
+
+		} catch (Exception e) {
+			map.put("status", 2);
+			map.put("msg", "系统异常查询以下原因:1." + e.getLocalizedMessage() + "  " + "2.传入的日期格式要求为：yyyyMMddHHmmss");
+		}
+		return map;
+	}
+
+	/**
+	 * 五、接口16 最新 根据指定时间范围和场馆编号获取指定场馆的栅格数据。 这个就是返回 指定场馆 某个日期的所有数据 有日期范围 切割 warnNum
+	 */
+	@ApiOperation(value = "接口16:指定时间范围和场馆编号获取指定场馆的栅格数据", notes = "指定时间范围和场馆编号/时间范围根据指定的时间粒度切割")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "beginDateStr", value = "开始时间(格式20180909121212)", dataType = "string", required = true),
+			@ApiImplicitParam(name = "endDateStr", value = "结束时间(格式20180909121212)", dataType = "string", required = true),
+			@ApiImplicitParam(name = "minute", value = "时间颗粒", dataType = "int", required = true),
+			@ApiImplicitParam(name = "region", value = "场馆编号indoor outdoor", dataType = "string", required = true) })
+	@RequestMapping(value = "/queryGridDataAll", method = RequestMethod.GET)
+	public Map<String, Object> queryGridDataAll(
+			@RequestParam(value = "beginDateStr", required = true) String beginDateStr,
+			@RequestParam(value = "endDateStr", required = true) String endDateStr,
+			@RequestParam(value = "minute", required = true) int minute,
+			@RequestParam(value = "region", required = true) String region) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 0);
+		map.put("msg", "操作成功！");
+		map.put("gridHistoryParameterList", new ArrayList<>());
+		try {
+			if (("Indoor").equals(region) || ("Outdoor").equals(region)) {
+				List<String> listDates = MyUtil.getDateStrList(beginDateStr, endDateStr, minute);
+				Map<String, List<Map<String, Object>>> kdatas = new HashMap<>();
+				if (listDates.size() > 0) {
+					List<Map<String, Object>> datas = gridDataService.queryGridDataAllNew(beginDateStr, endDateStr,
+							region);
+					if (datas != null && datas.size() > 0) {
+						for (Map<String, Object> modelMap : datas) {
+							String date = modelMap.get("date").toString();
+							if (kdatas.containsKey(date)) {
+								List<Map<String, Object>> maps = kdatas.get(date);
+								modelMap.remove("date");
+								maps.add(modelMap);
+							} else {
+								List<Map<String, Object>> noMaps=new ArrayList<>();
+								modelMap.remove("date");
+								noMaps.add(modelMap);
+								kdatas.put(date, noMaps);
+							}
+						}
+						if (kdatas.size() > 0) {
+							List<Map<String, Object>> finalDatas = new ArrayList<>();
+							for (String keyDate : listDates) {
+								Map<String, Object> kvMap = new HashMap<>();
+								if (kdatas.containsKey(keyDate)) {
+									List<Map<String, Object>> datasChil = kdatas.get(keyDate);
+									kvMap.clear();
+									kvMap.put("date", keyDate);
+									kvMap.put("total", datasChil.size());
+									kvMap.put("grids", datasChil);
+									finalDatas.add(kvMap);
+								} else {
+									kvMap.clear();
+									kvMap.put("date", keyDate);
+									kvMap.put("total", 0);
+									kvMap.put("grids", new ArrayList<>());
+									finalDatas.add(kvMap);
+								}
+							}
+							map.put("gridHistoryParameterList", finalDatas);
+						} else {
+							map.put("gridHistoryParameterList", new ArrayList<>());
+						}
+					} else {
+						map.put("status", 1);
+						map.put("msg", "没有对应条件的数据！");
+					}
+				} else {
+					map.put("status", 1);
+					map.put("msg", "没有对应条件的数据！");
+				}
+			} else {
+				map.put("status", 2);
+				map.put("msg", "region值为Indoor 或  Outdoor");
 			}
 
 		} catch (Exception e) {
@@ -770,12 +853,12 @@ public class AppController {
 					map.put("peopleHistoryParameterList", list);
 				} else {
 					for (String dateKey : listDates) {
-						boolean flag=true;
+						boolean flag = true;
 						for (Map<String, Object> dataMap : list) {
 							String date = dataMap.get("date").toString();
 							if (dateKey.equals(date)) {
 								finalDatas.add(dataMap);
-								flag=false;
+								flag = false;
 								break;
 							}
 						}
@@ -822,12 +905,12 @@ public class AppController {
 						map.put("peopleHistoryParameterList", list);
 					} else {
 						for (String dateKey : listDates) {
-							boolean flag=true;
+							boolean flag = true;
 							for (Map<String, Object> dataMap : list) {
 								String date = dataMap.get("date").toString();
 								if (dateKey.equals(date)) {
 									finalDatas.add(dataMap);
-									flag=false;
+									flag = false;
 									break;
 								}
 							}

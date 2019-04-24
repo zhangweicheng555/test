@@ -15,20 +15,23 @@ public interface GridDataService {
 
 	public List<Map<String, Object>> querySingleGridData();
 
-	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum,String minDate);
-	
-	public List<Map<String, Object>> queryGridDataByTimeRegionNew(String minDate,String maxDate, String region, Double warnNum);
-	
+	public Map<String, Object> queryGridDataByTimeRegion(Date date, String region, Double warnNum, String minDate);
+
+	public List<Map<String, Object>> queryGridDataByTimeRegionNew(String minDate, String maxDate, String region,
+			Double warnNum);
+
 	public Map<String, Object> queryGridDataAll(Date date, String region, String minDate);
+
+	public List<Map<String, Object>> queryGridDataAllNew(String beginDateStr, String endDateStr, String region);
 
 	public Map<String, Object> queryGridDataByTimeRegionYh(Date date, String region, Double warnNum,
 			List<String> dates);
 
 	public Double queryGridPeopleNumDataNew(String region, String maxDate);
-	
-	public List<Map<String, Object>> queryGridPeopleNumquick(String[] regionArr,String maxDate);
 
-	public List<Map<String, Object>> queryGridWarnData(String warnNum,String maxDate);
+	public List<Map<String, Object>> queryGridPeopleNumquick(String[] regionArr, String maxDate);
+
+	public List<Map<String, Object>> queryGridWarnData(String warnNum, String maxDate);
 
 	public String queryMaxDate();
 
@@ -53,17 +56,18 @@ public interface GridDataService {
 	public void clearFiveCache();
 
 	public Map<String, Object> getHiMap(String region, Double warnNum, Double numPercent, String dateNow);
+
 	public Map<String, Object> getHiMapAll(String region, Double numPercent, String dateNow);
 
 	public List<String> queryHiDates(String beginDateStr, String endDateStr, String region);
 
-	
 	/**
-	* @Description: 接口2最新方法
-	* @author weichengz
-	* @date 2019年4月19日 上午10:01:30
+	 * @Description: 接口2最新方法
+	 * @author weichengz
+	 * @date 2019年4月19日 上午10:01:30
 	 */
-	public List<Map<String, Object>> queryGridNumBetData(String[] split, String beginDate,String endDate,Double numPercent);
-	
+	public List<Map<String, Object>> queryGridNumBetData(String[] split, String beginDate, String endDate,
+			Double numPercent);
+
 	public List<String> testQueryDbTime();
 }

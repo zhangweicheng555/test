@@ -169,6 +169,27 @@
         </if> 
 	</select>
 	
+	<select id="queryGridDataAllNew" resultType="java.util.Map">
+		<if test="numPercent != null">
+			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/#{numPercent}) as "userCount",d.stadium_no as "region" ,d.statistics_time as "date"
+		       from LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.area_type=#{region}
+		              and d.statistics_time between #{beginDate}  and  #{endDate} 
+		               and ceil(d.IMEI_NUM/#{numPercent}) >0
+        </if>
+		<if test="numPercent == null">
+			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/d.USER_RATIO) as "userCount",d.stadium_no as "region",d.statistics_time as "date"
+		       from LTE_GRID_USER_NUM d 
+		         inner join GRIDMAPPER m
+		           on d.GRIDX=m.GRIDX and d.GRIDY=m.GRIDY
+		             where d.area_type=#{region}  
+		             and d.statistics_time  between #{beginDate}  and  #{endDate} 
+		              and ceil(d.IMEI_NUM/d.USER_RATIO) >0
+        </if> 
+	</select>
+	
 	<select id="queryGridDataByTimeRegionNew" resultType="java.util.Map">
 		<if test="numPercent != null">
 			select m.NEWIDX as "x",m.NEWIDY as "y",ceil(d.IMEI_NUM/#{numPercent}) as "userCount",d.stadium_no as "region",d.statistics_time as "date"

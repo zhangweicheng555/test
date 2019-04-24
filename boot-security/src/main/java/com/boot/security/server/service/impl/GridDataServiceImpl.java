@@ -97,12 +97,13 @@ public class GridDataServiceImpl implements GridDataService {
 		}
 		return map;
 	}
-	
+
 	/**
 	 * 正式
 	 */
 	@Override
-	public List<Map<String, Object>> queryGridDataByTimeRegionNew(String minDate,String maxDate, String region, Double warnNum) {
+	public List<Map<String, Object>> queryGridDataByTimeRegionNew(String minDate, String maxDate, String region,
+			Double warnNum) {
 		Double numPercent = 0.0;
 		if (BootConstant.People_Num_Percent > 0) {
 			numPercent = BootConstant.People_Num_Percent;
@@ -159,6 +160,21 @@ public class GridDataServiceImpl implements GridDataService {
 			map = appController.getHiMapAll(region, numPercent, dateNow);
 		}
 		return map;
+	}
+
+	/**
+	 * 正式
+	 */
+	@Override
+	public List<Map<String, Object>> queryGridDataAllNew(String beginDateStr, String endDateStr, String region) {
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+		// 查询符合条件的数据
+		return gridDataDao.queryGridDataAllNew(beginDateStr, endDateStr, region, numPercent);
 	}
 
 	/**
@@ -225,8 +241,7 @@ public class GridDataServiceImpl implements GridDataService {
 		}
 		return map;
 	}
-	
-	
+
 	public Map<String, Object> getHiMapAll(String region, Double numPercent, String dateNow) {
 		Map<String, Object> map = new HashMap<>();
 		// 查询这个馆这个时间的所有的人数的数量
@@ -269,16 +284,16 @@ public class GridDataServiceImpl implements GridDataService {
 		}
 		return gridDataDao.queryGridPeopleNum(maxDate, region, numPercent);
 	}
-	
+
 	@Override
-	public List<Map<String, Object>> queryGridPeopleNumquick(String[] regionArr,String maxDate) {
+	public List<Map<String, Object>> queryGridPeopleNumquick(String[] regionArr, String maxDate) {
 		Double numPercent = 0.0;
 		if (BootConstant.People_Num_Percent > 0) {
 			numPercent = BootConstant.People_Num_Percent;
 		} else {
 			numPercent = null;
 		}
-		return gridDataDao.queryGridPeopleNumquick(numPercent,regionArr,maxDate);
+		return gridDataDao.queryGridPeopleNumquick(numPercent, regionArr, maxDate);
 	}
 
 	@Override
@@ -293,7 +308,7 @@ public class GridDataServiceImpl implements GridDataService {
 		} else {
 			numPercent = null;
 		}
-		return gridDataDao.queryGridWarnData(flag1, flag2, flag3,  maxDate, numPercent);
+		return gridDataDao.queryGridWarnData(flag1, flag2, flag3, maxDate, numPercent);
 	}
 
 	@Override
@@ -360,8 +375,9 @@ public class GridDataServiceImpl implements GridDataService {
 	 * 接口2最新方法
 	 */
 	@Override
-	public List<Map<String, Object>> queryGridNumBetData(String[] regionArr, String beginDate,String endDate,Double numPercent) {
-		return gridDataDao.queryGridNumBetData(regionArr,beginDate,endDate,numPercent);
+	public List<Map<String, Object>> queryGridNumBetData(String[] regionArr, String beginDate, String endDate,
+			Double numPercent) {
+		return gridDataDao.queryGridNumBetData(regionArr, beginDate, endDate, numPercent);
 	}
 
 	@Override
