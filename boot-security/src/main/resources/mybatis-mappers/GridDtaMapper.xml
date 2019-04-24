@@ -58,23 +58,25 @@
 		 <if test="numPercent != null">
 		 	select 
 			d.statistics_time as "date"
-			,nvl(ceil(d.IMEI_NUM/#{numPercent}),0)  as "total"
+			,nvl(sum(ceil(d.IMEI_NUM/#{numPercent})),0)  as "total"
 			from LTE_GRID_USER_NUM d 
 			where 1=1
 			and d.area_type in ('Indoor','Outdoor')  
 			and d.stadium_no=#{region} 
 			and d.statistics_time &gt;=#{beginDate} and d.statistics_time &lt;=#{endDate}
+			group by d.statistics_time 
 			order by d.statistics_time asc
         </if> 
         <if test="numPercent == null">
         	select 
 			d.statistics_time as "date"
-			,nvl(ceil(d.IMEI_NUM/d.user_ratio),0)  as "total"
+			,nvl(sum(ceil(d.IMEI_NUM/d.user_ratio)),0)  as "total"
 			from LTE_GRID_USER_NUM d 
 			where 1=1
 			and d.area_type in ('Indoor','Outdoor')  
 			and d.stadium_no=#{region} 
 			and d.statistics_time &gt;=#{beginDate} and d.statistics_time &lt;=#{endDate}
+			group by d.statistics_time 
 			order by d.statistics_time asc
         </if>
 		

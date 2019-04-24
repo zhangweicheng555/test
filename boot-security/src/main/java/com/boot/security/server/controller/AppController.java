@@ -770,18 +770,20 @@ public class AppController {
 					map.put("peopleHistoryParameterList", list);
 				} else {
 					for (String dateKey : listDates) {
+						boolean flag=true;
 						for (Map<String, Object> dataMap : list) {
 							String date = dataMap.get("date").toString();
 							if (dateKey.equals(date)) {
 								finalDatas.add(dataMap);
-							}
-							if (dateKey.compareTo(date) < 0) {
-								Map<String, Object> zeroMap = new HashMap<>();
-								zeroMap.put("date", dateKey);
-								zeroMap.put("total", 0);
-								finalDatas.add(zeroMap);
+								flag=false;
 								break;
 							}
+						}
+						if (flag) {
+							Map<String, Object> zeroMap = new HashMap<>();
+							zeroMap.put("date", dateKey);
+							zeroMap.put("total", 0);
+							finalDatas.add(zeroMap);
 						}
 					}
 					map.put("peopleHistoryParameterList", finalDatas);
@@ -820,18 +822,20 @@ public class AppController {
 						map.put("peopleHistoryParameterList", list);
 					} else {
 						for (String dateKey : listDates) {
+							boolean flag=true;
 							for (Map<String, Object> dataMap : list) {
 								String date = dataMap.get("date").toString();
 								if (dateKey.equals(date)) {
 									finalDatas.add(dataMap);
-								}
-								if (dateKey.compareTo(date) < 0) {
-									Map<String, Object> zeroMap = new HashMap<>();
-									zeroMap.put("date", dateKey);
-									zeroMap.put("total", 0);
-									finalDatas.add(zeroMap);
+									flag=false;
 									break;
 								}
+							}
+							if (flag) {
+								Map<String, Object> zeroMap = new HashMap<>();
+								zeroMap.put("date", dateKey);
+								zeroMap.put("total", 0);
+								finalDatas.add(zeroMap);
 							}
 						}
 						map.put("peopleHistoryParameterList", finalDatas);
