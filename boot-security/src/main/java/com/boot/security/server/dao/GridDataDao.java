@@ -91,8 +91,13 @@ public interface GridDataDao {
 
 	public List<Map<String, Object>> queryDateForMinuteNew(@Param("beginDate") String beginDate,
 			@Param("endDate") String endDate, @Param("region") String region, @Param("numPercent") Double numPercent);
+	
+	public List<Map<String, Object>> queryDateForFiveMinuteNew(@Param("beginDate") String beginDate,
+			@Param("endDate") String endDate, @Param("region") String region, @Param("numPercent") Double numPercent);
 
 	public List<Map<String, Object>> queryDateForMinuteIndoor(@Param("beginDate") String beginDate,
+			@Param("endDate") String endDate, @Param("numPercent") Double numPercent);
+	public List<Map<String, Object>> queryDateForFiveMinuteIndoor(@Param("beginDate") String beginDate,
 			@Param("endDate") String endDate, @Param("numPercent") Double numPercent);
 
 	public List<Map<String, Object>> queryGridDataAllNew(@Param("beginDate") String beginDate,

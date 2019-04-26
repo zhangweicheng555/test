@@ -310,6 +310,16 @@ public class RegionServiceImpl implements RegionService {
 		}
 		return gridDataDao.queryDateForMinuteNew(beginDate, endDate, region, numPercent);
 	}
+	@Override
+	public List<Map<String, Object>> queryDateForFiveMinuteNew(String beginDate, String endDate, String region) {
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+		return gridDataDao.queryDateForFiveMinuteNew(beginDate, endDate, region, numPercent);
+	}
 
 	@Override
 	public List<Map<String, Object>> queryDateForMinuteIndoor(String beginDate, String endDate) {
@@ -320,6 +330,16 @@ public class RegionServiceImpl implements RegionService {
 			numPercent = null;
 		}
 		return gridDataDao.queryDateForMinuteIndoor(beginDate, endDate, numPercent);
+	}
+	@Override
+	public List<Map<String, Object>> queryDateForFiveMinuteIndoor(String beginDate, String endDate) {
+		Double numPercent = 0.0;
+		if (BootConstant.People_Num_Percent > 0) {
+			numPercent = BootConstant.People_Num_Percent;
+		} else {
+			numPercent = null;
+		}
+		return gridDataDao.queryDateForFiveMinuteIndoor(beginDate, endDate, numPercent);
 	}
 
 	@Override

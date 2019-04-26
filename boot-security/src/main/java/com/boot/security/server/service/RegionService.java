@@ -20,8 +20,11 @@ public interface RegionService {
 	public List<Map<String, Object>> queryDateForMinute(String beginDate, String endDate, String region);
 
 	public List<Map<String, Object>> queryDateForMinuteNew(String beginDate, String endDate, String region);
+	
+	public List<Map<String, Object>> queryDateForFiveMinuteNew(String beginDate, String endDate, String region);
 
 	public List<Map<String, Object>> queryDateForMinuteIndoor(String beginDate, String endDate);
+	public List<Map<String, Object>> queryDateForFiveMinuteIndoor(String beginDate, String endDate);
 
 	public List<Map<String, Object>> queryDateForMinuteAll(String beginDate, String endDate, String region);
 

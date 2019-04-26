@@ -839,14 +839,26 @@ public class AppController {
 	@RequestMapping(value = "/queryDateForMinute", method = RequestMethod.GET)
 	public Map<String, Object> queryDateForMinute(@RequestParam(value = "beginDate", required = true) String beginDate,
 			@RequestParam(value = "endDate", required = true) String endDate,
-			@RequestParam(value = "region", required = true) String region) {
+			@RequestParam(value = "region", required = true) String region,
+			@RequestParam(value = "minute", required = false) Integer minute
+			) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
 		map.put("peopleHistoryParameterList", new ArrayList<>());
 		try {
-			List<String> listDates = MyUtil.getDateStrList(beginDate, endDate, 1);
-			List<Map<String, Object>> list = regionService.queryDateForMinuteNew(beginDate, endDate, region);
+			List<String> listDates=null;
+			if (minute==null) {
+				listDates = MyUtil.getDateStrList(beginDate, endDate, 5);
+			}else {
+				listDates = MyUtil.getDateStrList(beginDate, endDate, 1);
+			}
+			List<Map<String, Object>> list=new ArrayList<>();
+			if (minute==null) {
+				list = regionService.queryDateForFiveMinuteNew(beginDate, endDate, region);
+			}else {
+				list = regionService.queryDateForMinuteNew(beginDate, endDate, region);
+			}
 			List<Map<String, Object>> finalDatas = new ArrayList<>();
 			if (list != null && list.size() > 0) {
 				if (listDates.size() == list.size()) {
@@ -889,7 +901,9 @@ public class AppController {
 	public Map<String, Object> queryDateForMinuteAll(
 			@RequestParam(value = "beginDate", required = true) String beginDate,
 			@RequestParam(value = "endDate", required = true) String endDate,
-			@RequestParam(value = "region", required = true) String region) {
+			@RequestParam(value = "region", required = true) String region,
+			@RequestParam(value = "minute", required = false) Integer minute
+			) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
@@ -897,8 +911,20 @@ public class AppController {
 		try {
 
 			if (("Indoor").equals(region)) {
-				List<String> listDates = MyUtil.getDateStrList(beginDate, endDate, 1);
-				List<Map<String, Object>> list = regionService.queryDateForMinuteIndoor(beginDate, endDate);
+				List<String> listDates = new ArrayList<>();
+				if (minute ==null) {
+					listDates = MyUtil.getDateStrList(beginDate, endDate, 5);
+				}else {
+					listDates = MyUtil.getDateStrList(beginDate, endDate, 1);
+				}
+				
+				List<Map<String, Object>> list = new ArrayList<>();
+				if (minute ==null) {
+					list = regionService.queryDateForFiveMinuteIndoor(beginDate, endDate);
+				}else {
+					list = regionService.queryDateForMinuteIndoor(beginDate, endDate);
+				}
+				
 				List<Map<String, Object>> finalDatas = new ArrayList<>();
 				if (list != null && list.size() > 0) {
 					if (listDates.size() == list.size()) {
