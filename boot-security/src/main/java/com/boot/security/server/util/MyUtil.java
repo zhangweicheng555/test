@@ -528,6 +528,12 @@ public class MyUtil {
 		return list;
 	}
 
+	/**
+	 * 传入开始时间   +1减1分钟    -1加1分钟
+	* @Description: TODO
+	* @author weichengz
+	* @date 2019年4月27日 上午11:39:26
+	 */
 	public static String getFiveDate(String beginDateStr, int minute) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date beginDate = sdf.parse(beginDateStr);
@@ -535,6 +541,8 @@ public class MyUtil {
 		return sdf.format(afterDate);
 	}
 
+	
+	
 	public static List<String> getDateStrY(String beginDateStr, String endDateStr, int minute) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date beginDate = sdf.parse(beginDateStr);
