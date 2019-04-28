@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.boot.security.server.common.BootConstant;
 import com.boot.security.server.dao.GridDataDao;
 import com.boot.security.server.model.AnalysisModel;
-import com.boot.security.server.model.CommonModel;
 import com.boot.security.server.service.GridDataService;
 import com.boot.security.server.service.RegionService;
 import com.boot.security.server.util.MyUtil;
@@ -259,7 +258,7 @@ public class AppController {
 								modelMap.remove("date");
 								maps.add(modelMap);
 							} else {
-								List<Map<String, Object>> noMaps=new ArrayList<>();
+								List<Map<String, Object>> noMaps = new ArrayList<>();
 								modelMap.remove("date");
 								noMaps.add(modelMap);
 								kdatas.put(date, noMaps);
@@ -517,20 +516,21 @@ public class AppController {
 					jsonMap1.put("item", indoorAll);
 					listMaps.add(jsonMap1);
 
-					Map<String, Object> jsonMap2 = new HashMap<>();
-					jsonMap2.put("name", "ZGG_B1");
-					jsonMap2.put("item", zbOne);
-					listMaps.add(jsonMap2);
+					Map<String, Object> jsonMap4 = new HashMap<>();
+					jsonMap4.put("name", "ZGG_2F");
+					jsonMap4.put("item", zfTwo);
+					listMaps.add(jsonMap4);
 
 					Map<String, Object> jsonMap3 = new HashMap<>();
 					jsonMap3.put("name", "ZGG_1F");
 					jsonMap3.put("item", zfOne);
 					listMaps.add(jsonMap3);
 
-					Map<String, Object> jsonMap4 = new HashMap<>();
-					jsonMap4.put("name", "ZGG_2F");
-					jsonMap4.put("item", zfTwo);
-					listMaps.add(jsonMap4);
+					Map<String, Object> jsonMap2 = new HashMap<>();
+					jsonMap2.put("name", "ZGG_B1");
+					jsonMap2.put("item", zbOne);
+					listMaps.add(jsonMap2);
+
 					map.put("item", listMaps);
 				}
 			} else {
@@ -655,8 +655,7 @@ public class AppController {
 		return map;
 	}
 
-	
-	/*@ApiOperation(value = "接口1:获取所有场馆的各自在馆人数和所有场馆总人数", notes = "所有场馆最后时间的各自在馆人数和所有场馆总人数")
+	@ApiOperation(value = "接口1:获取所有场馆的各自在馆人数和所有场馆总人数", notes = "所有场馆最后时间的各自在馆人数和所有场馆总人数")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "reqDate", value = "时间(非必填，默认最大时间)", dataType = "string", required = true) })
 	@RequestMapping(value = "/queryGridPeopleNumData", method = RequestMethod.GET)
@@ -672,9 +671,10 @@ public class AppController {
 				map.put("status", 2);
 				map.put("msg", "未传入日期参数：reqDate");
 			}
+			String existDataMaxDate = gridDataService.queryMaxDate();
 			if (("00000000000000").equals(reqDate)) {
 				if (StringUtils.isBlank(BootConstant.LTE_REGION_TIME_BREAK)) {
-					reqDate = gridDataService.queryMaxDate();
+					reqDate = existDataMaxDate;
 					BootConstant.LTE_REGION_TIME_BREAK = reqDate;
 				} else {
 					reqDate = MyUtil.getFiveDate(BootConstant.LTE_REGION_TIME_BREAK, -1);
@@ -685,10 +685,20 @@ public class AppController {
 					.queryGridPeopleNumquick(numListNew.toArray(new String[numListNew.size()]), reqDate);
 			List<String> list = AppController.numListNew;
 			if (gridMap != null && gridMap.size() > 0) {
+				existDataMaxDate = reqDate;
 				BootConstant.LTE_REGION_TIME_BREAK = reqDate;
-			} else {// 全部0
+			} else {// 取上一次的数据
 				gridMap = gridDataService.queryGridPeopleNumquick(numListNew.toArray(new String[numListNew.size()]),
-						BootConstant.LTE_REGION_TIME_BREAK);
+						existDataMaxDate);
+				Integer count = ++BootConstant.LTE_REGION_TIME_BREAK_COUNT_NUM;
+				if (count > 20) {
+					BootConstant.LTE_REGION_TIME_BREAK_COUNT_NUM = 0;
+					BootConstant.LTE_REGION_TIME_BREAK = MyUtil.getFiveDate(BootConstant.LTE_REGION_TIME_BREAK, -1);
+					String nowDateStr = MyUtil.getNowDate("yyyyMMddHHssmm");
+					if (BootConstant.LTE_REGION_TIME_BREAK.compareTo(nowDateStr) == 0) {
+						BootConstant.LTE_REGION_TIME_BREAK = MyUtil.getFiveDate(BootConstant.LTE_REGION_TIME_BREAK, +1);
+					}
+				}
 			}
 
 			Map<String, Object> map3 = gridMap.get(0);
@@ -717,75 +727,6 @@ public class AppController {
 			}
 			peopleParameterList.add(0, countAll);
 
-			map.put("peopleParameterList", peopleParameterList);
-		} catch (Exception e) {
-			map.put("status", 2);
-			map.put("msg", "系统异常:" + e.getLocalizedMessage());
-		}
-		map.put("time", reqDate);
-		return map;
-	}*/
-
-	
-	/**
-	 * 接口1 最新 根据指定时间范围获取所有场馆的各自在馆人数和所有场馆总人数 时间就是数据库的最大时间 ----- maxDate 是数据的最大时间
-	 * reqDate 最大时间可传入可不传入 默认是最大时间
-	 */
-	@ApiOperation(value = "接口1:获取所有场馆的各自在馆人数和所有场馆总人数", notes = "所有场馆最后时间的各自在馆人数和所有场馆总人数")
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = "reqDate", value = "时间(非必填，默认最大时间)", dataType = "string", required = true) })
-	@RequestMapping(value = "/queryGridPeopleNumData", method = RequestMethod.GET)
-	public Map<String, Object> queryGridPeopleNumData(
-			@RequestParam(value = "reqDate", required = true) String reqDate) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", 0);
-		map.put("msg", "操作成功！");
-		map.put("time", "");
-		map.put("peopleParameterList", "");
-		try {
-			if (StringUtils.isBlank(reqDate)) {
-				map.put("status", 2);
-				map.put("msg", "未传入日期参数：reqDate");
-			}
-			if (("00000000000000").equals(reqDate)) {
-				reqDate = gridDataService.queryMaxDate();
-			}
-			List<Integer> peopleParameterList = new ArrayList<Integer>();
-			List<Map<String, Object>> gridMap = gridDataService
-					.queryGridPeopleNumquick(numListNew.toArray(new String[numListNew.size()]), reqDate);
-			List<String> list = AppController.numListNew;
-			if (gridMap != null && gridMap.size() > 0) {
-				Map<String, Object> map3 = gridMap.get(0);
-				reqDate = map3.get("times").toString();
-
-				boolean flag = true;
-				for (String region : list) {
-					for (Map<String, Object> map2 : gridMap) {
-						String key = map2.get("region").toString();
-						if (region.equals(key)) {
-							Integer num = Integer.valueOf(map2.get("num").toString());
-							peopleParameterList.add(num);
-							flag = false;
-							break;
-						}
-					}
-					if (flag) {
-						peopleParameterList.add(0);
-						flag = false;
-					}
-				}
-
-				Integer countAll = 0;
-				for (Integer eveNum : peopleParameterList) {
-					countAll += eveNum;
-				}
-				peopleParameterList.add(0, countAll);
-			} else {// 全部0
-				for (String region : list) {
-					peopleParameterList.add(0);
-				}
-				peopleParameterList.add(0);
-			}
 			map.put("peopleParameterList", peopleParameterList);
 		} catch (Exception e) {
 			map.put("status", 2);
@@ -912,23 +853,22 @@ public class AppController {
 	public Map<String, Object> queryDateForMinute(@RequestParam(value = "beginDate", required = true) String beginDate,
 			@RequestParam(value = "endDate", required = true) String endDate,
 			@RequestParam(value = "region", required = true) String region,
-			@RequestParam(value = "minute", required = false) Integer minute
-			) {
+			@RequestParam(value = "minute", required = false) Integer minute) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
 		map.put("peopleHistoryParameterList", new ArrayList<>());
 		try {
-			List<String> listDates=null;
-			if (minute==null) {
+			List<String> listDates = null;
+			if (minute == null) {
 				listDates = MyUtil.getDateStrList(beginDate, endDate, 5);
-			}else {
+			} else {
 				listDates = MyUtil.getDateStrList(beginDate, endDate, 1);
 			}
-			List<Map<String, Object>> list=new ArrayList<>();
-			if (minute==null) {
+			List<Map<String, Object>> list = new ArrayList<>();
+			if (minute == null) {
 				list = regionService.queryDateForFiveMinuteNew(beginDate, endDate, region);
-			}else {
+			} else {
 				list = regionService.queryDateForMinuteNew(beginDate, endDate, region);
 			}
 			List<Map<String, Object>> finalDatas = new ArrayList<>();
@@ -974,8 +914,7 @@ public class AppController {
 			@RequestParam(value = "beginDate", required = true) String beginDate,
 			@RequestParam(value = "endDate", required = true) String endDate,
 			@RequestParam(value = "region", required = true) String region,
-			@RequestParam(value = "minute", required = false) Integer minute
-			) {
+			@RequestParam(value = "minute", required = false) Integer minute) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("status", 0);
 		map.put("msg", "操作成功！");
@@ -984,19 +923,19 @@ public class AppController {
 
 			if (("Indoor").equals(region)) {
 				List<String> listDates = new ArrayList<>();
-				if (minute ==null) {
+				if (minute == null) {
 					listDates = MyUtil.getDateStrList(beginDate, endDate, 5);
-				}else {
+				} else {
 					listDates = MyUtil.getDateStrList(beginDate, endDate, 1);
 				}
-				
+
 				List<Map<String, Object>> list = new ArrayList<>();
-				if (minute ==null) {
+				if (minute == null) {
 					list = regionService.queryDateForFiveMinuteIndoor(beginDate, endDate);
-				}else {
+				} else {
 					list = regionService.queryDateForMinuteIndoor(beginDate, endDate);
 				}
-				
+
 				List<Map<String, Object>> finalDatas = new ArrayList<>();
 				if (list != null && list.size() > 0) {
 					if (listDates.size() == list.size()) {

@@ -7,8 +7,9 @@ public class BootConstant {
 
 	/**记录此表的前一次查询的总数量*/
 	public static String LTE_Region_NUM_HOUR="LTE_Region_NUM_HOUR_count";
-	//测试时间断点问题    
+	//测试时间断点问题 \ 时间
 	public static String LTE_REGION_TIME_BREAK="";
+	public static Integer LTE_REGION_TIME_BREAK_COUNT_NUM=0;
 	
 	public static Double People_Num_Percent=0.0;
 	
